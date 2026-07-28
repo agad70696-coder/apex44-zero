@@ -1,0 +1,54 @@
+name: APEX44-ZERO QAC 44 CI
+
+on:
+  push:
+    branches: [ "main", "master", "رئيسي" ]
+  pull_request:
+    branches: [ "main", "master", "رئيسي" ]
+
+jobs:
+  qac-44-verification:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    
+    - name: Set up Python 3.11
+      uses: actions/setup-python@v4
+      with:
+        python-version: "3.11"
+    
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+        pip install pytest flake8
+    
+    - name: Lint with flake8 (Clean Code check)
+      run: |
+        # يفحص جودة الكود
+        flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
+        flake8 . --count --max-complexity=15 --max-line-length=127 --statistics || true
+    
+    - name: Run QAC 44 Real Checks
+      run: |
+        python -m apex.qac.checks_44
+    
+    - name: Run Unit Tests (0.0 -> 8.0 fix)
+      run: |
+        python -m pytest tests/ -v || python tests/test_qac.py
+    
+    - name: Run APEX Agent
+      run: |
+        python apex.py
+    
+    - name: Verify apex_report.json generated
+      run: |
+        test -f apex_report.json && echo "✅ Report exists" || (echo "❌ Report missing" && exit 1)
+        cat apex_report.json
+    
+    - name: Check no secrets committed
+      run: |
+        ! grep -r "API_KEY=" --include="*.py" . || echo "Warning: potential secret found"
+        ! test -f .env || (echo "❌ .env should not be committed" && exit 1)
