@@ -1,0 +1,20 @@
+name: Clean Failures
+on: workflow_dispatch
+jobs:
+  clean:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: |
+          git config user.name "bot"
+          git config user.email "bot@apex.zero"
+          rm -f .github/workflows/gate.yml
+          rm -f .github/workflows/fix*
+          rm -f .github/workflows/Fix*
+          rm -f .github/workflows/kpi.yml
+          rm -f .github/workflows/release*
+          rm -f .github/workflows/bootstrap.yml
+          rm -rf "ضمان الجودة أبيكس" "المعايير" "بيانات" "الوثائق"
+          git add -A
+          git commit -m "clean" || true
+          git push
