@@ -1,0 +1,29 @@
+apex-shield-zero/
+├── README.md              # شرح التشغيل
+├── LICENSE                # MIT
+├── requirements.txt       # المكتبات
+├── apex_shield.py         # نقطة الدخول الرئيسية (Main)
+├── apex.py                # نقطة دخول قديمة - للتوافق
+│
+├── src/                   # الكود الأساسي - ممنوع أي ملف بره يتلعب فيه
+│   ├── apex/              # ماتور QAC 44 + Logger
+│   │   ├── qac/checks_44.py
+│   │   └── utils/logger.py
+│   └── shield/            # سلاح الحماية الخارق
+│       ├── core.py        # علامة مائية 3 طبقات
+│       └── self_defense.py # حماية ذاتية لا يمكن قتلها
+│
+├── tests/                 # الاختبارات - اللي بيخليك 9.5 مش 6.0
+│   ├── test_qac.py
+│   └── test_shield.py
+│
+├── docs/                  # التوثيق - اللي الشركات العالمية بتعمله
+│   ├── DEFINITION.md      # الخطوة 1 اللي عملناها
+│   ├── ARCHITECTURE.md    # إزاي الطبقات بتكلم بعض
+│   └── USAGE.md
+│
+├── data/                  # المدخلات والمخرجات
+│   ├── samples/           # نصوص تجريبية
+│   └── reports/           # apex_report.json + shield_report.json
+│
+└── .github/workflows/ci.yml # بيخليه يعيش للأبد تلقائيا
