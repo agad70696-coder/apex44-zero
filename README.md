@@ -27,7 +27,12 @@
 # بالـ Docker
 docker build -t apex44-zero .
 docker run apex44-zero
-
+   ## 🤖 AI Verifier الجديد
+   ```python
+   from src.ai.verifier import AIVerifier
+   verifier = AIVerifier()
+   result = verifier.analyze_claim("العلم نور", "2026-07-29", "abc123")
+   print(result['ai_verdict'])
 # أو عادي
 pip install pytest
 pytest tests/test_evidence_claim.py -v
