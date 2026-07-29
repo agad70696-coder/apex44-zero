@@ -1,5 +1,6 @@
 # 🛡️ APEX-SHIELD ZERO - Unkillable Text Protection
-
+![Quality Gate](https://github.com/agad70696-coder/apex44-zero/actions/workflows/quality-gate.yml/badge.svg)
+![Python](https://img.shields.io/badge/Python-3.11-blue)
 > نظام حماية نصوص خارق يحمي نفسه بنفسه - أعلى من الشركات العالمية
 
 [![QAC 44](https://img.shields.io/badge/QAC-44%2F44%20VERIFIED-brightgreen)]()
