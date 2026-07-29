@@ -1,0 +1,68 @@
+from dataclasses import dataclass, field
+from typing import Dict, List, Any, Optional
+
+@dataclass
+class Entity:
+    name: str
+    type: str
+    properties: Dict[str, Any] = field(default_factory=dict)
+    relations: Dict[str, List[str]] = field(default_factory=dict)
+    def add_relation(self, relation: str, target: str):
+        if relation not in self.relations:
+            self.relations[relation] = []
+        if target not in self.relations[relation]:
+            self.relations[relation].append(target)
+    def __str__(self):
+        rels = ", ".join([f"{k}→{v}" for k,v in self.relations.items()])
+        return f"{self.name} [{self.type}] {{{rels}}}"
+
+@dataclass
+class Relation:
+    name: str
+    transitive: bool = False
+    description: str = ""
+
+class ApexOntology:
+    def __init__(self):
+        self.entities: Dict[str, Entity] = {}
+        self.relations: Dict[str, Relation] = {}
+        self._build_core_relations()
+        self._build_apex_knowledge()
+        self._build_world_knowledge()
+
+    def _build_core_relations(self):
+        self.relations["located_in"] = Relation("located_in", transitive=True, description="يقع داخل")
+        self.relations["proves"] = Relation("proves")
+        self.relations["has_evidence"] = Relation("has_evidence")
+        self.relations["detects"] = Relation("detects")
+        self.relations["has_bias"] = Relation("has_bias")
+
+    def _build_apex_knowledge(self):
+        e = Entity("Evidence", "KnowledgeEntity", {"requires": ["url", "quote>10"]})
+        e.add_relation("proves", "Claim")
+        e.add_relation("detected_by", "VerifierAgent")
+        self.entities["Evidence"] = e
+        c = Entity("Claim", "Claim")
+        c.add_relation("has_evidence", "Evidence")
+        c.add_relation("has_bias", "Bias")
+        self.entities["Claim"] = c
+        lic = Entity("LICENSE", "LegalEntity")
+        lic.add_relation("protects", "IRRE")
+        self.entities["LICENSE"] = lic
+
+    def _build_world_knowledge(self):
+        cairo = Entity("القاهرة", "City", {"capital": True})
+        cairo.add_relation("located_in", "مصر")
+        self.entities["القاهرة"] = cairo
+        self.entities["Cairo"] = cairo
+        egypt = Entity("مصر", "Country")
+        egypt.add_relation("located_in", "أفريقيا")
+        egypt.add_relation("contains", "القاهرة")
+        self.entities["مصر"] = egypt
+        self.entities["Egypt"] = egypt
+        africa = Entity("أفريقيا", "Continent")
+        self.entities["أفريقيا"] = africa
+        self.entities["Africa"] = africa
+
+    def get_entity(self, name: str) -> Optional[Entity]:
+        return self.entities.get(name)
