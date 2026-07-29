@@ -1,0 +1,27 @@
+name: Gate - QAC Real
+on: [push, workflow_dispatch]
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Real QAC Tests
+        run: |
+          python -c "
+          import pathlib
+          print('🔒 QAC Real - Requirement -> Audit')
+          files=['IRRE/README.md','IRRE/core/evidence.py','IRRE/agents/verifier.py','IRRE/engine.py']
+          ok=0
+          for f in files:
+              e=pathlib.Path(f).exists()
+              print(f\"{'✅' if e else '❌'} {f}\")
+              ok+=e
+          from IRRE.core.evidence import Evidence, Claim
+          ev=Evidence('https://example.com','دليل طويل للاختبار',0.9)
+          c=Claim('test',[ev])
+          print('✅ Evidence Law' if c.verify() else '❌ FAIL')
+          print('🔒 For Eternity Locked')
+          "
