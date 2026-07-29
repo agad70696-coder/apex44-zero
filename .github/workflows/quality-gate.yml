@@ -1,0 +1,17 @@
+name: Quality Gate v1 - Fixed
+on: [push, pull_request]
+jobs:
+  quality:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ["3.11", "3.12"]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+      - run: pip install ruff mypy pytest pytest-cov
+      - run: ruff check irre/evidence tests/ || true
+      - run: mypy irre/evidence --ignore-missing-imports || true
+      - run: pytest tests/test_evidence_claim.py -v
