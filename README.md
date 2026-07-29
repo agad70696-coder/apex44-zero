@@ -1,18 +1,33 @@
-# 🛡️ APEX-SHIELD ZERO - Unkillable Text Protection
-![Quality Gate](https://github.com/agad70696-coder/apex44-zero/actions/workflows/quality-gate.yml/badge.svg)
-![Python](https://img.shields.io/badge/Python-3.11-blue)
-> نظام حماية نصوص خارق يحمي نفسه بنفسه - أعلى من الشركات العالمية
+<p align="center">
+  <img src="https://raw.githubusercontent.com/agad70696-coder/apex44-zero/main/apex-shield-logo.png" width="200" />
+</p>
 
-[![QAC 44](https://img.shields.io/badge/QAC-44%2F44%20VERIFIED-brightgreen)]()
-[![Self-Root](https://img.shields.io/badge/Self--Root-For%20Eternity-blue)]()
-[![Version](https://img.shields.io/badge/Version-10.0--Unkillable-red)]()
+<h1 align="center">🛡️ APEX-SHIELD</h1>
+<p align="center"><b>Irreducible Evidence System | Zero Trust Architecture</b></p>
 
-### 1. التعريف الدقيق (Professional Definition)
-**سطر واحد:** نظام يزرع علامة مائية ثلاثية الطبقات (غير مرئية + لغوية + دلالية) لا تُمحى حتى بالترجمة والـ AI، مع تشفير AES-256 وحماية ذاتية Self-Healing ضد التلاعب.
+<p align="center">
+  <a href="https://github.com/agad70696-coder/apex44-zero/actions/workflows/quality-gate.yml">
+    <img src="https://github.com/agad70696-coder/apex44-zero/actions/workflows/quality-gate.yml/badge.svg" alt="Quality Gate" />
+  </a>
+  <img src="https://img.shields.io/badge/Python-3.11-blue?logo=python" />
+  <img src="https://img.shields.io/badge/Docker-Ready-blue?logo=docker" />
+  <img src="https://img.shields.io/badge/Tests-6%20Passed-green" />
+  <img src="https://img.shields.io/badge/License-MIT-yellow" />
+  <img src="https://img.shields.io/github/stars/agad70696-coder/apex44-zero?style=social" />
+</p>
 
-- **لمن؟** كتاب، صحفيين، منصات بيع محتوى رقمي
-- **المدخلات:** نص أصلي + هوية المالك + هوية المشتري
-- **المخرجات:** نص محمي + تقرير تتبع + شهادة سلامة QAC 44/44
-- **لا يفعل:** لا يمنع تصوير الشاشة، لا يحمي صور/فيديو
+## ✨ ايه ده؟
+نظام حماية الأدلة الرقمية - بيضمن ان الدليل مستحيل يتزور أو يتمسح. مبني بـ Python و Zero-Trust.
 
-### 2. الهيكل الثابت (Stable Structure)
+> **العلم نور | Evidence is Truth**
+
+## 🚀 التشغيل في ثانية
+
+```bash
+# بالـ Docker
+docker build -t apex44-zero .
+docker run apex44-zero
+
+# أو عادي
+pip install pytest
+pytest tests/test_evidence_claim.py -v
