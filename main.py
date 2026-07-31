@@ -1,32 +1,40 @@
-from cryptography.hazmat.primitives import hashes, serialization
-from cryptography.hazmat.primitives.asymmetric import ec
-from cryptography.hazmat.backends import default_backend
+from IRRE.ai.ai_evidence import AIModelEvidence
+from IRRE.crypto.post_quantum import QuantumSafeEvidence
+from IRRE.ledger.evidence_chain import EvidenceChain
 
-class ForensicSigner:
-    def load_from_atecc608a(self, slot=0):
-        try:
-            import board, busio
-            from adafruit_atecc.adafruit_atecc import ATECC608A
-            i2c = busio.I2C(board.SCL, board.SDA)
-            atecc = ATECC608A(i2c, address=0x60)
-            return atecc
-        except:
-            try:
-                with open("secure_element.key", "rb") as f:
-                    private_key = serialization.load_pem_private_key(f.read(), password=None, backend=default_backend())
-                    return private_key
-            except FileNotFoundError:
-                private_key = ec.generate_private_key(ec.SECP256K1(), default_backend())
-                pem = private_key.private_bytes(encoding=serialization.Encoding.PEM, format=serialization.PrivateFormat.PKCS8, encryption_algorithm=serialization.NoEncryption())
-                with open("secure_element.key", "wb") as f:
-                    f.write(pem)
-                return private_key
+def main():
+    print("=== IRRE - apex44-zero | Post-Quantum Evidence ===")
+    
+    # 1- دليل الـ AI
+    ai = AIModelEvidence(
+        model_id="apex44-v1",
+        prompt="ما هو مستقبل الذكاء الاصطناعي؟",
+        output="المستقبل واعد ومقاوم للكم"
+    )
+    print(f"AI Hash: {ai.hash}")
 
-    def __init__(self):
-        self.secure_element = self.load_from_atecc608a(slot=0)
+    # 2- ختم مقاوم للكمبيوتر الكمي - 50 سنة
+    pq = QuantumSafeEvidence(evidence_id="apex44-v1")
+    proof = pq.export_proof(ai.hash)
+    print(f"PQ Seal: {proof['quantum_seal']}")
+    print(f"Algorithm: {proof['algorithm']}")
 
-    def sign(self, data: bytes) -> bytes:
-        if hasattr(self.secure_element, 'sign'):
-            return self.secure_element.sign(data)
-        else:
-            return self.secure_element.sign(data, ec.ECDSA(hashes.SHA256()))
+    # 3- حطه في السلسلة الغير قابلة للتزوير
+    ledger = EvidenceChain()
+    block = ledger.add(
+        ai_hash=ai.hash, 
+        pq_seal=proof["quantum_seal"], 
+        metadata={"model_id": "apex44-v1", "proof": proof}
+    )
+    
+    print(f"Block #{block['index']} Created: {block['block_hash']}")
+    print(f"Chain Valid: {ledger.verify()}")
+    
+    # احفظ السلسلة
+    with open("evidence_chain.json", "w", encoding="utf-8") as f:
+        f.write(ledger.export())
+    
+    print("\nتمام! الدليل بقى صالح 50 سنة ومقاوم للكم.")
+
+if __name__ == "__main__":
+    main()
