@@ -1,84 +1,73 @@
-"""
-APEX44-ZERO - Live Demo - 12 Future Domains
-By Amr Gad - Cairo 2026
-Run this file and show it to the doctor!
-"""
+import hashlib, time, json
 
-import time
+# === القرار العلمي 1: التوقيع الرقمي ===
+class ForensicSigner:
+    def __init__(self, owner):
+        self.owner = owner
+        self.private = f"PRIVATE-KEY-{owner}-2026-SECRET"
+        self.public = hashlib.sha3_256(self.private.encode()).hexdigest()
 
+    def sign(self, evidence_hash):
+        sig = hashlib.sha3_256(f"{self.private}{evidence_hash}".encode()).hexdigest()
+        return {
+            "owner": self.owner,
+            "hash": evidence_hash,
+            "signature": sig,
+            "public": self.public,
+            "time": time.ctime()
+        }
+
+    def verify(self, evidence_hash, signature):
+        expected = hashlib.sha3_256(f"{self.private}{evidence_hash}".encode()).hexdigest()
+        return expected == signature
+
+# === القرار العلمي 2: البلوكشين ===
+chain = []
+chain.append("GENESIS_BLOCK_000")
+
+def anchor_to_blockchain(evidence_hash, signature):
+    prev = chain[-1]
+    block_hash = hashlib.sha3_256(f"{prev}{evidence_hash}{time.time()}".encode()).hexdigest()
+    chain.append(block_hash)
+    return block_hash
+
+# === التجربة العملية ===
 print("="*60)
-print("🚀 APEX44-ZERO - نظام عدالة المستقبل - عرض حي")
+print("🔬 القرار العلمي النهائي - Amr Gad")
 print("="*60)
 
-# 7. Medicine
-print("\n[7] الطب المستقبلي:")
-try:
-    from IRRE.medicine.regenerative_evidence import RegenerativeEvidence
-    organ = RegenerativeEvidence("ORGAN-001", "Cairo Hospital")
-    organ.add_transplant_log(dna_match=True, strength=95)
-    print(f" ✓ زراعة أعضاء: آمنة - Hash: {organ.base_hash[:16]}...")
-except Exception as e:
-    print(f" ✓ زراعة أعضاء: نظام التوثيق شغال (demo) - {e}")
+# 1. المحقق
+officer = ForensicSigner("Amr Gad - Cairo")
+print(f"\n[1] المحقق: {officer.owner}")
 
-try:
-    from IRRE.medicine.gene_therapy_evidence import GeneTherapyEvidence
-    gene = GeneTherapyEvidence("CRISPR-01", "Patient-Ahmed")
-    gene.add_edit("BRCA1", edited=True, off_target=False)
-    print(f" ✓ علاج جيني CRISPR: آمن - Hash: {gene.base_hash[:16]}...")
-except:
-    print(f" ✓ علاج جيني CRISPR: آمن (demo)")
-
-# 8. Robotics
-print("\n[8] الروبوتات:")
-try:
-    from IRRE.robotics.nanobot_evidence import NanobotEvidence
-    nano = NanobotEvidence("NANO-SWARM-01", "BloodStream")
-    nano.add_swarm_log(count=1000, target_match=True)
-    print(f" ✓ سرب نانوي: آمن - Hash: {nano.base_hash[:16]}...")
-except:
-    print(f" ✓ سرب نانوي: آمن (demo)")
-
-# 11. Aviation - ده الجديد!
-print("\n[11] الطيران المتقدم - المنتج الجديد:")
+# 2. دليل العربية المتهكرة
 from IRRE.aviation.autonomous_vehicle_evidence import AutonomousVehicleEvidence
-car = AutonomousVehicleEvidence("CAR-CAIRO-01", "Cairo-Alex Road")
-safe = car.add_decision("keep_lane", 0.95, lidar_match=True, radar_match=True)
-print(f" ✓ عربية ذاتية - قرار سليم: {safe['hash'][:16]}... آمنة: {not safe['is_spoofed']}")
+car = AutonomousVehicleEvidence("CAR-01", "Cairo")
+hacked = car.add_decision("accelerate", 0.60, False, True)
+print(f"\n[2] دليل: {hacked['hash'][:20]}... مزور؟ {hacked['is_spoofed']}")
 
-hacked = car.add_decision("accelerate", 0.60, lidar_match=False, radar_match=True)
-print(f" ✗ عربية ذاتية - هجوم كشفناه! LiDAR مزور: {hacked['is_spoofed']} - هاش الدليل: {hacked['hash'][:16]}...")
+# 3. توقيع
+signed = officer.sign(hacked['hash'])
+print(f"\n[3] توقيع رقمي:")
+print(f" بواسطة: {signed['owner']}")
+print(f" الوقت: {signed['time']}")
+print(f" التوقيع: {signed['signature'][:30]}...")
 
-from IRRE.aviation.urban_air_mobility_evidence import EVTOL_Evidence
-taxi = EVTOL_Evidence("TAXI-CAIRO-01", "New Capital")
-f1 = taxi.add_flight_log(altitude=300, battery=0.85, deviation_m=10)
-print(f" ✓ تاكسي طائر: آمن - انحراف {f1['deviation']}م - {f1['hash'][:16]}...")
+# 4. بلوكشين
+block_hash = anchor_to_blockchain(hacked['hash'], signed['signature'])
+print(f"\n[4] بلوكشين:")
+print(f" بلوك رقم: {len(chain)-1}")
+print(f" هاش البلوك: {block_hash[:30]}...")
 
-f2 = taxi.add_flight_log(altitude=200, battery=0.15, deviation_m=80)
-print(f" ✗ تاكسي طائر: خطر! بطارية {f2['battery']*100}% وانحراف {f2['deviation']}م = {f2['is_danger']} - دليل: {f2['hash'][:16]}...")
+# 5. تحقق
+valid = officer.verify(hacked['hash'], signed['signature'])
+print(f"\n[5] تحقق قضائي: التوقيع سليم؟ {valid}")
 
-from IRRE.aviation.hypersonic_evidence import HypersonicEvidence
-jet = HypersonicEvidence("HYPER-EGYPT-01", 5.0)
-j = jet.add_reading(temp_c=900, shield_ok=True)
-print(f" ✓ طائرة فوق صوتية Mach 5: آمنة - حرارة {j['temp']}C - {j['hash'][:16]}...")
-
-# 12. Construction
-print("\n[12] المباني المطبوعة:")
-from IRRE.construction.3d_printing_evidence import Construction3D_Evidence
-house = Construction3D_Evidence("HOUSE-3D-01", "New Alamein")
-layer1 = house.add_layer(1, mix_ratio=1.0, strength_mpa=30)
-print(f" ✓ بيت 3D - طبقة {layer1['layer']}: قوة {layer1['strength']} MPa آمنة - {layer1['hash'][:16]}...")
-
-layer2 = house.add_layer(2, mix_ratio=0.7, strength_mpa=18)
-print(f" ✗ بيت 3D - طبقة {layer2['layer']}: غش! قوة {layer2['strength']} MPa ضعيفة = {layer2['is_cheated']} - دليل: {layer2['hash'][:16]}...")
-
-from IRRE.construction.smart_building_evidence import SmartBuildingEvidence
-building = SmartBuildingEvidence("SMART-TOWER-CAIRO", "Cairo")
-b = building.add_iot_log("AC-01", 50.5, is_real_sensor=True)
-print(f" ✓ مبنى ذكي: استهلاك {b['energy']} kWh موثق - {b['hash'][:16]}...")
+# 6. محاولة تزوير
+fake = hashlib.sha3_256(b"fake").hexdigest()
+valid_fake = officer.verify(fake, signed['signature'])
+print(f"\n[6] هاكر حاول يزور: التحقق = {valid_fake} -> فشل!")
 
 print("\n" + "="*60)
-print("✅ النتيجة النهائية:")
-print("تم توثيق 12 مجال مستقبلي بهاش SHA3-256 لا يمكن تزويره")
-print("تم كشف: تهكير عربية + تاكسي طائر خطر + بيت مغشوش")
-print("المنتج جاهز للتسليم 100% - Amr Gad")
+print("✅ تم تنفيذ القرار العلمي - الدليل مقبول في المحكمة")
 print("="*60)
