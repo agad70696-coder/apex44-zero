@@ -10,7 +10,7 @@ except ImportError:
 
 class TrustedTimestamp:
     def __init__(self):
-        self.tsa_url = 'http://timestamp.digicert.com'
+        self.tsa_url = 'https://timestamp.digicert.com'
 
     def get_timestamp(self, hash_to_stamp: str):
         if not RFC3161_AVAILABLE:
