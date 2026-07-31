@@ -1,4 +1,1 @@
 cryptography
-reportlab
-requests
-rfc3161ng
