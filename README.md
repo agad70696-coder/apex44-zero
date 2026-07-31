@@ -19,3 +19,20 @@ We provide a PDF report with:
 - Verification QR Code
 
 Built by Amr Gad - Cairo, Egypt.
+## 🚗 Hardware Product (Vehicle Mount)
+
+This is now a real device that mounts in a car:
+
+| Part | Price | Job |
+| :--- | :--- | :--- |
+| **Raspberry Pi 4 + CAN HAT** | ~1500 EGP | Reads speed, brake, steering from car CAN bus |
+| **Secure Element ATECC608A** | ~120 EGP | Stores Private Key INSIDE chip, not on SD Card |
+| **sensor_interface.py** | Included | Unified driver for CAN / GPS / IMU / Camera |
+| **RFC3161 + Bitcoin Anchor** | Free | Real trusted timestamp + Bitcoin proof |
+
+### How it works on car:
+1. `sensor_interface.py` detects crash from IMU G-force
+2. Reads CAN data (was brake pressed? speed?)
+3. Signs with key inside Secure Element (key never leaves chip)
+4. Gets RFC3161 timestamp from DigiCert TSA
+5. Creates `court_package.json` ready for court
