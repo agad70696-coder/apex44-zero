@@ -1,41 +1,39 @@
-import hashlib, time, json
+import hashlib, time
+from cryptography.hazmat.primitives.asymmetric import ec
+from cryptography.hazmat.primitives import hashes
 
-# 1- التوقيع الرقمي
 class ForensicSigner:
     def __init__(self, owner):
         self.owner = owner
-        self.private = f"PRIVATE-KEY-{owner}-2026"
-        self.public = hashlib.sha3_256(self.private.encode()).hexdigest()
+        self.key = ec.generate_private_key(ec.SECP256K1())
+        self.pub = self.key.public_key()
+    def sign(self, data):
+        sig = self.key.sign(data.encode(), ec.ECDSA(hashes.SHA256()))
+        return sig.hex()
+    def verify(self, data, sig_hex):
+        try:
+            self.pub.verify(bytes.fromhex(sig_hex), data.encode(), ec.ECDSA(hashes.SHA256()))
+            return True
+        except:
+            return False
 
-    def sign(self, evidence_hash):
-        sig = hashlib.sha3_256(f"{self.private}{evidence_hash}".encode()).hexdigest()
-        return {
-            "owner": self.owner,
-            "hash": evidence_hash,
-            "signature": sig,
-            "public": self.public,
-            "time": time.ctime()
-        }
+def merkle_root(h_list):
+    curr = h_list[:]
+    while len(curr) > 1:
+        if len(curr) % 2 == 1:
+            curr.append(curr[-1])
+        nxt = []
+        for i in range(0, len(curr), 2):
+            nxt.append(hashlib.sha256((curr[i]+curr[i+1]).encode()).hexdigest())
+        curr = nxt
+    return curr[0]
 
-    def verify(self, evidence_hash, signature):
-        expected = hashlib.sha3_256(f"{self.private}{evidence_hash}".encode()).hexdigest()
-        return expected == signature
-
-# 2- البلوكشين
-chain = ["GENESIS"]
-
-def anchor(evidence_hash):
-    prev = chain[-1]
-    block_hash = hashlib.sha3_256(f"{prev}{evidence_hash}{time.time()}".encode()).hexdigest()
-    chain.append(block_hash)
-    return block_hash
-
-# 3- التجربة العملية
-print("APEX44-ZERO - القرار العلمي")
-
-evidence_hash = hashlib.sha3_256(f"CAR-HACKED-{time.time()}".encode()).hexdigest()
-print(f"دليل: {evidence_hash[:20]}...")
-
-officer = ForensicSigner("Amr Gad - Cairo")
-signed = officer.sign(evidence_hash)
-print(f"توقيع بواسطة: {signed['owner']}")
+# تجربة
+h1 = hashlib.sha256(b"CAR-LOG-1").hexdigest()
+h2 = hashlib.sha256(b"3D-PRINT-2").hexdigest()
+h3 = hashlib.sha256(b"CAR-LOG-3").hexdigest()
+root = merkle_root([h1,h2,h3])
+signer = ForensicSigner("Amr Gad")
+sig = signer.sign(root)
+print("Merkle Root:", root[:20])
+print("ECDSA Signature Valid:", signer.verify(root, sig))
