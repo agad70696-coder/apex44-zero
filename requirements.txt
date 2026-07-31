@@ -4,3 +4,4 @@ rfc3161ng
 web3
 requests
 pynmea2
+adafruit-circuitpython-atecc
