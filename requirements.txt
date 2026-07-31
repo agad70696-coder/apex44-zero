@@ -1,1 +1,6 @@
 cryptography
+python-can
+rfc3161ng
+web3
+requests
+pynmea2
