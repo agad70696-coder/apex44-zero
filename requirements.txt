@@ -5,3 +5,4 @@ web3
 requests
 pynmea2
 adafruit-circuitpython-atecc
+z3-solver==4.12.2.0
