@@ -1,1 +1,1 @@
-from .secure_element_real import SecureElementV8
+from.secure_element_real import SecureElementV8
