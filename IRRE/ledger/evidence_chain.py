@@ -1,41 +1,60 @@
-import time
-import json
-from IRRE.crypto.post_quantum import quantum_safe_hash
+import hashlib, json, time
+from pathlib import Path
 
 class EvidenceChain:
-    def __init__(self):
+    def __init__(self, chain_file="evidence_chain.json"):
+        self.chain_file = Path(chain_file)
         self.chain = []
-        # اول بلوك - البداية
-        self.genesis_hash = quantum_safe_hash("IRRE-GENESIS-apex44-zero")
+        if self.chain_file.exists():
+            try:
+                self.chain = json.loads(self.chain_file.read_text())
+            except: self.chain = []
+        if not self.chain:
+            self._create_genesis()
 
-    def add(self, ai_hash: str, pq_seal: str, metadata: dict = None):
-        prev_hash = self.chain[-1]["block_hash"] if self.chain else self.genesis_hash
-        
-        block_data = f"{prev_hash}|{ai_hash}|{pq_seal}|{time.time()}"
-        block_hash = quantum_safe_hash(block_data)
-        
+    def _create_genesis(self):
+        genesis = {
+            "index": 0,
+            "prev_hash": "0"*64,
+            "ai_hash": "GENESIS",
+            "quantum_seal": "GENESIS",
+            "public_key": "GENESIS",
+            "algorithm": "GENESIS",
+            "timestamp": time.time(),
+            "metadata": {"note": "Genesis Block"}
+        }
+        genesis["block_hash"] = self._hash_block(genesis)
+        self.chain.append(genesis)
+        self._save()
+
+    def _hash_block(self, block):
+        data = f"{block['index']}{block['prev_hash']}{block['ai_hash']}{block['quantum_seal']}{block['timestamp']}"
+        return hashlib.sha3_256(data.encode()).hexdigest()
+
+    def add(self, ai_hash, quantum_seal, metadata, public_key, algorithm):
+        prev = self.chain[-1]
         block = {
             "index": len(self.chain),
-            "prev_hash": prev_hash,
+            "prev_hash": prev["block_hash"],
             "ai_hash": ai_hash,
-            "pq_seal": pq_seal,
-            "metadata": metadata or {},
-            "timestamp": str(time.time()),
-            "block_hash": block_hash
+            "quantum_seal": quantum_seal,
+            "public_key": public_key,
+            "algorithm": algorithm,
+            "timestamp": time.time(),
+            "metadata": metadata
         }
+        block["block_hash"] = self._hash_block(block)
         self.chain.append(block)
+        self._save()
         return block
 
-    def verify(self) -> bool:
-        # يتأكد ان مفيش حد لعب في السلسلة
-        prev = self.genesis_hash
-        for block in self.chain:
-            check_data = f"{block['prev_hash']}|{block['ai_hash']}|{block['pq_seal']}|{block['timestamp']}"
-            # هنسامح فرق الـ timestamp في التحقق البسيط ونركز على الربط
-            if block["prev_hash"] != prev:
-                return False
-            prev = block["block_hash"]
-        return True
+    def _save(self):
+        self.chain_file.write_text(json.dumps(self.chain, indent=2))
 
-    def export(self):
-        return json.dumps(self.chain, indent=2, ensure_ascii=False)
+    def verify(self):
+        for i in range(1, len(self.chain)):
+            curr = self.chain[i]
+            prev = self.chain[i-1]
+            if curr["prev_hash"]!= prev["block_hash"]: return False
+            if curr["block_hash"]!= self._hash_block(curr): return False
+        return True
