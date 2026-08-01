@@ -1,0 +1,38 @@
+import os
+import hashlib
+import base64
+from cryptography.hazmat.primitives.ciphers.aead import AESGCM
+
+class HybridCryptoV8:
+    """
+    V8 PQC-Ready: AES-256-GCM بدل Fernet
+    AES-256 = مقاوم للكمبيوتر الكمي (128-bit بعد Grover)
+    """
+    def __init__(self):
+        env_key = os.getenv("IRRE_ENCRYPTION_KEY")
+        if env_key:
+            try:
+                # لو المفتاح base64
+                k = base64.urlsafe_b64decode(env_key + "==")
+                self.key = k if len(k)==32 else hashlib.sha256(env_key.encode()).digest()
+            except:
+                self.key = hashlib.sha256(env_key.encode()).digest()
+        else:
+            # مفتاح تجريبي فقط - في الانتاج لازم ENV
+            self.key = AESGCM.generate_key(bit_length=256)
+
+    def encrypt(self, data: bytes) -> bytes:
+        if len(data) > 100*1024:
+            raise ValueError("Too large")
+        aesgcm = AESGCM(self.key)
+        nonce = os.urandom(12)
+        ct = aesgcm.encrypt(nonce, data, None)
+        return nonce + ct
+
+    def decrypt(self, blob: bytes) -> bytes:
+        try:
+            nonce, ct = blob[:12], blob[12:]
+            aesgcm = AESGCM(self.key)
+            return aesgcm.decrypt(nonce, ct, None)
+        except Exception:
+            raise ValueError("Decryption failed - tampered")
