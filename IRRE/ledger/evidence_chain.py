@@ -1,7 +1,6 @@
-import hashlib, json, time, sqlite3, base64
+import hashlib, json, time, sqlite3, base64, threading
 from pathlib import Path
 
-# TSA محاولة
 try:
     from rfc3161ng import RemoteTimestamper
     TSA_AVAILABLE = True
@@ -15,6 +14,7 @@ class EvidenceChain:
     def __init__(self, db_file=DB_FILE):
         self.db_file = Path(db_file)
         self.anchor_file = Path(ANCHOR_FILE)
+        self.lock = threading.Lock()
         self.conn = sqlite3.connect(str(self.db_file), check_same_thread=False)
         self.conn.execute("PRAGMA journal_mode=WAL;")
         self._create_table()
@@ -37,7 +37,6 @@ class EvidenceChain:
         if not rows:
             self._create_genesis()
         else:
-            # حمل من الداتا بيز
             self.chain = []
             for r in rows:
                 self.chain.append({
@@ -67,75 +66,15 @@ class EvidenceChain:
         return hashlib.sha3_256(s.encode()).hexdigest()
 
     def _get_tsa(self, data_str):
-        if not TSA_AVAILABLE: return None
+        if not TSA_AVAILABLE:
+            return None
         try:
             ts = RemoteTimestamper("https://freetsa.org/tsr", hashname="sha256")
             token = ts.timestamp(data=data_str.encode())
-            return base64.b64encode(token).decode()[:256] # نختصر
+            return base64.b64encode(token).decode()[:256]
         except:
             return None
 
     def _insert_block(self, b):
         self.conn.execute("INSERT INTO blocks VALUES (?,?,?,?,?,?,?,?,?,?,?)",
-        (b["index"], b["prev_hash"], b["ai_hash"], b["quantum_seal"],
-         b["public_key"], b["algorithm"], b["timestamp"], b["tsa_token"],
-         b["merkle_root"], b["block_hash"], json.dumps(b["metadata"])))
-        self.conn.commit()
-
-    def _append_anchor(self, block_hash):
-        # ملف append-only لا يمكن مسحه بدون كشف
-        with open(self.anchor_file, "a") as f:
-            f.write(block_hash + "\n")
-
-    def add(self, ai_hash, quantum_seal, metadata, public_key, algorithm):
-        prev = self.conn.execute("SELECT * FROM blocks ORDER BY idx DESC LIMIT 1").fetchone()
-        prev_hash = prev[9] if prev else "0"*64
-        prev_merkle = prev[8] if prev else "0"*64
-        idx = (prev[0] + 1) if prev else 0
-        ts = time.time()
-        tsa = self._get_tsa(f"{prev_hash}{ai_hash}{ts}")
-
-        # Merkle: root الجديد = hash(القديم + الجديد)
-        temp_hash = hashlib.sha3_256(f"{idx}{prev_hash}{ai_hash}{quantum_seal}{ts}".encode()).hexdigest()
-        merkle_root = hashlib.sha3_256(f"{prev_merkle}{temp_hash}".encode()).hexdigest()
-
-        block = {
-            "index": idx, "prev_hash": prev_hash, "ai_hash": ai_hash,
-            "quantum_seal": quantum_seal, "public_key": public_key,
-            "algorithm": algorithm, "timestamp": ts, "tsa_token": tsa or "LOCAL",
-            "merkle_root": merkle_root, "metadata": metadata
-        }
-        block["block_hash"] = self._hash_block(block)
-        self._insert_block(block)
-        self._append_anchor(block["block_hash"])
-        return block
-
-    def verify(self):
-        # 1. تحقق من DB
-        cur = self.conn.execute("SELECT * FROM blocks ORDER BY idx")
-        rows = cur.fetchall()
-        if not rows: return False
-
-        # 2. كشف مسح آخر بلوك عبر Anchor Log
-        if self.anchor_file.exists():
-            anchors = [l.strip() for l in self.anchor_file.read_text().splitlines() if l.strip()]
-            if len(anchors)!= len(rows):
-                return False # فيه بلوك اتمسح!
-            if anchors[-1]!= rows[-1][9]:
-                return False
-
-        # 3. تحقق Merkle + prev_hash
-        for i in range(1, len(rows)):
-            curr, prev = rows[i], rows[i-1]
-            if curr[1]!= prev[9]: return False # prev_hash مكسور
-            # اعادة حساب الهاش
-            b = {"index": curr[0], "prev_hash": curr[1], "ai_hash": curr[2],
-                 "quantum_seal": curr[3], "public_key": curr[4], "timestamp": curr[6],
-                 "tsa_token": curr[7], "merkle_root": curr[8], "metadata": {}}
-            if self._hash_block(b)!= curr[9]: return False
-
-        return True
-
-    def get_len(self):
-        cur = self.conn.execute("SELECT COUNT(*) FROM blocks")
-        return cur.fetchone()[0]
+        (b
