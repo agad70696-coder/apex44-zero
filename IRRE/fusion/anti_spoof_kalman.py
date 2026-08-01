@@ -1,11 +1,7 @@
-import math
-import time
+import math, time
 
 class KalmanAntiSpoofV8:
-    """
-    V8 Anti-Spoofing: GPS + IMU + CAN
-    بيقارن الـ GPS مع حركة العربية الحقيقية
-    """
+    """V8 Anti-Spoofing: GPS + CAN + IMU Fusion"""
     def __init__(self):
         self.last_gps = None
         self.last_time = None
@@ -13,7 +9,6 @@ class KalmanAntiSpoofV8:
         self.spoof_score = 0
 
     def _distance(self, lat1, lon1, lat2, lon2):
-        # Haversine
         R = 6371000
         dlat = math.radians(lat2-lat1)
         dlon = math.radians(lon2-lon1)
@@ -27,30 +22,18 @@ class KalmanAntiSpoofV8:
             self.last_time = now
             self.last_speed_can = can_speed
             return {"spoof": False, "reason": "init"}
-
         dt = now - self.last_time
         if dt < 0.1: return {"spoof": False}
-
-        # 1. المسافة اللي الـ GPS بيقول اننا مشيناها
         gps_dist = self._distance(self.last_gps[0], self.last_gps[1], gps_lat, gps_lon)
-
-        # 2. المسافة اللي الـ CAN بيقول اننا مشيناها
         can_dist = (self.last_speed_can + can_speed) / 2 * dt
-
-        # 3. هل فيه قفزة مستحيلة؟ 300 كم/س = 83 م/ث
         if gps_dist > 83 * dt + 20:
             self.spoof_score += 30
-            return {"spoof": True, "reason": f"IMPOSSIBLE_JUMP {gps_dist:.1f}m in {dt:.1f}s", "score": self.spoof_score}
-
-        # 4. فرق كبير بين GPS و CAN؟
+            return {"spoof": True, "reason": f"IMPOSSIBLE_JUMP {gps_dist:.1f}m", "score": self.spoof_score}
         if abs(gps_dist - can_dist) > 15 and can_speed > 2:
             self.spoof_score += 10
         else:
             self.spoof_score = max(0, self.spoof_score - 1)
-
         self.last_gps = (gps_lat, gps_lon)
         self.last_time = now
         self.last_speed_can = can_speed
-
-        is_spoof = self.spoof_score > 50
-        return {"spoof": is_spoof, "score": self.spoof_score, "gps_dist": gps_dist, "can_dist": can_dist}
+        return {"spoof": self.spoof_score > 50, "score": self.spoof_score, "gps_dist": gps_dist, "can_dist": can_dist}
