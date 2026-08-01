@@ -1,0 +1,30 @@
+import os
+import hashlib
+import re
+from pathlib import Path
+from cryptography.hazmat.primitives.ciphers.aead import AESGCM
+
+BASE_DIR = Path("data").resolve()
+BASE_DIR.mkdir(parents=True, exist_ok=True)
+
+def _safe_path(p: str) -> Path:
+    return (BASE_DIR / Path(p).name).resolve()
+
+class HybridCryptoV8:
+    def __init__(self):
+        key_env = os.getenv("IRRE_AES_KEY")
+        if key_env and len(key_env) == 64 and re.fullmatch(r"[0-9a-fA-F]{64}", key_env):
+            self.key = bytes.fromhex(key_env)
+        else:
+            self.key = hashlib.sha256(b"APEX-V8-DEV-KEY-CHANGE-IN-PROD").digest()
+        self.aesgcm = AESGCM(self.key)
+
+    def encrypt(self, data: bytes) -> bytes:
+        nonce = os.urandom(12)
+        ct = self.aesgcm.encrypt(nonce, data, None)
+        return nonce + ct
+
+    def decrypt(self, data: bytes) -> bytes:
+        nonce = data[:12]
+        ct = data[12:]
+        return self.aesgcm.decrypt(nonce, ct, None)
