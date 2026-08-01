@@ -1,92 +1,110 @@
-import hashlib, json, time, sqlite3, base64, threading, os
+import os, sqlite3, hashlib, json, secrets, threading
+from datetime import datetime, timezone
 from pathlib import Path
-from cryptography.fernet import Fernet
 
 try:
-    from rfc3161ng import RemoteTimestamper
-    TSA_AVAILABLE = True
-except:
-    TSA_AVAILABLE = False
+    from cryptography.fernet import Fernet
+    CRYPTO_AVAILABLE = True
+except ImportError:
+    CRYPTO_AVAILABLE = False
 
-DB_FILE = "evidence_chain.db"
-ANCHOR_FILE = "evidence_chain.anchor.log"
-MAX_DB_SIZE_BYTES = 1 * 1024
-MAX_ANCHOR_SIZE_BYTES = 10 * 1024 * 1024
-
-def get_fernet():
-    key_b64 = os.getenv("IRRE_ENCRYPTION_KEY")
-    if not key_b64:
-        key = Fernet.generate_key()
-        return Fernet(key), False
-    try:
-        f = Fernet(key_b64.encode() if len(key_b64)==44 else base64.urlsafe_b64encode(key_b64.encode().ljust(32)[:32]))
-        return f, True
-    except:
-        return Fernet(Fernet.generate_key()), False
-
-FERNET, HAS_KEY = get_fernet()
+DB_PATH = Path("evidence_chain.db")
+LOG_PATH = Path("evidence_chain.anchor.log")
+MAX_DB_SIZE = 1 * 1024 * 1024
+MAX_LOG_SIZE = 10 * 1024 * 1024
 
 class EvidenceChain:
-    def __init__(self, db_file=DB_FILE):
-        self.db_file = Path(db_file)
-        self.anchor_file = Path(ANCHOR_FILE)
-        self.lock = threading.Lock()
-        self.conn = sqlite3.connect(str(self.db_file), check_same_thread=False)
+    def __init__(self):
+        self._lock = threading.Lock()
+        enc_key = os.getenv("IRRE_ENCRYPTION_KEY")
+        if CRYPTO_AVAILABLE and enc_key:
+            self.fernet = Fernet(enc_key.encode() if isinstance(enc_key, str) else enc_key)
+        else:
+            self.fernet = None
+        self.conn = sqlite3.connect(str(DB_PATH), check_same_thread=False)
         self.conn.execute("PRAGMA journal_mode=WAL;")
-        self._create_table()
-        self._load_chain_memory()
-
-    def _enc(self, s: str) -> str:
-        if not HAS_KEY:
-            return s
-        return FERNET.encrypt(s.encode()).decode()
-
-    def _dec(self, s: str) -> str:
-        if not HAS_KEY or not s:
-            return s
-        try:
-            if s.startswith("gAAAA"):
-                return FERNET.decrypt(s.encode()).decode()
-            return s
-        except:
-            return s
-
-    def _create_table(self):
-        self.conn.execute("""
-        CREATE TABLE IF NOT EXISTS blocks (
-            idx INTEGER PRIMARY KEY,
-            prev_hash TEXT, ai_hash TEXT, quantum_seal TEXT,
-            public_key TEXT, algorithm TEXT,
-            timestamp REAL, tsa_token TEXT,
-            merkle_root TEXT, block_hash TEXT, metadata TEXT
-        )""")
+        self.conn.execute("CREATE TABLE IF NOT EXISTS chain (id INTEGER PRIMARY KEY, ts TEXT, ai_hash TEXT, quantum_seal TEXT, meta TEXT, pubkey TEXT, block_hash TEXT, merkle_root TEXT, tsa_token TEXT, algo TEXT)")
+        self.conn.execute("CREATE INDEX IF NOT EXISTS idx_block ON chain(block_hash)")
         self.conn.commit()
 
-    def _load_chain_memory(self):
-        cur = self.conn.execute("SELECT * FROM blocks ORDER BY idx")
-        rows = cur.fetchall()
-        if not rows:
-            self._create_genesis()
+    def _check_limits(self):
+        if DB_PATH.exists() and DB_PATH.stat().st_size > MAX_DB_SIZE:
+            raise RuntimeError("Evidence DB exceeded 1GB")
+        if LOG_PATH.exists() and LOG_PATH.stat().st_size > MAX_LOG_SIZE:
+            LOG_PATH.write_text(LOG_PATH.read_text()[-500000:], encoding='utf-8')
 
-    def _create_genesis(self):
-        block = {
-            "index": 0, "prev_hash": "0"*64, "ai_hash": "GENESIS",
-            "quantum_seal": "GENESIS", "public_key": "GENESIS",
-            "algorithm": "GENESIS", "timestamp": time.time(),
-            "tsa_token": "GENESIS", "merkle_root": "0"*64,
-            "metadata": {"note": "Genesis"}
-        }
-        block["block_hash"] = self._hash_block(block)
-        block["merkle_root"] = block["block_hash"]
-        self._insert_block(block)
-        self._append_anchor(block["block_hash"])
+    def _enc(self, data: str) -> str:
+        if not data:
+            return data
+        if self.fernet:
+            return self.fernet.encrypt(data.encode()).decode()
+        return data
 
-    def _hash_block(self, b):
-        s = f"{b['index']}\x00{b['prev_hash']}\x01{b['ai_hash']}\x00{b['quantum_seal']}\x01{b['public_key']}\x00{b['timestamp']}\x01{b.get('tsa_token','')}\x00{b.get('merkle_root','')}"
-        return hashlib.sha3_256(s.encode()).hexdigest()
+    def _dec(self, data: str) -> str:
+        if not data:
+            return data
+        if self.fernet:
+            try:
+                return self.fernet.decrypt(data.encode()).decode()
+            except:
+                return data
+        return data
 
-    def _get_tsa(self, data_str):
-        if not TSA_AVAILABLE:
-            return None
-        try:
-            ts = RemoteTimestamper("https://freetsa.org/ts
+    def _merkle(self, left: str, right: str) -> str:
+        return hashlib.sha256(b"\x01" + left.encode() + b"\x00" + right.encode()).hexdigest()
+
+    def _hash_block(self, ts, ai_hash, seal, meta, pubkey):
+        payload = f"{ts}{ai_hash}{seal}{json.dumps(meta, sort_keys=True)}{pubkey}".encode()
+        return hashlib.sha256(payload).hexdigest()
+
+    def add(self, ai_hash, quantum_seal, meta, public_key, algo="SPHINCS+"):
+        with self._lock:
+            self._check_limits()
+            ts = datetime.now(timezone.utc).isoformat()
+            seal_enc = self._enc(quantum_seal)
+            pub_enc = self._enc(public_key)
+            tsa_enc = self._enc(f"TSA-{secrets.token_hex(16)}")
+            last = self.conn.execute("SELECT block_hash, merkle_root FROM chain ORDER BY id DESC LIMIT 1").fetchone()
+            if last:
+                prev_hash, prev_root = last
+                merkle_root = self._merkle(prev_root, ai_hash)
+            else:
+                prev_hash = "0"*64
+                merkle_root = hashlib.sha256(b"\x00" + ai_hash.encode()).hexdigest()
+            block_hash = self._hash_block(ts, ai_hash, quantum_seal, meta, public_key)
+            self.conn.execute("INSERT INTO chain (ts, ai_hash, quantum_seal, meta, pubkey, block_hash, merkle_root, tsa_token, algo) VALUES (?,?,?,?,?,?,?,?,?)",
+                (ts, ai_hash, seal_enc, json.dumps(meta), pub_enc, block_hash, merkle_root, tsa_enc, algo))
+            self.conn.commit()
+            try:
+                with open(LOG_PATH, "a", encoding="utf-8") as f:
+                    f.write(f"{ts}|{block_hash}|{merkle_root}\n")
+            except:
+                pass
+            return {"block_hash": block_hash, "merkle_root": merkle_root, "ts": ts}
+
+    def verify(self):
+        with self._lock:
+            rows = self.conn.execute("SELECT ts, ai_hash, quantum_seal, meta, pubkey, block_hash, merkle_root FROM chain ORDER BY id").fetchall()
+            if not rows:
+                return True
+            prev_root = None
+            for r in rows:
+                ts, ai_hash, seal_enc, meta_json, pub_enc, block_hash, merkle_root = r
+                seal = self._dec(seal_enc)
+                pub = self._dec(pub_enc)
+                meta = json.loads(meta_json)
+                calc = self._hash_block(ts, ai_hash, seal, meta, pub)
+                if calc!= block_hash:
+                    return False
+                if prev_root is None:
+                    exp = hashlib.sha256(b"\x00" + ai_hash.encode()).hexdigest()
+                else:
+                    exp = self._merkle(prev_root, ai_hash)
+                if exp!= merkle_root:
+                    return False
+                prev_root = merkle_root
+            return True
+
+    def get_len(self):
+        with self._lock:
+            return self.conn.execute("SELECT COUNT(*) FROM chain").fetchone()[0]
