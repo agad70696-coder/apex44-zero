@@ -1,5 +1,7 @@
+keys/
+*.key
 __pycache__/
-apex_report.json
 *.pyc
 .env
+evidence_chain.json
 venv/
