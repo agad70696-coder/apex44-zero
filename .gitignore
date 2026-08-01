@@ -1,7 +1,10 @@
 keys/
 *.key
+*.db
+*.db-wal
+*.db-shm
 __pycache__/
 *.pyc
 .env
-evidence_chain.json
 venv/
+evidence_chain.json
