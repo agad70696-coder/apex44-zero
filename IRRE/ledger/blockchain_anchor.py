@@ -3,7 +3,7 @@ from web3 import Web3
 
 RPC_URL = os.getenv("POLYGON_RPC", "https://rpc-amoy.polygon.technology")
 PRIVATE_KEY = os.getenv("POLYGON_PRIVATE_KEY")
-ANCHOR_ADDRESS = os.getenv("ANCHOR_ADDRESS", "0x000000000000000000000000dEaD")
+ANCHOR_ADDRESS = os.getenv("ANCHOR_ADDRESS", "0x000000000000dEaD")
 
 class BlockchainAnchor:
     def __init__(self):
