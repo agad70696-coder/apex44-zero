@@ -1,0 +1,8 @@
+# V8 Formal Verification
+
+للتأكد رياضيا:
+
+1. نزل TLA+ Toolbox
+2. افتح EvidenceChain.tla
+3. شغل TLC Model Checker
+4. لازم يطلع: No errors, Inv_NoTamper holds
