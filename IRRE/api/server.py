@@ -1,5 +1,4 @@
 import os, time, threading, re, sqlite3
-from collections import defaultdict
 from pathlib import Path
 from fastapi import FastAPI, Depends, HTTPException, Request, BackgroundTasks
 from fastapi.security import APIKeyHeader
@@ -21,7 +20,6 @@ app = FastAPI(title="apex44-zero IRRE V7 - Fully Locked")
 api_key_header = APIKeyHeader(name="X-API-KEY", auto_error=False)
 ledger = EvidenceChain()
 chain_anchor = BlockchainAnchor()
-
 MODEL_ID_REGEX = r"^[a-zA-Z0-9_-]{1,100}$"
 
 class PersistentRateLimiter:
@@ -33,7 +31,6 @@ class PersistentRateLimiter:
         self.conn.execute("CREATE TABLE IF NOT EXISTS rates (ip TEXT, ts REAL)")
         self.conn.execute("CREATE INDEX IF NOT EXISTS idx_ip_ts ON rates(ip, ts)")
         self.conn.commit()
-
     def is_allowed(self, client_ip: str):
         with self.lock:
             now = time.time()
@@ -65,10 +62,9 @@ class EvidenceRequest(BaseModel):
     model_id: str = Field(..., pattern=MODEL_ID_REGEX)
     prompt: str = Field(..., min_length=1, max_length=10000)
     output: str = Field(..., min_length=1, max_length=10000)
-
     @validator('model_id')
     def validate_model_id(cls, v):
-        if not re.fullmatch(MODEL_ID_REGEX, v):
+        if not __import__('re').fullmatch(MODEL_ID_REGEX, v):
             raise ValueError('Invalid model_id')
         return v
 
@@ -79,12 +75,7 @@ def do_blockchain_anchor(merkle_root: str):
         pass
 
 @app.post("/create_evidence")
-def create_evidence(
-    req: EvidenceRequest,
-    background_tasks: BackgroundTasks,
-    api_key: str = Depends(verify_api_key),
-    client_ip: str = Depends(rate_limit_check)
-):
+def create_evidence(req: EvidenceRequest, background_tasks: BackgroundTasks, api_key: str = Depends(verify_api_key), client_ip: str = Depends(rate_limit_check)):
     if len(req.prompt.encode('utf-8')) > 10240 or len(req.output.encode('utf-8')) > 10240:
         raise HTTPException(status_code=413, detail="Payload too large max 10KB")
     ai = AIModelEvidence(req.model_id, req.prompt, req.output)
@@ -92,21 +83,11 @@ def create_evidence(
     proof = crypto.export_proof(ai.hash)
     block = ledger.add(ai.hash, proof["quantum_seal"], {"model_id": req.model_id}, proof["public_key"], proof["algorithm"])
     background_tasks.add_task(do_blockchain_anchor, block["merkle_root"])
-    return {
-        "ai_hash": ai.hash,
-        "block_hash": block["block_hash"],
-        "merkle_root": block["merkle_root"],
-        "verified": ledger.verify(),
-        "status": "fully-locked-v7"
-    }
+    return {"ai_hash": ai.hash, "block_hash": block["block_hash"], "merkle_root": block["merkle_root"], "verified": ledger.verify(), "status": "fully-locked-v7"}
 
 @app.get("/verify")
 def verify(api_key: str = Depends(verify_api_key), client_ip: str = Depends(rate_limit_check)):
-    return {
-        "valid": ledger.verify(),
-        "length": ledger.get_len(),
-        "protection": ["Persistent-RateLimit", "NoDefaultKey", "PQC-Enforced", "Encrypted-At-Rest", "Thread-Lock", "DiskLimit"]
-    }
+    return {"valid": ledger.verify(), "length": ledger.get_len(), "protection": ["Persistent-RateLimit", "NoDefaultKey", "PQC-Enforced", "Encrypted-At-Rest", "Thread-Lock", "DiskLimit"]}
 
 @app.get("/")
 def root():
