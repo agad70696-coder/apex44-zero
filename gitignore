@@ -1,3 +1,14 @@
 keys/
 *.key
+*.pem
+.env
+*.db
+*.db-wal
+*.db-shm
+*.sqlite
+evidence_chain.*
+rate_limit.db
+*.log
 __pycache__/
+.venv/
+*.html
