@@ -1,4 +1,4 @@
-import sqlite3, hashlib, json, os, threading, re
+import sqlite3, hashlib, json, threading, re
 from datetime import datetime, timezone
 from pathlib import Path
 from IRRE.pqc.hybrid_crypto import HybridCryptoV8
@@ -17,8 +17,8 @@ class PersistentForensicChain:
     def __init__(self, db_path="forensic_chain.db"):
         self._lock = threading.Lock()
         self.db_path = _safe_db_path(db_path)
-        self.crypto = HybridCryptoV8() # V8 AES-256-GCM
-        self.signer = PQCSignerV8() # V8 Dilithium3
+        self.crypto = HybridCryptoV8()
+        self.signer = PQCSignerV8()
         self.conn = sqlite3.connect(str(self.db_path), check_same_thread=False, timeout=10.0)
         self.conn.execute("PRAGMA journal_mode=WAL;")
         self.create_chain()
@@ -49,18 +49,15 @@ class PersistentForensicChain:
 
     def add_evidence(self, evidence_hash, data):
         with self._lock:
-            if not _valid_hash(evidence_hash): raise ValueError("Bad hash")
+            if not _valid_hash(evidence_hash): raise ValueError("Invalid hash")
             raw = json.dumps(data, sort_keys=True)
-            if len(raw) > 100*1024: raise ValueError("Too large")
-
+            if len(raw) > 100*1024: raise ValueError("Payload too large")
             cur = self.conn.execute("SELECT chained_hash FROM evidence_chain ORDER BY id DESC LIMIT 1")
             prev = cur.fetchone()
             prev_hash = prev[0] if prev else "0"*64
             chained = hashlib.sha256(f"{prev_hash}{evidence_hash}".encode()).hexdigest()
-
             enc_data = self.crypto.encrypt(raw.encode())
             sig = self.signer.sign(chained)
-
             self.conn.execute(
                 "INSERT INTO evidence_chain (timestamp_utc, evidence_hash, chained_hash, prev_hash, data_json, signature) VALUES (?,?,?,?,?,?)",
                 (datetime.now(timezone.utc).isoformat(), evidence_hash, chained, prev_hash, enc_data, sig)
@@ -72,7 +69,6 @@ class PersistentForensicChain:
         with self._lock:
             prev = "0"*64
             for ch, ph in self.conn.execute("SELECT chained_hash, prev_hash FROM evidence_chain ORDER BY id"):
-                if ph!= prev and prev!= "0"*64:
-                    return False
+                if ph!= prev and prev!= "0"*64: return False
                 prev = ch
             return True
