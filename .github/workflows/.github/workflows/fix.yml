@@ -1,0 +1,27 @@
+name: Fix all missing init
+permissions:
+  contents: write
+on: workflow_dispatch
+jobs:
+  fix:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Create __init__.py in every folder
+        run: |
+          find IRRE -name "init.py" -delete || true
+          find IRRE -type d | while read dir; do
+            if [ ! -f "$dir/__init__.py" ]; then
+              echo "# V8 Module" > "$dir/__init__.py"
+              echo "Created $dir"
+            fi
+          done
+          echo "# V8 Package" > IRRE/__init__.py
+      - name: Commit and Push
+        run: |
+          git config --global user.name "Amr Fix Bot"
+          git config --global user.email "fix@bot.com"
+          git add .
+          git diff --staged --quiet && exit 0
+          git commit -m "Fix: Add __init__.py to all IRRE modules"
+          git push
