@@ -1,11 +1,21 @@
 [project]
-name = "apex44-zero"
-version = "10.0.0"
-description = "Unkillable Text Protection - QAC 44/44 - Self-Root For Eternity"
-authors = [{name="Amr Gad"}]
-readme = "README.md"
-requires-python = ">=3.9"
-dependencies = []
+name="apex44-zero"
+version="0.1.0"
+requires-python=">=3.10"
+dependencies=["numpy","scipy"]
 
-[project.urls]
-Homepage = "https://github.com/agad70696-coder/apex44-zero"
+[tool.black]
+line-length=88
+
+[tool.ruff]
+line-length=88
+target-version="py310"
+
+[tool.mypy]
+python_version="3.10"
+ignore_missing_imports=true
+warn_return_any=true
+warn_unused_configs=true
+
+[tool.pytest.ini_options]
+testpaths=["APEX44/04-evaluation/tests"]

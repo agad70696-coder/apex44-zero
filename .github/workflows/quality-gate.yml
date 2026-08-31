@@ -1,19 +1,12 @@
-name: Quality Gate v1 - Fixed
+name: quality-gate
 on: [push, pull_request]
-permissions:
-  contents: read
 jobs:
-  quality:
+  gate:
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        python-version: ["3.11", "3.12"]
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
-        with:
-          python-version: ${{ matrix.python-version }}
-      - run: pip install ruff mypy pytest
-      - run: ruff check irre/ tests/ || true
-      - run: mypy irre/ --ignore-missing-imports || true
-      - run: pytest tests/ -q || true
+      - uses: astral-sh/setup-uv@v3
+      - run: uv sync --frozen
+      - run: uv run ruff check APEX44/ src/ tests/
+      - run: uv run mypy APEX44/ src/
+      - run: uv run pytest -q

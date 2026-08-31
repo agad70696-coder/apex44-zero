@@ -1,0 +1,13 @@
+{
+  "biadj_hash": "a33b3f62010472f1",
+  "n_rows": 8,
+  "n_cols": 32,
+  "E": 68,
+  "density": 0.265625,
+  "newton_steps": 53,
+  "err_final": 7.478073271727226e-09,
+  "backbone_edges": 0,
+  "bh": 0,
+  "p_min": 0.057397130143492826,
+  "zeros": 0
+}
