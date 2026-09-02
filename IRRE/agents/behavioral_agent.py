@@ -11,7 +11,7 @@ try:
 except ImportError:
     from behavioral_logic import BehavioralAnalyzer, BehavioralLaw
     class VerifierAgent:
-        def final_gate(self, claim):
+        def final_gate(self, claim) -> dict:
             return {"pass": len(claim.evidences) > 0}
     class Claim:
         def __init__(self, text, evidences):
