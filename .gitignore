@@ -6,12 +6,15 @@ keys/
 *.db-wal
 *.db-shm
 *.sqlite
-evidence_chain.*
 rate_limit.db
 *.log
 __pycache__/
 *.pyc
 venv/
 .venv/
-*.html
+# GitHub Pages - keep docs alive
+!docs/
 !docs/index.html
+# Final Proof - IRRE must be tracked
+!evidence_chain.json
+!**/evidence_chain.json
