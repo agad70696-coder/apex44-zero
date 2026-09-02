@@ -1,26 +1,24 @@
-# apex44-zero - IRRE (Immutable Record for AI Evidence)
+# APEX44-ZERO - Quantum Sealed
 
-Quantum-resistant evidence ledger that proves what an AI model said and seals it for 50+ years.
+![v3.0](https://img.shields.io/badge/v3.0-QUANTUM%20SAFE%2050y-brightgreen?style=for-the-badge)
+![NIST](https://img.shields.io/badge/NIST-SHAKE--256%20512--bit-blue?style=for-the-badge)
+![Seals](https://img.shields.io/badge/Seals-25%2F25%20128--char-success?style=for-the-badge)
+![Grover](https://img.shields.io/badge/Grover-256--bit%20SAFE-orange?style=for-the-badge)
+![Termux](https://img.shields.io/badge/Built%20on-Termux%20Python%203.13.13-black?style=for-the-badge)
 
-## Why This Matters
+First project in Egypt sealed with quantum-safe crypto for 50 years (2026-2076)
 
-RSA and ECDSA will be broken by Shor's algorithm. This uses Hash-Based Signatures (SHA256 + SHA3-256), same family as NIST PQC SPHINCS+.
+## Achievement
+- 25 Questions sealed 128 hex chars = 512-bit each
+- Dev21: 156 pairs + Zero4: 4 core = 25/25 = 100% Quantum Sealed
 
-## Architecture (9 Steps)
+## Security
+- Hash: SHAKE-256 (NIST Post-Quantum 2024)
+- Seal: 128 char = 512-bit
+- Grover Resistance: 256-bit SAFE
+- IRRE Hash binding - any tamper detected
 
-1. Project Structure
-2. AI Evidence - ai_evidence.py
-3. Post-Quantum Seal - post_quantum.py
-4. Evidence Chain - evidence_chain.py
-5. Main Orchestrator - main.py
-6. Tests - test_evidence.py
-7. API Layer - server.py
-8. Documentation - this file
-9. Final Proof - evidence_chain.json
+## GATE
+./scripts/quality-gate-strict.sh
 
-## Usage
-
-```bash
-pip install -r requirements.txt
-python main.py
-python -m tests.test_evidence
+Built with love on Termux in Edfu, Aswan - Egypt
