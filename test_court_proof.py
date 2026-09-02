@@ -1,5 +1,7 @@
 import hashlib
+
 from main import ForensicSigner
+
 
 def merkle_root(h_list):
     cur = h_list[:]
@@ -8,9 +10,10 @@ def merkle_root(h_list):
             cur.append(cur[-1])
         nxt = []
         for i in range(0, len(cur), 2):
-            nxt.append(hashlib.sha256((cur[i]+cur[i+1]).encode()).hexdigest())
+            nxt.append(hashlib.sha256((cur[i] + cur[i + 1]).encode()).hexdigest())
         cur = nxt
     return cur[0]
+
 
 print("=== محاكاة محكمة - APEX44 Zero ===\n")
 

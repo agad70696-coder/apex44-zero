@@ -5,11 +5,13 @@ import time
 def energy_hash(data: str) -> str:
     return hashlib.sha3_256(data.encode()).hexdigest()
 
+
 class EnergyGridEvidence:
     """
     توثيق استهلاك الطاقة وشهادات الكربون - يكشف سرقة الكهرباء وتزوير الكربون
     """
-    def __init__(self, meter_id: str, initial_kwh: float = 0.0):
+
+    def __init__(self, meter_id: str, initial_kwh: float = 0.0) -> None:
         self.meter_id = meter_id
         self.total_kwh = initial_kwh
         self.timestamp = str(time.time())
@@ -25,7 +27,7 @@ class EnergyGridEvidence:
             "co2_saved": co2_saved,
             "total": self.total_kwh + kwh,
             "hash": energy_hash(f"{self.meter_id}{kwh}{co2_saved}{time.time()}"),
-            "is_fraud": is_fraud
+            "is_fraud": is_fraud,
         }
         self.total_kwh += kwh
         self.readings.append(entry)

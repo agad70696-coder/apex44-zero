@@ -5,12 +5,14 @@ import time
 def soft_hash(data: str) -> str:
     return hashlib.sha3_256(data.encode()).hexdigest()
 
+
 class SoftRobotEvidence:
     """
     روبوت لين من سيليكون - بيمسك قلب مريض أثناء العملية
     لازم نثبت انه ما ضغطش زيادة وموت المريض
     """
-    def __init__(self, robot_id: str, material: str):
+
+    def __init__(self, robot_id: str, material: str) -> None:
         self.robot_id = robot_id
         self.material = material  # silicone, hydrogel
         self.base_hash = soft_hash(f"{robot_id}{material}{time.time()}")
@@ -25,7 +27,7 @@ class SoftRobotEvidence:
             "pressure": pressure_kpa,
             "target": target,
             "hash": soft_hash(f"{self.robot_id}{pressure_kpa}{target}{time.time()}"),
-            "is_crushing": is_crushing
+            "is_crushing": is_crushing,
         }
         self.grips.append(entry)
         return entry

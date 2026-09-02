@@ -5,12 +5,14 @@ import time
 def tissue_hash(data: str) -> str:
     return hashlib.sha3_256(data.encode()).hexdigest()
 
+
 class RegenerativeEvidence:
     """
     توثيق زراعة الأعضاء والأنسجة - يمنع غش الأعضاء المزروعة
     كل مرحلة نمو ليها هاش ومستحيل تتزور
     """
-    def __init__(self, organ_id: str, organ_type: str, donor_dna: str):
+
+    def __init__(self, organ_id: str, organ_type: str, donor_dna: str) -> None:
         self.organ_id = organ_id
         self.organ_type = organ_type  # heart, liver, kidney, skin
         self.donor_dna = donor_dna
@@ -30,7 +32,7 @@ class RegenerativeEvidence:
             "cell_count": cell_count,
             "viability": viability,
             "hash": tissue_hash(f"{self.organ_id}{stage}{cell_count}{viability}{time.time()}"),
-            "is_contaminated": is_contaminated
+            "is_contaminated": is_contaminated,
         }
         self.growth_log.append(entry)
         return entry
@@ -39,7 +41,10 @@ class RegenerativeEvidence:
         # العضو آمن لو مفيش تلوث وآخر مرحلة هي ready
         if not self.growth_log:
             return False
-        return not any(g["is_contaminated"] for g in self.growth_log) and self.growth_log[-1]["stage"] == "ready"
+        return (
+            not any(g["is_contaminated"] for g in self.growth_log)
+            and self.growth_log[-1]["stage"] == "ready"
+        )
 
     def verify_lineage(self) -> bool:
         return len(self.base_hash) == 64

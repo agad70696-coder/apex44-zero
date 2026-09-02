@@ -1,4 +1,4 @@
-def test_full_flow():
+def test_full_flow() -> None:
     original = "كتابي"
     owner, buyer = "Amr", "Client1"
     # محاكاة التدفق الكامل

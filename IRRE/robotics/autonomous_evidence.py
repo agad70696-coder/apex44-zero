@@ -5,12 +5,14 @@ import time
 def auto_hash(data: str) -> str:
     return hashlib.sha3_256(data.encode()).hexdigest()
 
+
 class AutonomousRobotEvidence:
     """
     روبوت مستقل بذكاء اصطناعي بياخد قرار لوحده
     لازم نوثق كل قرار عشان لو قتل حد نعرف ليه
     """
-    def __init__(self, robot_id: str, mission: str):
+
+    def __init__(self, robot_id: str, mission: str) -> None:
         self.robot_id = robot_id
         self.mission = mission
         self.base_hash = auto_hash(f"{robot_id}{mission}{time.time()}")
@@ -25,7 +27,7 @@ class AutonomousRobotEvidence:
             "confidence": confidence,
             "human_override": human_override,
             "hash": auto_hash(f"{self.robot_id}{decision}{confidence}{time.time()}"),
-            "is_risky": is_risky
+            "is_risky": is_risky,
         }
         self.decisions.append(entry)
         return entry

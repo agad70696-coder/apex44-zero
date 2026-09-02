@@ -5,11 +5,13 @@ import time
 def quantum_hash(data: str) -> str:
     return hashlib.shake_256(data.encode()).hexdigest(64)
 
+
 class NeuralEvidence:
     """
     دليل عصبي - بيوثق إشارة مخ EEG ويكشف التزوير
     """
-    def __init__(self, eeg_data: str, subject_id: str, session_id: str):
+
+    def __init__(self, eeg_data: str, subject_id: str, session_id: str) -> None:
         self.eeg_data = eeg_data
         self.subject_id = subject_id
         self.session_id = session_id
@@ -19,7 +21,9 @@ class NeuralEvidence:
 
     def verify(self) -> bool:
         # لو حد غير في الإشارة، التحقق هيفشل
-        expected = quantum_hash(f"{self.eeg_data}{self.subject_id}{self.session_id}{self.timestamp}")
+        expected = quantum_hash(
+            f"{self.eeg_data}{self.subject_id}{self.session_id}{self.timestamp}"
+        )
         return self.hash == expected
 
     def detect_fake_consciousness(self) -> bool:

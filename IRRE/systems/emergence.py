@@ -4,7 +4,7 @@ from .complex_system import ComplexSystem
 
 
 class EmergenceDetector:
-    def __init__(self, system: ComplexSystem):
+    def __init__(self, system: ComplexSystem) -> None:
         self.system = system
 
     def detect_trustworthiness(self) -> dict[str, Any]:
@@ -15,11 +15,24 @@ class EmergenceDetector:
             level = "TRUSTWORTHY"
         else:
             level = "UNTRUSTWORTHY"
-        return {"emergent_property": "Trustworthiness", "level": level, "system_health": h, "formula": "Trust = Emergence(5 Layers)"}
+        return {
+            "emergent_property": "Trustworthiness",
+            "level": level,
+            "system_health": h,
+            "formula": "Trust = Emergence(5 Layers)",
+        }
 
     def detect_cascade_risk(self) -> dict[str, Any]:
         min_h = min(c.health for c in self.system.components.values())
-        avg_str = sum(i.strength for i in self.system.interactions) / len(self.system.interactions) if self.system.interactions else 0
+        avg_str = (
+            sum(i.strength for i in self.system.interactions) / len(self.system.interactions)
+            if self.system.interactions
+            else 0
+        )
         risk = (1 - min_h) * avg_str
         weakest = min(self.system.components.values(), key=lambda c: c.health).id
-        return {"risk_score": risk, "weakest_link": weakest, "risk_level": "CRITICAL" if risk>0.7 else "LOW"}
+        return {
+            "risk_score": risk,
+            "weakest_link": weakest,
+            "risk_level": "CRITICAL" if risk > 0.7 else "LOW",
+        }

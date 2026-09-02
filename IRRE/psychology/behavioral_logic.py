@@ -2,37 +2,44 @@
 IRRE - Applied Psychology & Behavioral Logic
 No Evidence + No Motive = No Understanding
 """
+
 import re
 from dataclasses import dataclass
-from enum import Enum
+from enum import StrEnum
 
 try:
     from IRRE.core.evidence import Claim, Evidence
 except ImportError:
+
     class Evidence:
-        def __init__(self, source_url: str, quote: str, confidence: float):
+        def __init__(self, source_url: str, quote: str, confidence: float) -> None:
             self.source_url = source_url
             self.quote = quote
             self.confidence = confidence
+
         def is_valid(self):
             return self.source_url.startswith("http") and len(self.quote) > 10
+
     class Claim:
-        def __init__(self, text: str, evidences: list):
+        def __init__(self, text: str, evidences: list) -> None:
             self.text = text
             self.evidences = evidences
 
-class BiasType(str, Enum):
+
+class BiasType(StrEnum):
     NONE = "none"
     OVERCONFIDENCE = "overconfidence_bias"
     AUTHORITY = "authority_bias"
     SOCIAL_PROOF = "social_proof"
     STATUS_SEEKING = "status_seeking"
 
-class MotiveType(str, Enum):
+
+class MotiveType(StrEnum):
     TRUTH_SEEKING = "truth_seeking"
     STATUS_SEEKING = "status_seeking"
     FEAR_AVOIDANCE = "fear_avoidance"
     UNKNOWN = "unknown"
+
 
 @dataclass
 class BehavioralEvidence(Evidence):
@@ -41,7 +48,10 @@ class BehavioralEvidence(Evidence):
     social_context: str = ""
 
     def is_psychologically_valid(self) -> bool:
-        return self.is_valid() and self.motive != MotiveType.UNKNOWN and len(self.social_context) > 5
+        return (
+            self.is_valid() and self.motive != MotiveType.UNKNOWN and len(self.social_context) > 5
+        )
+
 
 class BehavioralAnalyzer:
     BIAS_PATTERNS = {
@@ -75,8 +85,9 @@ class BehavioralAnalyzer:
             explanation += "Inflates capability without evidence."
         return {"bias": bias, "motive": motive, "explanation": explanation}
 
+
 class BehavioralLaw:
-    def __init__(self):
+    def __init__(self) -> None:
         self.analyzer = BehavioralAnalyzer()
 
     def final_behavioral_gate(self, claim: Claim) -> dict:
@@ -87,5 +98,5 @@ class BehavioralLaw:
             "factual_pass": factual_pass,
             "behavioral_analysis": analysis,
             "final_pass": factual_pass,
-            "audit_message": f"Factual: {'✅' if factual_pass else '❌'} | Bias: {analysis['bias'].value} | Motive: {analysis['motive'].value}"
+            "audit_message": f"Factual: {'✅' if factual_pass else '❌'} | Bias: {analysis['bias'].value} | Motive: {analysis['motive'].value}",
         }

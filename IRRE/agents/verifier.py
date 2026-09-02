@@ -4,7 +4,7 @@ from IRRE.core.evidence import Claim
 
 
 class VerifierAgent:
-    def verify(self, claim: Claim):
+    def verify(self, claim: Claim) -> bool:
         ok = claim.verify()
         if not ok:
             print(f"❌ REJECTED: {claim.text}")
@@ -12,7 +12,7 @@ class VerifierAgent:
         print(f"✅ VERIFIED: {claim.text}")
         return True
 
-    def final_gate(self, claims):
+    def final_gate(self, claims) -> bool:
         all_ok = all(c.status == "verified" for c in claims)
         if all_ok:
             print("🔒 IRRE GATE PASSED - For Eternity Locked")

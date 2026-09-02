@@ -3,23 +3,25 @@ IRRE - Behavioral Agent
 يفهم ليه الإنسان قال الادعاء، مش بس هل هو صح
 """
 
-
 try:
     from IRRE.agents.verifier import VerifierAgent
     from IRRE.core.evidence import Claim
     from IRRE.psychology.behavioral_logic import BehavioralAnalyzer, BehavioralLaw
 except ImportError:
     from behavioral_logic import BehavioralAnalyzer, BehavioralLaw
+
     class VerifierAgent:
         def final_gate(self, claim) -> dict:
             return {"pass": len(claim.evidences) > 0}
+
     class Claim:
-        def __init__(self, text, evidences):
+        def __init__(self, text, evidences) -> None:
             self.text = text
             self.evidences = evidences
 
+
 class BehavioralAgent:
-    def __init__(self):
+    def __init__(self) -> None:
         self.verifier = VerifierAgent()
         self.behavioral_law = BehavioralLaw()
         self.analyzer = BehavioralAnalyzer()
@@ -51,13 +53,15 @@ class BehavioralAgent:
             "verdict": verdict,
             "human_explanation": human_explanation,
             "full_audit": behavioral_result["audit_message"] + f" | {verdict}",
-            "is_explainable": True
+            "is_explainable": True,
         }
+
 
 if __name__ == "__main__":
     print("🧠 BehavioralAgent - Self Test")
+
     class FakeClaim:
-        def __init__(self, text, evidences):
+        def __init__(self, text, evidences) -> None:
             self.text = text
             self.evidences = evidences
 

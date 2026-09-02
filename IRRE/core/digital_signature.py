@@ -10,7 +10,8 @@ class DigitalSigner:
     توقيع رقمي: كل دليل لازم يتوقع بمفتاح خاص
     زي ختم النسر بتاعك، مستحيل حد يزوره
     """
-    def __init__(self, owner_id: str):
+
+    def __init__(self, owner_id: str) -> None:
         self.owner_id = owner_id
         # توليد مفتاح خاص (زي كلمة سر مستحيل تتوقع)
         self.private_key = ed25519.Ed25519PrivateKey.generate()
@@ -24,10 +25,9 @@ class DigitalSigner:
             "evidence_hash": evidence_hash,
             "signature": signature.hex(),
             "public_key": self.public_key.public_bytes(
-                encoding=serialization.Encoding.Raw,
-                format=serialization.PublicFormat.Raw
+                encoding=serialization.Encoding.Raw, format=serialization.PublicFormat.Raw
             ).hex(),
-            "timestamp": time.time()
+            "timestamp": time.time(),
         }
 
     def verify_signature(self, evidence_hash: str, signature_hex: str, public_key_hex: str) -> bool:
@@ -37,6 +37,7 @@ class DigitalSigner:
             return True
         except:
             return False
+
 
 # مثال سريع
 if __name__ == "__main__":

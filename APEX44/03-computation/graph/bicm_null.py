@@ -4,7 +4,9 @@ BiCM: Bipartite Configuration Model
 - Projection-aware null = projection of BiCM-generated bipartite networks
 - Statistically-validated projection: link if shared neighbors significant
 """
-def bicm_projection_null(bipartite_graph, n_samples=10000):
+
+
+def bicm_projection_null(bipartite_graph, n_samples=10000) -> None:
     # 1. Preserve degrees L and Gamma as ensemble expectations
     # 2. Generate n_samples BiCM networks
     # 3. Project each
@@ -12,7 +14,10 @@ def bicm_projection_null(bipartite_graph, n_samples=10000):
     # 5. Return p-values for each edge in 80-node graph
     pass
 
-def specification_curve(normalizations=["RAW","NORM"], metrics=["cosine","jaccard"], taus=[0.5,0.6,0.7]):
+
+def specification_curve(
+    normalizations=None, metrics=None, taus=None
+) -> None:
     # هل البنية تبقى عبر كل المواصفات أم تنهار؟
     # الطفرة الحقيقية تبقى عبر المنحنى
     pass

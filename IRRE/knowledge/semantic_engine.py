@@ -5,7 +5,7 @@ from .ontology import ApexOntology
 
 
 class SemanticEngine:
-    def __init__(self):
+    def __init__(self) -> None:
         self.ontology = ApexOntology()
         self.kg = KnowledgeGraph(self.ontology)
         self.kg.infer_transitive()
@@ -21,7 +21,8 @@ class SemanticEngine:
         return u.get("explanation", "Not found")
 
     def infer_new_knowledge(self, term: str) -> list[str]:
-        return [f"{s} {r} {t} [INFERRED]" for s,r,t in self.kg.inferred_edges if s==term]
+        return [f"{s} {r} {t} [INFERRED]" for s, r, t in self.kg.inferred_edges if s == term]
+
 
 if __name__ == "__main__":
     eng = SemanticEngine()

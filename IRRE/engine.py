@@ -4,17 +4,17 @@ from IRRE.core.evidence import Claim, Evidence
 
 
 class IRREEngine:
-    def run(self, question):
+    def run(self, question) -> None:
         print(f"🔍 سؤال البحث: {question}")
         print("[Planner] قسمت السؤال لـ 3 مهام")
         print("[Scout] جبت أدلة")
 
         claims = []
-        for i in range(1,4):
+        for i in range(1, 4):
             ev = Evidence(
                 source_url=f"https://example.com/paper{i}",
                 quote=f"دليل علمي للجزء {i}",
-                confidence=0.9
+                confidence=0.9,
             )
             claim = Claim(f"جزء {i}: {question}", [ev])
             claims.append(claim)
@@ -26,6 +26,7 @@ class IRREEngine:
 
         verifier.final_gate(claims)
         print("✅ البحث خلص وكل النتائج بالدليل")
+
 
 if __name__ == "__main__":
     engine = IRREEngine()

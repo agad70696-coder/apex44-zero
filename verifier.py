@@ -2,9 +2,10 @@
 APEX-SHIELD AI Verifier
 يكشف تزوير الأدلة بالذكاء الاصطناعي
 """
+
 import hashlib
 from datetime import datetime
-from typing import List, Dict
+
 
 class AIVerifier:
     """
@@ -13,11 +14,11 @@ class AIVerifier:
     المرحلة 2: هنضيف Machine Learning
     """
 
-    def __init__(self):
+    def __init__(self) -> None:
         self.known_hashes = set()
         self.suspicious_patterns = []
 
-    def analyze_claim(self, claim_text: str, timestamp: str, hash_value: str) -> Dict:
+    def analyze_claim(self, claim_text: str, timestamp: str, hash_value: str) -> dict:
         """
         يحلل الدليل ويرجع تقرير ذكي
         """
@@ -47,24 +48,22 @@ class AIVerifier:
             issues.append("صيغة التاريخ غلط")
 
         # 4. حساب قوة التشفير
-        strength = len(hash_value) * 4 # بت
+        strength = len(hash_value) * 4  # بت
 
         return {
             "is_trusted": score >= 70,
             "trust_score": max(0, score),
             "strength_bits": strength,
             "issues": issues,
-            "ai_verdict": "موثوق ✅" if score >= 70 else "مشبوه ⚠️"
+            "ai_verdict": "موثوق ✅" if score >= 70 else "مشبوه ⚠️",
         }
 
-    def batch_analyze(self, evidences: List[Dict]) -> Dict:
+    def batch_analyze(self, evidences: list[dict]) -> dict:
         """يحلل مجموعة أدلة مرة واحدة"""
         results = []
         for ev in evidences:
             result = self.analyze_claim(
-                ev.get("claim", ""),
-                ev.get("timestamp", ""),
-                ev.get("hash", "")
+                ev.get("claim", ""), ev.get("timestamp", ""), ev.get("hash", "")
             )
             results.append(result)
 
@@ -74,9 +73,10 @@ class AIVerifier:
             "total": len(results),
             "trusted": trusted_count,
             "suspicious": len(results) - trusted_count,
-            "trust_rate": f"{trusted_count/len(results)*100:.1f}%" if results else "0%",
-            "details": results
+            "trust_rate": f"{trusted_count / len(results) * 100:.1f}%" if results else "0%",
+            "details": results,
         }
+
 
 # مثال للاستخدام
 if __name__ == "__main__":
@@ -86,11 +86,7 @@ if __name__ == "__main__":
     claim1 = "العلم نور"
     hash1 = hashlib.sha256(claim1.encode()).hexdigest()
 
-    result = verifier.analyze_claim(
-        claim1,
-        datetime.now().isoformat(),
-        hash1
-    )
+    result = verifier.analyze_claim(claim1, datetime.now().isoformat(), hash1)
 
     print("APEX-SHIELD AI Verifier 🛡️")
     print(f"النص: {claim1}")

@@ -1,9 +1,8 @@
-
 from .ontology import ApexOntology, Entity
 
 
 class KnowledgeGraph:
-    def __init__(self, ontology: ApexOntology = None):
+    def __init__(self, ontology: ApexOntology = None) -> None:
         self.ontology = ontology or ApexOntology()
         self.inferred_edges: list[tuple[str, str, str]] = []
 
@@ -19,13 +18,13 @@ class KnowledgeGraph:
             if cur in visited or d > depth:
                 continue
             visited.add(cur)
-            if cur!= start:
+            if cur != start:
                 result.append(cur)
             ent = self.query(cur)
             if ent and relation in ent.relations:
                 for tgt in ent.relations[relation]:
                     if tgt not in visited:
-                        stack.append((tgt, d+1))
+                        stack.append((tgt, d + 1))
         return result
 
     def infer_transitive(self):

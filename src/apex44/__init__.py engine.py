@@ -13,7 +13,7 @@ from apex44.ai.verifier import Verifier
 class ApexEngine:
     """المحرك الرئيسي."""
 
-    def __init__(self):
+    def __init__(self) -> None:
         self.reasoner = Reasoner()
         self.verifier = Verifier()
 

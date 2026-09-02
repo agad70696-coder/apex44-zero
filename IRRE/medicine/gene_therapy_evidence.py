@@ -5,14 +5,16 @@ import time
 def gene_hash(data: str) -> str:
     return hashlib.sha3_256(data.encode()).hexdigest()
 
+
 class GeneTherapyEvidence:
     """
     توثيق تعديل الجينات بـ CRISPR - يمنع التعديل الخاطئ اللي ممكن يقتل المريض
     """
+
     # جينات ممنوع لمسها - لو اتعدلت المريض هيموت
     FORBIDDEN_GENES = ["TP53", "BRCA1", "PTEN"]  # جينات حارسة من السرطان
 
-    def __init__(self, patient_id: str, disease: str, target_gene: str):
+    def __init__(self, patient_id: str, disease: str, target_gene: str) -> None:
         self.patient_id = patient_id
         self.disease = disease
         self.target_gene = target_gene
@@ -31,7 +33,7 @@ class GeneTherapyEvidence:
             "edit_type": edit_type,
             "chromosome": chromosome,
             "hash": gene_hash(f"{self.patient_id}{grna}{edit_type}{time.time()}"),
-            "is_dangerous": is_dangerous
+            "is_dangerous": is_dangerous,
         }
         self.edits.append(entry)
         return entry

@@ -1,5 +1,6 @@
 import hashlib
 
+
 def build_merkle_tree(self, hashes: list) -> str:
     """Builds Merkle Tree from 100 evidence hashes - FIXED with canonical ordering"""
     if not hashes:
@@ -10,7 +11,7 @@ def build_merkle_tree(self, hashes: list) -> str:
         next_level = []
         for i in range(0, len(current_level), 2):
             left = current_level[i]
-            right = current_level[i+1] if i+1 < len(current_level) else left
+            right = current_level[i + 1] if i + 1 < len(current_level) else left
             # FIX: canonical ordering to prevent reordering attack
             left_sorted, right_sorted = sorted([left, right])
             combined = hashlib.sha256(f"{left_sorted}{right_sorted}".encode()).hexdigest()

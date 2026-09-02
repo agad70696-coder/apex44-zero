@@ -3,8 +3,11 @@ APEX-44 v4.0 - Point 1: Formal Verification
 Science: Z3 Theorem Prover (Microsoft Research)
 Proves mathematically that forgery is impossible
 """
-from z3 import *
+
 import hashlib
+
+from z3 import *
+
 
 class FormalVerifier:
     """
@@ -17,17 +20,22 @@ class FormalVerifier:
         يعني H(a,b) == H(b,a) دائماً
         ده يمنع هجوم تبديل الأدلة
         """
-        a, b = Strings('a b')
+        a, b = Strings("a b")
+
         # تعريف الهاش المرتب
         def H_sorted(x, y):
             return If(x < y, x + y, y + x)
 
         s = Solver()
         # نحاول نلاقي حالة يفشل فيها
-        s.add(H_sorted(a, b)!= H_sorted(b, a))
+        s.add(H_sorted(a, b) != H_sorted(b, a))
 
         if s.check() == unsat:
-            return {"theorem": "Commutativity", "proven": True, "meaning": "Reordering attack mathematically impossible"}
+            return {
+                "theorem": "Commutativity",
+                "proven": True,
+                "meaning": "Reordering attack mathematically impossible",
+            }
         else:
             return {"theorem": "Commutativity", "proven": False}
 
@@ -36,6 +44,7 @@ class FormalVerifier:
         النظرية 2: نفس المدخلات = نفس الجذر دائماً
         """
         hashes = ["a1b2", "c3d4", "e5f6"]
+
         # نحسب مرتين
         def build_root(h_list):
             curr = h_list
@@ -43,7 +52,7 @@ class FormalVerifier:
                 nxt = []
                 for i in range(0, len(curr), 2):
                     l = curr[i]
-                    r = curr[i+1] if i+1 < len(curr) else l
+                    r = curr[i + 1] if i + 1 < len(curr) else l
                     ls, rs = sorted([l, r])
                     nxt.append(hashlib.sha256(f"{ls}{rs}".encode()).hexdigest())
                 curr = nxt
@@ -56,7 +65,7 @@ class FormalVerifier:
             "theorem": "Determinism",
             "proven": root1 == root2,
             "root": root1,
-            "meaning": "Same evidence always gives same Merkle Root - reproducible in court"
+            "meaning": "Same evidence always gives same Merkle Root - reproducible in court",
         }
 
     def prove_theorem_3_no_empty_forgery(self):
@@ -68,7 +77,7 @@ class FormalVerifier:
             "theorem": "No Empty Forgery",
             "proven": len(empty_hash) == 64,
             "hash": empty_hash,
-            "meaning": "Empty evidence has fixed hash, cannot be faked"
+            "meaning": "Empty evidence has fixed hash, cannot be faked",
         }
 
     def run_all_proofs(self):
@@ -82,6 +91,7 @@ class FormalVerifier:
         if all_proven:
             print("[FORMAL] ✅ ALL 3 THEOREMS PROVEN - Forgery is mathematically impossible")
         return {"all_proven": all_proven, "proofs": [t1, t2, t3]}
+
 
 # للاختبار المباشر
 if __name__ == "__main__":

@@ -7,11 +7,13 @@ def quantum_resistant_hash(data: str) -> str:
     # SHA3-256 مقاوم لهجمات شور وجروفر الكمية - معتمد من NIST كـ Post-Quantum
     return hashlib.sha3_256(data.encode()).hexdigest()
 
+
 class QuantumProof:
     """
     دليل مقاوم للحواسيب الكمية - حتى لو الكمبيوتر الكمي جه مش هيعرف يزوره
     """
-    def __init__(self, data: str):
+
+    def __init__(self, data: str) -> None:
         self.data = data
         self.salt = os.urandom(16).hex()
         self.timestamp = str(time.time())

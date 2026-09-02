@@ -6,12 +6,14 @@ import time
 def nano_hash(data: str) -> str:
     return hashlib.sha3_256(data.encode()).hexdigest()
 
+
 class NanobotEvidence:
     """
     توثيق سرب روبوتات نانوية بتوصّل دواء للسرطان
     بيمنع الروبوت يغلط ويهاجم خلية سليمة
     """
-    def __init__(self, swarm_id: str, target_tumor_id: str, drug: str):
+
+    def __init__(self, swarm_id: str, target_tumor_id: str, drug: str) -> None:
         self.swarm_id = swarm_id
         self.target_tumor_id = target_tumor_id
         self.drug = drug
@@ -27,10 +29,12 @@ class NanobotEvidence:
         is_leaking = distance > 5.0 and cell_type != "cancer"
 
         entry = {
-            "x": x, "y": y, "z": z,
+            "x": x,
+            "y": y,
+            "z": z,
             "cell_type": cell_type,
             "hash": nano_hash(f"{self.swarm_id}{x}{y}{z}{cell_type}{time.time()}"),
-            "is_dangerous": is_attacking_healthy or is_leaking
+            "is_dangerous": is_attacking_healthy or is_leaking,
         }
         self.movements.append(entry)
         return entry

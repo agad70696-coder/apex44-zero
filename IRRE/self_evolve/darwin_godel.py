@@ -1,4 +1,3 @@
-
 import datetime
 import json
 import os
@@ -15,12 +14,14 @@ ARCHIVE_DIR.mkdir(parents=True, exist_ok=True)
 LEDGER = pathlib.Path("IRRE/self_evolve/evolution_ledger.jsonl")
 LEDGER.parent.mkdir(parents=True, exist_ok=True)
 
+
 class DarwinGodelMachine:
     """
     DGM: iteratively modifies own code and validates each change using coding benchmarks
     Archive grows by sampling agent and creating new interesting version
     """
-    def __init__(self):
+
+    def __init__(self) -> None:
         self.benchmarks = ["rpc_healthy", "jcs_compliant", "tla_invariants", "nist_opportunity"]
 
     def sample_from_archive(self):
@@ -36,6 +37,7 @@ class DarwinGodelMachine:
             # Run opportunity scanner as benchmark
             sys.path.insert(0, ".")
             from IRRE.discovery.opportunity_scanner import OpportunityScanner
+
             scanner = OpportunityScanner()
             result = scanner.run()
             passes = sum(1 for v in result.values() if v["status"] == "PASS")
@@ -52,17 +54,17 @@ class DarwinGodelMachine:
 
         # Sample existing
         parent = self.sample_from_archive()
-        parent_content = parent.read_text() if parent else "# Genesis"
+        parent.read_text() if parent else "# Genesis"
 
         # Generate mutation: improve scanner with new check
-        new_check = '''
+        new_check = """
     def scan_pol_token(self):
         # Auto-discovered: Check POL token is used not MATIC (post 2024 upgrade)
         return {"status": "PASS", "opportunity": "POL token compliant (not MATIC)"}
-'''
+"""
         # Create new variant
         timestamp = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
-        variant_name = f"variant_{timestamp}_{random.randint(1000,9999)}.py"
+        variant_name = f"variant_{timestamp}_{random.randint(1000, 9999)}.py"
         variant_path = ARCHIVE_DIR / variant_name
 
         # Copy current scanner + mutation
@@ -85,7 +87,7 @@ class DarwinGodelMachine:
             "parent": str(parent) if parent else "genesis",
             "score": eval_result.get("score", 0),
             "evaluation": eval_result,
-            "mutation": "add POL token check"
+            "mutation": "add POL token check",
         }
 
         with open(LEDGER, "a") as f:
@@ -98,6 +100,7 @@ class DarwinGodelMachine:
         else:
             print(f"EVOLUTION FAILED: {variant_name} score {eval_result['score']}")
             return {"status": "REJECTED", "variant": variant_name, "score": eval_result["score"]}
+
 
 if __name__ == "__main__":
     dgm = DarwinGodelMachine()

@@ -1,10 +1,12 @@
 from IRRE.quantum.quantum_proof import QuantumProof
 
-def test_quantum_proof_creation():
-    proof = QuantumProof("secret data")
-    assert proof.verify("secret data") == True
-    assert proof.is_quantum_safe() == True
 
-def test_quantum_tamper():
+def test_quantum_proof_creation() -> None:
+    proof = QuantumProof("secret data")
+    assert proof.verify("secret data")
+    assert proof.is_quantum_safe()
+
+
+def test_quantum_tamper() -> None:
     proof = QuantumProof("secret")
-    assert proof.verify("hacked") == False
+    assert not proof.verify("hacked")

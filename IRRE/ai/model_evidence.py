@@ -5,11 +5,13 @@ import time
 def quantum_hash(data: str) -> str:
     return hashlib.shake_256(data.encode()).hexdigest(64)
 
+
 class AIModelEvidence:
     """
     دليل قرار ذكاء اصطناعي - بيوثق أن الـ AI قال ايه وامتى
     """
-    def __init__(self, model_id: str, prompt: str, output: str):
+
+    def __init__(self, model_id: str, prompt: str, output: str) -> None:
         self.model_id = model_id
         self.prompt = prompt
         self.output = output
@@ -24,7 +26,4 @@ class AIModelEvidence:
         # كشف لو حد حاول يلعب في البرومبت بحقن أوامر خبيثة
         suspicious = ["ignore previous", "system:", "DAN", "jailbreak"]
         prompt_lower = self.prompt.lower()
-        for word in suspicious:
-            if word.lower() in prompt_lower:
-                return True
-        return False
+        return any(word.lower() in prompt_lower for word in suspicious)

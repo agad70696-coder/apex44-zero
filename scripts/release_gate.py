@@ -1,6 +1,9 @@
-import os, sys, subprocess
+import os
+import subprocess
+import sys
 
-def check(cmd, name):
+
+def check(cmd, name) -> bool | None:
     print(f"🔍 {name}...")
     try:
         subprocess.run(cmd, shell=True, check=True)
@@ -9,6 +12,7 @@ def check(cmd, name):
     except:
         print(f"❌ {name} فشل - الإصدار ممنوع")
         return False
+
 
 checks = []
 checks.append(check("pytest tests/ -q", "جميع الاختبارات 100%"))

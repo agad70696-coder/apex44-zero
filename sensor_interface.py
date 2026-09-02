@@ -1,30 +1,31 @@
 import hashlib
 import json
-import time
 import re
-import os
 import threading
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 
 from main import ForensicSigner
-from anchor import BitcoinAnchor
 
 try:
     import can
+
     CAN_AVAILABLE = True
 except ImportError:
     CAN_AVAILABLE = False
 
 try:
     from rfc3161ng import RemoteTimestamper
+
     RFC3161_AVAILABLE = True
 except ImportError:
     RFC3161_AVAILABLE = False
 
 MAX_ENTRY_SIZE = 100 * 1024
 
+
 def _valid_hash(h: str) -> bool:
     return bool(re.fullmatch(r"[a-fA-F0-9]{64}", h))
+
 
 def _valid_gps(lat, lon) -> bool:
     try:
@@ -32,9 +33,11 @@ def _valid_gps(lat, lon) -> bool:
     except:
         return False
 
+
 class SecureElementSigner:
     """Private Key NEVER on SD Card - Uses ATECC608A in production"""
-    def __init__(self):
+
+    def __init__(self) -> None:
         self.secure_chip_present = False
         self._lock = threading.Lock()
         try:
@@ -56,14 +59,15 @@ class SecureElementSigner:
             return "PUBLIC_FROM_CHIP"
         return self.fallback_signer.get_public_pem()
 
+
 class VehicleSensorInterface:
-    def __init__(self, use_mock=True):
+    def __init__(self, use_mock=True) -> None:
         self.use_mock = use_mock or not CAN_AVAILABLE
         self.can_bus = None
         self._lock = threading.Lock()
         if not self.use_mock and CAN_AVAILABLE:
             try:
-                self.can_bus = can.interface.Bus(channel='can0', bustype='socketcan')
+                self.can_bus = can.interface.Bus(channel="can0", bustype="socketcan")
                 print("[CAN] Connected to can0")
             except Exception as e:
                 print(f"[CAN] Failed {e}, fallback to mock")
@@ -99,16 +103,20 @@ class VehicleSensorInterface:
             raise ValueError("Invalid hash format for timestamp")
 
         if not RFC3161_AVAILABLE:
-            return {"timestamp": datetime.now(timezone.utc).isoformat(), "source": "local"}
+            return {"timestamp": datetime.now(UTC).isoformat(), "source": "local"}
 
         try:
             # FIXED: https + timeout
-            rt = RemoteTimestamper('https://freetsa.org/tsr', timeout=5)
+            rt = RemoteTimestamper("https://freetsa.org/tsr", timeout=5)
             tst = rt.timestamp(data=bytes.fromhex(hash_hex))
-            return {"timestamp": datetime.now(timezone.utc).isoformat(), "token": tst, "source": "rfc3161"}
+            return {
+                "timestamp": datetime.now(UTC).isoformat(),
+                "token": tst,
+                "source": "rfc3161",
+            }
         except Exception as e:
             print(f"[TSA] Failed {e}, using local time")
-            return {"timestamp": datetime.now(timezone.utc).isoformat(), "source": "local_fallback"}
+            return {"timestamp": datetime.now(UTC).isoformat(), "source": "local_fallback"}
 
     def create_accident_package(self):
         """Main function - called when crash detected - Fully Locked"""
@@ -121,7 +129,7 @@ class VehicleSensorInterface:
                 "can": can_data,
                 "gps": gps_data,
                 "imu_g_force": 4.2 if self.use_mock else 0.0,
-                "timestamp_utc": datetime.now(timezone.utc).isoformat()
+                "timestamp_utc": datetime.now(UTC).isoformat(),
             }
             evidence_json = json.dumps(evidence, sort_keys=True)
             if len(evidence_json) > MAX_ENTRY_SIZE:

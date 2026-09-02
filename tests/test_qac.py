@@ -1,6 +1,7 @@
 """
 Unit Tests for QAC 44 - يرفع درجة الاختبارات من 0.0 لـ 8.0
 """
+
 import sys
 from pathlib import Path
 
@@ -9,11 +10,13 @@ sys.path.insert(0, str(Path(__file__).parent.parent))
 
 from apex.qac.checks_44 import QAC_44_CHECKS, run_qac_44
 
-def test_qac_has_44_checks():
+
+def test_qac_has_44_checks() -> None:
     """لازم يكونوا 44 فعلا مش 8"""
     assert len(QAC_44_CHECKS) == 44, f"Expected 44, got {len(QAC_44_CHECKS)}"
 
-def test_qac_result_structure():
+
+def test_qac_result_structure() -> None:
     """التقرير لازم يكون فيه كل البيانات"""
     result = run_qac_44()
     assert "total" in result
@@ -23,25 +26,29 @@ def test_qac_result_structure():
     assert "details" in result
     assert result["total"] == 44
 
-def test_score_range():
+
+def test_score_range() -> None:
     """السكور لازم يكون بين 0 و 10"""
     result = run_qac_44()
     assert 0 <= result["score_10"] <= 10
     assert 0 <= result["passed"] <= 44
 
-def test_no_fake_verification():
+
+def test_no_fake_verification() -> None:
     """ممنوع يقول 44/44 وهو مش 44 بجد"""
     result = run_qac_44()
     # لو قال انه verified يبقى فعلا 44
     if result["is_verified"]:
         assert result["passed"] == 44
 
-def test_checks_have_names():
+
+def test_checks_have_names() -> None:
     """كل فحص لازم يكون له اسم واضح"""
     for name, func in QAC_44_CHECKS:
         assert isinstance(name, str)
         assert len(name) > 5
         assert callable(func)
+
 
 # تشغيل مباشر بدون pytest
 if __name__ == "__main__":
