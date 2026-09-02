@@ -3,13 +3,13 @@ IRRE - Behavioral Agent
 يفهم ليه الإنسان قال الادعاء، مش بس هل هو صح
 """
 
-from typing import Dict
+
 try:
     from IRRE.agents.verifier import VerifierAgent
     from IRRE.core.evidence import Claim
-    from IRRE.psychology.behavioral_logic import BehavioralLaw, BehavioralAnalyzer
+    from IRRE.psychology.behavioral_logic import BehavioralAnalyzer, BehavioralLaw
 except ImportError:
-    from behavioral_logic import BehavioralLaw, BehavioralAnalyzer
+    from behavioral_logic import BehavioralAnalyzer, BehavioralLaw
     class VerifierAgent:
         def final_gate(self, claim):
             return {"pass": len(claim.evidences) > 0}
@@ -23,13 +23,13 @@ class BehavioralAgent:
         self.verifier = VerifierAgent()
         self.behavioral_law = BehavioralLaw()
         self.analyzer = BehavioralAnalyzer()
-    
-    def audit_claim(self, claim) -> Dict:
+
+    def audit_claim(self, claim) -> dict:
         behavioral_result = self.behavioral_law.final_behavioral_gate(claim)
         factual_pass = behavioral_result["factual_pass"]
         bias = behavioral_result["behavioral_analysis"]["bias"].value
         motive = behavioral_result["behavioral_analysis"]["motive"].value
-        
+
         if not factual_pass and bias == "overconfidence_bias":
             verdict = "REJECTED - Overconfidence without evidence"
             human_explanation = "الإنسان يدعي 6.0 ليثبت ذاته، لكن لا يوجد دليل."
@@ -42,7 +42,7 @@ class BehavioralAgent:
         else:
             verdict = "VERIFIED"
             human_explanation = "تم التحقق."
-        
+
         return {
             "claim_text": claim.text,
             "factual_pass": factual_pass,
@@ -56,12 +56,11 @@ class BehavioralAgent:
 
 if __name__ == "__main__":
     print("🧠 BehavioralAgent - Self Test")
-    from IRRE.core.evidence import Evidence
     class FakeClaim:
         def __init__(self, text, evidences):
             self.text = text
             self.evidences = evidences
-    
+
     agent = BehavioralAgent()
     claim1 = FakeClaim("مشروعي 6.0 ثوري عالمي فريد", [])
     result1 = agent.audit_claim(claim1)

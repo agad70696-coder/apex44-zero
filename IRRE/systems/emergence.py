@@ -1,11 +1,13 @@
-from typing import Dict, Any, List
-from.complex_system import ComplexSystem
+from typing import Any
+
+from .complex_system import ComplexSystem
+
 
 class EmergenceDetector:
     def __init__(self, system: ComplexSystem):
         self.system = system
 
-    def detect_trustworthiness(self) -> Dict[str, Any]:
+    def detect_trustworthiness(self) -> dict[str, Any]:
         h = self.system.system_health()
         if h > 0.9:
             level = "HIGHLY_TRUSTWORTHY"
@@ -15,7 +17,7 @@ class EmergenceDetector:
             level = "UNTRUSTWORTHY"
         return {"emergent_property": "Trustworthiness", "level": level, "system_health": h, "formula": "Trust = Emergence(5 Layers)"}
 
-    def detect_cascade_risk(self) -> Dict[str, Any]:
+    def detect_cascade_risk(self) -> dict[str, Any]:
         min_h = min(c.health for c in self.system.components.values())
         avg_str = sum(i.strength for i in self.system.interactions) / len(self.system.interactions) if self.system.interactions else 0
         risk = (1 - min_h) * avg_str

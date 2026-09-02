@@ -2,6 +2,7 @@
 # وظيفته: يرفض أي ادعاء بدون دليل
 from IRRE.core.evidence import Claim
 
+
 class VerifierAgent:
     def verify(self, claim: Claim):
         ok = claim.verify()

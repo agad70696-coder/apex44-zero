@@ -1,5 +1,6 @@
 import os
 
+
 class SecureElementV8:
     """V8 Hardware Root of Trust: ATECC608A > TPM2.0 > Software"""
     def __init__(self):
@@ -7,7 +8,8 @@ class SecureElementV8:
         self.chip = None
         if os.getenv("IRRE_PRODUCTION") == "1":
             try:
-                import board, busio
+                import board
+                import busio
                 from adafruit_atecc.adafruit_atecc import ATECC608A
                 i2c = busio.I2C(board.SCL, board.SDA)
                 self.chip = ATECC608A(i2c)
@@ -18,7 +20,6 @@ class SecureElementV8:
             except Exception as e:
                 print(f"[V8-HW] ATECC not found: {e}")
         try:
-            from tpm2_pytss import ESAPI
             self.backend = "TPM2.0"
             print("[V8-SECURE] TPM 2.0 detected")
             return

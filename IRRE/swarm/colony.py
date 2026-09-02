@@ -1,5 +1,7 @@
-from .agent import BaseAnt, Pheromone
 import random
+
+from .agent import BaseAnt
+
 
 class AntColony:
     def __init__(self, n=25):

@@ -2,13 +2,12 @@
 IRRE - Applied Psychology & Behavioral Logic
 No Evidence + No Motive = No Understanding
 """
-from dataclasses import dataclass
-from typing import List, Dict
-from enum import Enum
 import re
+from dataclasses import dataclass
+from enum import Enum
 
 try:
-    from IRRE.core.evidence import Evidence, Claim
+    from IRRE.core.evidence import Claim, Evidence
 except ImportError:
     class Evidence:
         def __init__(self, source_url: str, quote: str, confidence: float):
@@ -18,7 +17,7 @@ except ImportError:
         def is_valid(self):
             return self.source_url.startswith("http") and len(self.quote) > 10
     class Claim:
-        def __init__(self, text: str, evidences: List):
+        def __init__(self, text: str, evidences: list):
             self.text = text
             self.evidences = evidences
 
@@ -40,7 +39,7 @@ class BehavioralEvidence(Evidence):
     motive: MotiveType = MotiveType.UNKNOWN
     bias_type: BiasType = BiasType.NONE
     social_context: str = ""
-    
+
     def is_psychologically_valid(self) -> bool:
         return self.is_valid() and self.motive != MotiveType.UNKNOWN and len(self.social_context) > 5
 
@@ -68,7 +67,7 @@ class BehavioralAnalyzer:
                 return motive
         return MotiveType.UNKNOWN
 
-    def analyze(self, claim_text: str) -> Dict:
+    def analyze(self, claim_text: str) -> dict:
         bias = self.detect_bias(claim_text)
         motive = self.infer_motive(claim_text)
         explanation = f"Bias={bias.value}, Motive={motive.value}. "
@@ -80,7 +79,7 @@ class BehavioralLaw:
     def __init__(self):
         self.analyzer = BehavioralAnalyzer()
 
-    def final_behavioral_gate(self, claim: Claim) -> Dict:
+    def final_behavioral_gate(self, claim: Claim) -> dict:
         has_evidence = len(claim.evidences) > 0
         factual_pass = all(e.is_valid() for e in claim.evidences) if has_evidence else False
         analysis = self.analyzer.analyze(claim.text)

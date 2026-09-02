@@ -1,6 +1,7 @@
 # IRRE Engine - المحرك الرئيسي
-from IRRE.core.evidence import Evidence, Claim
 from IRRE.agents.verifier import VerifierAgent
+from IRRE.core.evidence import Claim, Evidence
+
 
 class IRREEngine:
     def run(self, question):

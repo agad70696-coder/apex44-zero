@@ -1,4 +1,5 @@
-from.quantum_logic import Qubit, QuantumState, Hadamard, CNOT
-from.quantum_reasoner import QuantumReasoner
-from.quantum_ai import QuantumAI
-__all__ = ["Qubit", "QuantumState", "Hadamard", "CNOT", "QuantumReasoner", "QuantumAI"]
+from .quantum_ai import QuantumAI
+from .quantum_logic import CNOT, Hadamard, QuantumState, Qubit
+from .quantum_reasoner import QuantumReasoner
+
+__all__ = ["CNOT", "Hadamard", "QuantumAI", "QuantumReasoner", "QuantumState", "Qubit"]

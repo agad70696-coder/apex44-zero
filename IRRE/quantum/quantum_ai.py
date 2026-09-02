@@ -1,13 +1,14 @@
-from typing import Dict, List, Any
-from.quantum_logic import Qubit, QuantumState
-from.quantum_reasoner import QuantumReasoner
-import math, random
+from typing import Any
+
+from .quantum_logic import QuantumState, Qubit
+from .quantum_reasoner import QuantumReasoner
+
 
 class QuantumAI:
     def __init__(self):
         self.reasoner=QuantumReasoner()
 
-    def quantum_evidence_search(self, claims: List[str]) -> Dict[str, Any]:
+    def quantum_evidence_search(self, claims: list[str]) -> dict[str, Any]:
         n=len(claims); qstate=QuantumState(n); qstate.put_superposition()
         results=[]
         for claim in claims:

@@ -1,6 +1,6 @@
 import hashlib
 import time
-import json
+
 
 class EvidenceBlock:
     def __init__(self, index, evidence_hash, signature, owner, prev_hash):

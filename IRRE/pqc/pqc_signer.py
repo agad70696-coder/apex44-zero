@@ -1,4 +1,7 @@
-import hashlib,hmac,re
+import hashlib
+import hmac
+import re
+
 _R=re.compile(r"^[a-fA-F0-9]{64}$|^[a-fA-F0-9]{128}$")
 def _valid_hash(h): return bool(_R.fullmatch(h))
 class PQCSignerV8:

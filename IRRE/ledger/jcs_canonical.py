@@ -1,4 +1,5 @@
 import json
+
 try:
     import rfc8785
     HAS_JCS=True

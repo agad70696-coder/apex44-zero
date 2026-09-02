@@ -1,13 +1,15 @@
-from typing import Dict, Any
-from.complex_system import ComplexSystem
-from.emergence import EmergenceDetector
+from typing import Any
+
+from .complex_system import ComplexSystem
+from .emergence import EmergenceDetector
+
 
 class SystemPredictor:
     def __init__(self, system: ComplexSystem = None):
         self.system = system or ComplexSystem()
         self.detector = EmergenceDetector(self.system)
 
-    def what_if_remove_component(self, cid: str) -> Dict[str, Any]:
+    def what_if_remove_component(self, cid: str) -> dict[str, Any]:
         if cid not in self.system.components:
             return {"error": "not found"}
         orig_h = self.system.system_health()

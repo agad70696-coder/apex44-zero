@@ -1,6 +1,7 @@
 import hashlib
 import time
 
+
 def material_hash(data: str) -> str:
     return hashlib.sha3_256(data.encode()).hexdigest()
 

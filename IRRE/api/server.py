@@ -1,12 +1,17 @@
-import os, time, threading, re, sqlite3
+import os
+import sqlite3
+import threading
+import time
 from pathlib import Path
-from fastapi import FastAPI, Depends, HTTPException, Request, BackgroundTasks
+
+from fastapi import BackgroundTasks, Depends, FastAPI, HTTPException, Request
 from fastapi.security import APIKeyHeader
 from pydantic import BaseModel, Field, validator
+
 from IRRE.ai.ai_evidence import AIModelEvidence
 from IRRE.crypto.post_quantum import QuantumSafeEvidence
-from IRRE.ledger.evidence_chain import EvidenceChain
 from IRRE.ledger.blockchain_anchor import BlockchainAnchor
+from IRRE.ledger.evidence_chain import EvidenceChain
 
 API_KEY = os.getenv("IRRE_API_KEY")
 if not API_KEY:

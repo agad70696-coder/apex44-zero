@@ -1,6 +1,6 @@
 import hashlib
 import time
-import json
+
 
 def quantum_hash(data: str) -> str:
     return hashlib.shake_256(data.encode()).hexdigest(64)

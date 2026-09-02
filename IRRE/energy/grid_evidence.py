@@ -1,6 +1,7 @@
 import hashlib
 import time
 
+
 def energy_hash(data: str) -> str:
     return hashlib.sha3_256(data.encode()).hexdigest()
 
@@ -18,7 +19,7 @@ class EnergyGridEvidence:
     def add_reading(self, kwh: float, co2_saved: float = 0.0):
         # فيزياء: مستحيل تستهلك -50 كيلو أو توفر كربون أكتر من استهلاكك
         is_fraud = kwh < 0 or co2_saved > kwh * 0.7
-        
+
         entry = {
             "kwh": kwh,
             "co2_saved": co2_saved,

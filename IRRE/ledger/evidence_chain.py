@@ -1,5 +1,8 @@
-import hashlib,json,re,sqlite3
-from datetime import datetime,timezone
+import hashlib
+import re
+import sqlite3
+
+
 def quantum_hash(d): return hashlib.shake_256(d.encode() if isinstance(d,str) else d).hexdigest(64)
 _64=re.compile(r"^[a-fA-F0-9]{64}$");_128=re.compile(r"^[a-fA-F0-9]{128}$")
 def _valid_hash(h): return bool(_64.fullmatch(h) or _128.fullmatch(h))

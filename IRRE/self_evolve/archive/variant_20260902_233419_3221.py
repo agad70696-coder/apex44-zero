@@ -1,5 +1,9 @@
 
-import pathlib, json, socket, datetime
+import datetime
+import pathlib
+import socket
+
+
 class OpportunityScanner:
  def scan_rpc(self):
   try:

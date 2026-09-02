@@ -1,7 +1,8 @@
-import os
 import hashlib
+import os
 import re
 from pathlib import Path
+
 from cryptography.hazmat.primitives.ciphers.aead import AESGCM
 
 BASE_DIR = Path("data").resolve()

@@ -1,4 +1,7 @@
-import hashlib, time
+import hashlib
+import time
+
+
 def quantum_hash(d):
     return hashlib.sha256(d.encode()).hexdigest()
 

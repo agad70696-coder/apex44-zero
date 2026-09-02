@@ -1,6 +1,6 @@
-from dataclasses import dataclass, field
-from typing import Dict, Optional
+from dataclasses import dataclass
 from enum import Enum
+
 
 class SocialIntent(Enum):
     BUILD_REQUEST = "build_request"
@@ -19,7 +19,7 @@ class CulturalExpression:
 
 class EgyptianCulturalContext:
     def __init__(self):
-        self.expressions: Dict[str, CulturalExpression] = {}
+        self.expressions: dict[str, CulturalExpression] = {}
         self._build()
 
     def _build(self):
@@ -29,7 +29,7 @@ class EgyptianCulturalContext:
         self.expressions["مشروعي 6.0 ثوري"] = CulturalExpression("مشروعي 6.0 ثوري", "my project 6.0", "ادعاء مكانة بدون دليل - ثقة مفرطة", SocialIntent.STATUS_CLAIM, "Claim(6.0, ev=0, bias=overconfidence)")
         self.expressions["فين الدليل"] = CulturalExpression("فين الدليل", "where evidence", "طلب تحقق - دافع حقيقة", SocialIntent.TRUTH_SEEKING, "Request(Evidence, motive=truth)")
 
-    def interpret(self, phrase: str) -> Optional[CulturalExpression]:
+    def interpret(self, phrase: str) -> CulturalExpression | None:
         phrase=phrase.strip()
         if phrase in self.expressions:
             return self.expressions[phrase]

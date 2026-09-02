@@ -1,6 +1,8 @@
-from typing import Dict, List, Any
-from.ontology import ApexOntology
-from.knowledge_graph import KnowledgeGraph
+from typing import Any
+
+from .knowledge_graph import KnowledgeGraph
+from .ontology import ApexOntology
+
 
 class SemanticEngine:
     def __init__(self):
@@ -8,7 +10,7 @@ class SemanticEngine:
         self.kg = KnowledgeGraph(self.ontology)
         self.kg.infer_transitive()
 
-    def understand(self, term: str) -> Dict[str, Any]:
+    def understand(self, term: str) -> dict[str, Any]:
         ent = self.kg.query(term)
         if not ent:
             return {"found": False, "explanation": f"'{term}' is just a word"}
@@ -18,7 +20,7 @@ class SemanticEngine:
         u = self.understand(term)
         return u.get("explanation", "Not found")
 
-    def infer_new_knowledge(self, term: str) -> List[str]:
+    def infer_new_knowledge(self, term: str) -> list[str]:
         return [f"{s} {r} {t} [INFERRED]" for s,r,t in self.kg.inferred_edges if s==term]
 
 if __name__ == "__main__":

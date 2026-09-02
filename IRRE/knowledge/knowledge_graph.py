@@ -1,15 +1,16 @@
-from typing import List, Tuple, Optional
-from.ontology import ApexOntology, Entity
+
+from .ontology import ApexOntology, Entity
+
 
 class KnowledgeGraph:
     def __init__(self, ontology: ApexOntology = None):
         self.ontology = ontology or ApexOntology()
-        self.inferred_edges: List[Tuple[str, str, str]] = []
+        self.inferred_edges: list[tuple[str, str, str]] = []
 
-    def query(self, name: str) -> Optional[Entity]:
+    def query(self, name: str) -> Entity | None:
         return self.ontology.get_entity(name)
 
-    def traverse(self, start: str, relation: str, depth: int = 3) -> List[str]:
+    def traverse(self, start: str, relation: str, depth: int = 3) -> list[str]:
         visited = set()
         result = []
         stack = [(start, 0)]

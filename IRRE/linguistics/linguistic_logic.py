@@ -1,23 +1,25 @@
-from typing import Dict, Any
-from.cultural_context import EgyptianCulturalContext
-from.semantic_nlp import DeepSemanticAnalyzer
+from typing import Any
+
+from .cultural_context import EgyptianCulturalContext
+from .semantic_nlp import DeepSemanticAnalyzer
+
 
 class LinguisticLogic:
     def __init__(self):
         self.cultural = EgyptianCulturalContext()
         self.semantic = DeepSemanticAnalyzer()
 
-    def to_formal_logic(self, text: str) -> Dict[str, Any]:
+    def to_formal_logic(self, text: str) -> dict[str, Any]:
         analysis = self.semantic.analyze(text)
         intent = analysis["intent"]
         if intent=="build_request":
             formal = f"∃x: BuildRequest(x) ∧ Urgency(HIGH) ∧ Lang(EG) ∧ Term('{text}')"
         elif intent=="location_query":
-            formal = f"∃f: File(f) ∧ Index(3) ∧ Query(Location(f))"
+            formal = "∃f: File(f) ∧ Index(3) ∧ Query(Location(f))"
         elif intent=="philosophical_example":
-            formal = f"Entity(Cairo,City) ∧ located_in(Cairo,Egypt) ∧ ¬Equal(Cairo,String)"
+            formal = "Entity(Cairo,City) ∧ located_in(Cairo,Egypt) ∧ ¬Equal(Cairo,String)"
         elif intent=="status_claim":
-            formal = f"Claim(c) ∧ Cap(6.0) ∧ Ev(0) → Bias(overconfidence)"
+            formal = "Claim(c) ∧ Cap(6.0) ∧ Ev(0) → Bias(overconfidence)"
         else:
             formal = analysis["formal_logic"]
         return {"original": text, "formal_logic": formal, "preserved_intent": analysis["social_meaning"], "translation": self.translate_preserving_intent(text)}

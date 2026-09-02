@@ -1,14 +1,14 @@
 from dataclasses import dataclass, field
-from typing import Dict, List, Any
-from enum import Enum
+from typing import Any
+
 
 @dataclass
 class SystemComponent:
     id: str
     type: str
     health: float = 1.0
-    dependencies: List[str] = field(default_factory=list)
-    properties: Dict[str, Any] = field(default_factory=dict)
+    dependencies: list[str] = field(default_factory=list)
+    properties: dict[str, Any] = field(default_factory=dict)
 
 @dataclass
 class Interaction:
@@ -21,8 +21,8 @@ class Interaction:
 class ComplexSystem:
     def __init__(self, name: str = "apex44-zero"):
         self.name = name
-        self.components: Dict[str, SystemComponent] = {}
-        self.interactions: List[Interaction] = []
+        self.components: dict[str, SystemComponent] = {}
+        self.interactions: list[Interaction] = []
         self._build_apex_system()
 
     def _build_apex_system(self):
