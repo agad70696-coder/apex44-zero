@@ -1,21 +1,23 @@
 [project]
 name = "apex44_zero"
-version = "4.6.0"
-description = "Quantum-resistant AI evidence ledger - SCITT + TRACE + DGM"
+version = "4.7.1"
+description = "Quantum-resistant AI evidence ledger - SCITT + TRACE + DGM + EU AI Act Art12/19"
 requires-python = ">=3.11"
 dependencies = ["rfc8785>=0.1.2"]
 
 [tool.ruff]
 line-length = 100
 target-version = "py311"
+
 [tool.ruff.lint]
 select = ["E","F","W","I","N","UP","B","C4","SIM","RUF","ANN","PTH","PL","TRY"]
 fixable = ["ALL"]
 
+[tool.ruff.lint.per-file-ignores]
+"__init__.py" = ["N999"]
+
+[tool.ruff.lint.pep8-naming]
+classmethod-decorators = ["classmethod"]
+
 [tool.ruff.format]
 quote-style = "double"
-
-[tool.ruff.lint.per-file-ignores]
-"__init__.py" = ["N999"]
-[tool.ruff.lint.per-file-ignores]
-"__init__.py" = ["N999"]
