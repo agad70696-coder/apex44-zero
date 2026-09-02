@@ -11,7 +11,9 @@ class SatelliteEvidence:
     توثيق بيانات الأقمار الصناعية - يكشف الـ GPS Spoofing والتلاعب المداري
     """
 
-    def __init__(self, satellite_id: str, altitude: float, latitude: float, longitude: float) -> None:
+    def __init__(
+        self, satellite_id: str, altitude: float, latitude: float, longitude: float
+    ) -> None:
         self.satellite_id = satellite_id
         self.altitude = altitude
         self.latitude = latitude

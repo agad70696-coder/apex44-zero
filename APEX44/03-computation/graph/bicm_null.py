@@ -15,9 +15,7 @@ def bicm_projection_null(bipartite_graph, n_samples=10000) -> None:
     pass
 
 
-def specification_curve(
-    normalizations=None, metrics=None, taus=None
-) -> None:
+def specification_curve(normalizations=None, metrics=None, taus=None) -> None:
     # هل البنية تبقى عبر كل المواصفات أم تنهار؟
     # الطفرة الحقيقية تبقى عبر المنحنى
     pass

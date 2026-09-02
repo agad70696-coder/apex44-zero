@@ -53,7 +53,7 @@ for root, _dirs, files in os.walk("."):
                 with open(path, errors="ignore") as file:
                     if "rfc3161ng" in file.read():
                         checks["3. rfc3161ng موجود؟"] = True
-            except:
+            except Exception:
                 pass
 
 print("\n=== النتيجة ===")

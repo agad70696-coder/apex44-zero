@@ -1,5 +1,3 @@
-
-
 class ConscienceGate:
     def judge(self, ctx):
         ok_law, _rule = self.legal.check(ctx)
