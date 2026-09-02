@@ -4,17 +4,21 @@ v4.9 Creative - Most Advanced Science: ML-DSA-65 (FIPS 204) + Hybrid Ed25519+SLH
 Flight recorder pattern: signed, hash-chained, offline-verifiable
 Reference: AgentLedger vendor-neutral flight recorder, OPAQUE 3.0 TII quantum-safe
 """
-import hashlib, json, pathlib, datetime
+import datetime
+import hashlib
+import json
+import pathlib
+
 
 class QuantumSafeFlightRecorder:
     """Vendor-neutral flight recorder for AI agents: signed, hash-chained, offline-verifiable"""
-    def __init__(self):
+    def __init__(self) -> None:
         self.chain = []
         self.backend = "ML-DSA-65 (FIPS 204) hybrid"
-    
+
     def hash_shake256(self, data: bytes) -> str:
         return hashlib.shake_256(data).hexdigest(32)
-    
+
     def sign_ml_dsa_65(self, payload: dict) -> dict:
         """ML-DSA-65 backend - NIST FIPS 204 - quantum-resistant"""
         jcs = json.dumps(payload, sort_keys=True, separators=(',', ':')).encode()
@@ -29,7 +33,7 @@ class QuantumSafeFlightRecorder:
             "offline_verifiable": True,
             "harvest_now_verify_later_resistant": True
         }
-    
+
     def record(self, event: str, data: dict):
         prev_hash = self.chain[-1]["hash"] if self.chain else "0"*64
         payload = {"event": event, "data": data, "prev": prev_hash, "height": len(self.chain)}
@@ -38,7 +42,7 @@ class QuantumSafeFlightRecorder:
         entry = {**payload, "signature": sig, "hash": entry_hash}
         self.chain.append(entry)
         return entry
-    
+
     def verify_chain(self) -> bool:
         for i in range(1, len(self.chain)):
             if self.chain[i]["prev"] != self.chain[i-1]["hash"]:
