@@ -1,0 +1,82 @@
+name: Maintenance Gate
+
+on:
+  push:
+    branches:
+      - main
+      - 'research/**'
+  pull_request:
+  schedule:
+    - cron: '17 3 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pull-requests: read
+
+jobs:
+  maintenance:
+    name: maintenance-integrity
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install test dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install pytest numpy scipy ruff
+
+      - name: Health
+        run: |
+          python scripts/maintenance/health.py
+
+      - name: Drift
+        run: |
+          python scripts/maintenance/drift.py
+
+      - name: Scientific source audit
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+
+          root = Path("APEX44/03-computation/graph")
+
+          forbidden = {
+              "demo",
+              "toy",
+              "example.com",
+              "READY FOR COURT",
+              "1000",
+          }
+
+          failures = []
+
+          for p in root.rglob("*.py"):
+              text = p.read_text(errors="ignore")
+              for token in forbidden:
+                  if token in text:
+                      failures.append(f"{p}: {token}")
+
+          for item in failures:
+              print("FORBIDDEN:", item)
+
+          if failures:
+              raise SystemExit(
+                  "Scientific maintenance gate failed."
+              )
+          PY
+
+      - name: Tests
+        run: |
+          python -m pytest -q
+
+      - name: Static analysis
+        run: |
+          python -m ruff check scripts/maintenance/
