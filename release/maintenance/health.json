@@ -1,0 +1,33 @@
+{
+  "timestamp": "2026-09-04T21:22:22.703923+00:00",
+  "commit": "3ed111c7ef189f6134061b47a02ceb33a424837b",
+  "branch": "research/self-maintenance-control-plane",
+  "working_tree_clean": false,
+  "git_status": [
+    "D apex.py",
+    " D official_quranqa",
+    " M release/pre-g0-g10-snapshot/git_commit.txt",
+    " M release/pre-g0-g10-snapshot/git_status.txt",
+    " M release/pre-g0-g10-snapshot/tracked_files.txt",
+    " D verify_fixes.py",
+    " D verify_for_court.py",
+    "?? .github/dependabot.yml",
+    "?? .github/workflows/maintenance-gate.yml",
+    "?? .github/workflows/self-evolve.yml.bak",
+    "?? README_FIX_TODO.md",
+    "?? [True,True,False,False]",
+    "?? apex/__init__.py",
+    "?? apex_core.py",
+    "?? artifacts/",
+    "?? config/",
+    "?? evidence_chain.json.bak.invalid",
+    "?? forensic_report.txt",
+    "?? release/maintenance/",
+    "?? release/reports/",
+    "?? scripts/maintenance/",
+    "?? \"tatus --short --branch\"",
+    "?? tools/",
+    "?? \"witch -c evidence-hardening-2026-09\""
+  ],
+  "python": "3.13.13 (main, Apr 10 2026, 13:09:22) [Clang 21.0.0 (https://android.googlesource.com/toolchain/llvm-project 5e96669f0"
+}

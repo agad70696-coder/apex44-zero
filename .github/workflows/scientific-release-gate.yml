@@ -1,0 +1,48 @@
+name: Scientific Release Gate
+
+on:
+  push:
+    branches:
+      - main
+      - 'research/**'
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  scientific-gate:
+    name: scientific-release-gate
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+
+      - name: Setup Python
+        uses: actions/setup-python@a309ff8b426b58ec0e2a45f0f869d46889d02405
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install numpy scipy pytest
+
+      - name: Run scientific tests
+        run: |
+          python -m pytest -q tests/scientific
+
+      - name: Run G0-G10 gate
+        env:
+          GITHUB_ACTIONS: "true"
+        run: |
+          python scripts/scientific_gate.py
+
+      - name: Upload gate report
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: scientific-gate-report
+          path: release/reports/scientific_gate_report.json
