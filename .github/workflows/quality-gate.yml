@@ -4,7 +4,7 @@ jobs:
   gate:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@11bd71901bbe5b130ceea73d27597364c9af683
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
       - uses: astral-sh/setup-uv@b75a995a1692ed0f5aad53d471096a80d31d7ddc
       - run: uv sync --frozen
       - run: uv run ruff check APEX44/ src/ tests/
