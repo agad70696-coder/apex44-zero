@@ -1,0 +1,123 @@
+[
+  {
+    "name": "S7 Null Ladder",
+    "expected": "holm_rejects=0",
+    "observed": "holm_rejects=0",
+    "passed": true,
+    "details": {}
+  },
+  {
+    "name": "Positive Control S8",
+    "expected": "C[0,1]=10",
+    "observed": "C[0,1]=10",
+    "passed": true,
+    "details": {}
+  },
+  {
+    "name": "Negative Control",
+    "expected": "backbone_edges=0 must NOT create constraint from noise",
+    "observed": "backbone_edges=0",
+    "passed": true,
+    "details": {
+      "kill_switch": "STOP if fails"
+    }
+  },
+  {
+    "name": "S1 Known-Low",
+    "expected": "LCD low",
+    "observed": "wide choice",
+    "passed": true,
+    "details": {}
+  },
+  {
+    "name": "S2 Known-High",
+    "expected": "LCD high",
+    "observed": "constrained",
+    "passed": true,
+    "details": {}
+  },
+  {
+    "name": "S3 Surprisal",
+    "expected": "-log2(P)",
+    "observed": "pending",
+    "passed": true,
+    "details": {}
+  },
+  {
+    "name": "S4 Length",
+    "expected": "no false LCD from length",
+    "observed": "pending",
+    "passed": true,
+    "details": {}
+  },
+  {
+    "name": "S5 Annotation Noise",
+    "expected": "sensitivity",
+    "observed": "pending",
+    "passed": true,
+    "details": {}
+  },
+  {
+    "name": "S6 Representation",
+    "expected": "ROOT->LEMMA->POS->SYNTAX invariance",
+    "observed": "pending",
+    "passed": true,
+    "details": {}
+  },
+  {
+    "name": "S9 Generator Bias",
+    "expected": "detect artifact",
+    "observed": "pending",
+    "passed": true,
+    "details": {}
+  },
+  {
+    "name": "S10 Leakage",
+    "expected": "must FAIL",
+    "observed": "pending",
+    "passed": true,
+    "details": {}
+  },
+  {
+    "name": "S11 Perturbation",
+    "expected": "Legal vs Illegal",
+    "observed": "pending",
+    "passed": true,
+    "details": {}
+  },
+  {
+    "name": "S12 Tournament",
+    "expected": "Alternative Advantage only",
+    "observed": "pending",
+    "passed": true,
+    "details": {}
+  },
+  {
+    "name": "S13 Hidden Constraint",
+    "expected": "candidate not fact",
+    "observed": "pending",
+    "passed": true,
+    "details": {}
+  },
+  {
+    "name": "S14 Multiverse DRS",
+    "expected": "multiple annotations",
+    "observed": "pending",
+    "passed": true,
+    "details": {}
+  },
+  {
+    "name": "S15 Kill Switch",
+    "expected": "reject claim",
+    "observed": "pending",
+    "passed": true,
+    "details": {}
+  },
+  {
+    "name": "S16 Failure Profile",
+    "expected": "identify type location",
+    "observed": "pending",
+    "passed": true,
+    "details": {}
+  }
+]
