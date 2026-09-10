@@ -1,0 +1,118 @@
+{
+  "date": "2026-09-10T05:41:15.256837",
+  "source": {
+    "file": "quranic-corpus-morphology-0.4.txt",
+    "sha256": "a1d12923815341face765083805d2148ed2d9f5cc3f7d6665219d8d887675d8c46",
+    "lines": 128276,
+    "size": "6309503"
+  },
+  "B_real": {
+    "shape": [
+      6236,
+      1642
+    ],
+    "nnz": 102210,
+    "density": 0.009981921013423297,
+    "file": "APEX44/03-computation/output/B_real_6236x1642.npz",
+    "sha16": "94b4247ae0dd42e8"
+  },
+  "W_morph": {
+    "shape": [
+      1642,
+      1642
+    ],
+    "nnz": 318274,
+    "sha16": "b273d989453e6b5d"
+  },
+  "W_sig_Holm": {
+    "undirected": 616,
+    "directed": 1232,
+    "method": "BiCM Chung-Lu Poisson sf + Holm alpha=0.05",
+    "file": "APEX44/03-computation/output/W_sig_1642x1642.npz"
+  },
+  "W_fdr_BH": {
+    "undirected": 3729,
+    "directed": 7458,
+    "method": "BiCM + Benjamini-Hochberg FDR alpha=0.05",
+    "file": "APEX44/03-computation/output/W_fdr_1642x1642.npz"
+  },
+  "historical_comparison": {
+    "historical_claim": 1816,
+    "real_Holm": 616,
+    "real_FDR": 3729,
+    "verdict": "HISTORICAL_UNDERCOUNT: Real FDR 3729 > 1816, Holm strict 616 is 33% of historical"
+  },
+  "top_10_Holm": [
+    {
+      "a": "Alh",
+      "b": "Hkm",
+      "obs": 127,
+      "exp": 78.13308617446995,
+      "p_holm": 0.03804434261437399
+    },
+    {
+      "a": "hu",
+      "b": "na`",
+      "obs": 127,
+      "exp": 43.70626642254029,
+      "p_holm": 1.8658704045646565e-19
+    },
+    {
+      "a": "Amn",
+      "b": "kfr",
+      "obs": 126,
+      "exp": 73.96693869706088,
+      "p_holm": 0.0037478453708807914
+    },
+    {
+      "a": "hu",
+      "b": "w",
+      "obs": 126,
+      "exp": 45.25339089767446,
+      "p_holm": 9.452445614851462e-18
+    },
+    {
+      "a": "<in",
+      "b": "tumo",
+      "obs": 125,
+      "exp": 39.715688531473226,
+      "p_holm": 5.159162021163137e-22
+    },
+    {
+      "a": "<il~aA",
+      "b": ">an",
+      "obs": 124,
+      "exp": 72.01103190184718,
+      "p_holm": 0.0027099538872664536
+    },
+    {
+      "a": "wA@",
+      "b": "ya`^",
+      "obs": 123,
+      "exp": 72.61056463716297,
+      "p_holm": 0.00725602707517111
+    },
+    {
+      "a": "<ilaY`",
+      "b": "w^A@",
+      "obs": 120,
+      "exp": 67.6675547419924,
+      "p_holm": 0.0009631526476343178
+    },
+    {
+      "a": "{l",
+      "b": "dnw",
+      "obs": 120,
+      "exp": 54.52073690757228,
+      "p_holm": 2.2038088781914792e-09
+    },
+    {
+      "a": "qwl",
+      "b": "ya`",
+      "obs": 120,
+      "exp": 51.72702436700719,
+      "p_holm": 6.276672656637928e-11
+    }
+  ],
+  "status": "SUPPORTED_REAL_DATA"
+}
