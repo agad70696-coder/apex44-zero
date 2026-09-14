@@ -1,0 +1,47 @@
+{
+  "schema": "scientific-inference-control-plane-provenance-conflict-adjudication-v0.1",
+  "gate": "G37",
+  "status": "CONFLICTED",
+  "adjudication": {
+    "finding": "CURRENT_SOURCE_METADATA_HASH_DOES_NOT_MATCH_LOCAL_SOURCE",
+    "bad_metadata_sha256": "a1d12923815341face765083805d2148ed2d9f5cc3f7d6665219d8d887675d8c46",
+    "bad_metadata_sha256_length": 66,
+    "local_source_sha256": "a1d12923815341face765083805d2148ed2d9f5cc3f7d6665219d887675d8c46",
+    "local_source_sha256_length": 64,
+    "exact_relation": "BAD_EQUALS_GOOD_WITH_INSERTED_d8_AT_OFFSET_54",
+    "insert_offset": 54,
+    "inserted_bytes": "d8",
+    "source_metadata_match": false
+  },
+  "lineage": {
+    "qac_source": "PHASE2_CLEAN/source/quranic-corpus-morphology-0.4.txt",
+    "historical_producer_lineage": "UNBOUND",
+    "drs_first_introduced_commit": "84ba90e805d8427c4be57b965046353849b8720b",
+    "drs_parent_without_file": "494a55c360a1fc2f60c7d54d786770a9a0b36d62",
+    "drs_blob_current": "8f7460ea89cf1c5725b6597a860f6461780c7e18",
+    "drs_changed_after_introduction": false
+  },
+  "scope": {
+    "drs": "APEX44/04-evaluation/DRS_real_data.json",
+    "contracts": [
+      "APEX44/02-science/control_plane/contracts/scientific_inference_v0.1.json",
+      "APEX44/02-science/control_plane/specifications/scientific_inference_registry_v0.1.json"
+    ],
+    "classification": "CURRENT_CONTROL_PLANE_DATA_CONTRACT_DEFECT"
+  },
+  "scientific_state": {
+    "representation": "VERIFIED_CURRENT",
+    "local_source_content": "VERIFIED_LOCAL_HASH",
+    "algorithmic_reproducibility": "VERIFIED_EXACT",
+    "historical_producer_lineage": "UNBOUND",
+    "metadata_provenance": "CONFLICTED",
+    "scientific_execution": "BLOCKED",
+    "promotion": "BLOCKED",
+    "overall": "REPRODUCIBLE_BUT_HISTORICALLY_UNBOUND"
+  },
+  "non_actions": {
+    "metadata_corrected": false,
+    "historical_source_rewritten": false,
+    "canonical_representation_rebuilt": false
+  }
+}
