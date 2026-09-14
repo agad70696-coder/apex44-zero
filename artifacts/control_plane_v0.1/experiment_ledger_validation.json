@@ -1,0 +1,13 @@
+{
+  "ledger_module": "APEX44/02-science/control_plane/experiment_ledger.py",
+  "ledger_schema": "scientific-inference-control-plane-experiment-ledger-v0.1",
+  "production_ledger_created": false,
+  "production_ledger_path": "artifacts/control_plane_v0.1/experiment_ledger.jsonl",
+  "reason": "G3/G4 remain blocked by unresolved QAC provenance conflict.",
+  "report_sha256": "e00a4cddf1aa7d2f411534b885d43bebc1752bd87ee307c57692f112692ab2c6",
+  "schema": "scientific-inference-control-plane-experiment-ledger-validation-v0.1",
+  "scientific_execution_allowed": false,
+  "specification_registry_hash": "08fcabbc85b22bc819a9bb24b55b3f6b28617e9dbd5d5940f76572c3a69110a9",
+  "test_scope": "temporary_ledger_only",
+  "tests_passed": true
+}

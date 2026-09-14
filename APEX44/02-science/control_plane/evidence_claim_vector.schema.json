@@ -1,0 +1,69 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://apex44-zero/evidence-claim-vector-v0.1.schema.json",
+  "title": "APEX44 Evidence Claim Vector v0.1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "claim_id",
+    "observation",
+    "annotation",
+    "derivation",
+    "inference",
+    "generalization",
+    "compression",
+    "independence",
+    "provenance",
+    "falsification",
+    "claim_support_authorized",
+    "independent_support_count",
+    "contradiction_present",
+    "contradiction_preserved"
+  ],
+  "properties": {
+    "claim_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "observation": {
+      "type": "boolean"
+    },
+    "annotation": {
+      "type": "boolean"
+    },
+    "derivation": {
+      "type": "boolean"
+    },
+    "inference": {
+      "type": "boolean"
+    },
+    "generalization": {
+      "type": "boolean"
+    },
+    "compression": {
+      "type": "boolean"
+    },
+    "independence": {
+      "type": "boolean"
+    },
+    "provenance": {
+      "type": "boolean"
+    },
+    "falsification": {
+      "type": "boolean"
+    },
+    "claim_support_authorized": {
+      "type": "boolean"
+    },
+    "independent_support_count": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "contradiction_present": {
+      "type": "boolean"
+    },
+    "contradiction_preserved": {
+      "type": "boolean"
+    }
+  }
+}

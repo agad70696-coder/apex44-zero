@@ -1,0 +1,56 @@
+{
+  "allowed_specifications": [
+    "pre-registered hypothesis and estimand",
+    "pre-specified representation",
+    "pre-registered null model",
+    "pre-registered multiple-testing procedure",
+    "deterministic parameterization",
+    "independent reproduction"
+  ],
+  "claim_policy": {
+    "claim_requires_evidence_vector": true,
+    "claim_requires_falsification_checks": true,
+    "claim_requires_provenance": true,
+    "computation_success_is_not_claim_support": true,
+    "promotion_requires_kernel_authorization": true,
+    "single_metric_is_insufficient": true
+  },
+  "confirmation_policy": {
+    "confirmation_run_must_use_independent_execution_path": true,
+    "failed_runs_are_preserved": true,
+    "post_hoc_specification_changes_are_forbidden": true,
+    "primary_analysis_must_precede_result_inspection": true
+  },
+  "contract_hash": "ae08d4c513930b85a9d2bde91b9a6f77e84aaae989dc629c5971eb7a524df3f5",
+  "contract_id": "SIC-CP-V0.1-G3-001",
+  "estimand": "The pre-registered statistic produced by the selected specification on the locked representation.",
+  "forbidden_adaptive_changes": [
+    "changing representation after observing results",
+    "changing inclusion criteria after observing results",
+    "changing the estimand after observing results",
+    "changing the null model after observing results",
+    "changing the multiple-testing procedure after observing results",
+    "promoting computation success to scientific support",
+    "suppressing failed or conflicting runs"
+  ],
+  "hypothesis": "A locked specification with explicit provenance, representation, null, and claim rules can constrain downstream inference.",
+  "qac_provenance_status": "UNRESOLVED_PROVENANCE_CONFLICT",
+  "question": "Can a pre-registered specification produce a reproducible scientific estimate without post-hoc representation or selection changes?",
+  "representation": {
+    "B_hash": "94b4247ae0dd42e8c9edde0399ddd6d152bad0e832129af4be0998664f05eda6",
+    "dimensions": [
+      6236,
+      1642
+    ],
+    "lock": true,
+    "path": "APEX44/03-computation/output/B_real_6236x1642.npz",
+    "source_hash": "a1d12923815341face765083805d2148ed2d9f5cc3f7d6665219d8d887675d8c46",
+    "status": "CANONICAL_CURRENT"
+  },
+  "schema": "scientific-inference-control-plane-scientific-contract-v0.1",
+  "source_manifest": {
+    "path": "artifacts/control_plane_v0.1/g0_branch_manifest.json",
+    "sha256": "9465f361fb1f67e3491267d1edd83003027ba99940b087cb840e35db7bb4d2a5"
+  },
+  "unit": "pre-registered experiment result"
+}

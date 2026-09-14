@@ -1,0 +1,34 @@
+{
+  "artifact_sha256": "08b235d5374651c424596e08a11b9e0b93800457be710678a1bb3d97d016932c",
+  "blockers": [
+    "real_qac_provenance_conflict",
+    "real_target_representation_unverified"
+  ],
+  "claim_promotion_performed": false,
+  "decision": "BLOCK",
+  "integration_allowed": false,
+  "promotion_authorized": false,
+  "real_project_state": {
+    "qac_provenance_status": "UNRESOLVED_PROVENANCE_CONFLICT",
+    "representation_status": "CANONICAL_CURRENT",
+    "target_128220x80_status": "UNVERIFIED"
+  },
+  "required_artifacts": {
+    "claim_gate": "claim_gate_validation.json",
+    "evidence": "evidence_contract_validation.json",
+    "evidence_claim_vector": "evidence_claim_vector_validation.json",
+    "experiment_ledger": "experiment_ledger_validation.json",
+    "multiple_testing": "multiple_testing_validation.json",
+    "null_registry": "null_registry_validation.json",
+    "provenance": "provenance_validation.json",
+    "red_team": "red_team_validation.json",
+    "representation": "representation_contract_validation.json",
+    "scientific_contract": "scientific_contract_validation.json",
+    "selection": "selection_leakage_validation.json",
+    "specification_registry": "specification_registry_validation.json",
+    "synthetic_crosscheck": "synthetic_crosscheck_validation.json"
+  },
+  "schema": "integration-gate-v0.1",
+  "scientific_execution_allowed": false,
+  "scientific_execution_performed": false
+}

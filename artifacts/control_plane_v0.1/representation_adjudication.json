@@ -1,0 +1,97 @@
+{
+  "branch": "feat/scientific-inference-control-plane-v0.1",
+  "commit": "84ba90e805d8427c4be57b965046353849b8720b",
+  "conflicts": [
+    {
+      "action": "PRESERVE_AND_BLOCK_PROMOTION",
+      "content_size_match": true,
+      "line_count_match": true,
+      "local_sha256": "a1d12923815341face765083805d2148ed2d9f5cc3f7d6665219d887675d8c46",
+      "local_sha256_length": 64,
+      "metadata_sha256": "a1d12923815341face765083805d2148ed2d9f5cc3f7d6665219d8d887675d8c46",
+      "metadata_sha256_length": 66,
+      "source_path": "PHASE2_CLEAN/source/quranic-corpus-morphology-0.4.txt",
+      "type": "QAC_METADATA_SHA_CONFLICT"
+    }
+  ],
+  "current_representation": {
+    "bytes": 136690,
+    "dimensions": [
+      6236,
+      1642
+    ],
+    "in_head": true,
+    "path": "APEX44/03-computation/output/B_real_6236x1642.npz",
+    "sha16_status": "EXACT_PREFIX_MATCH",
+    "sha256": "94b4247ae0dd42e8c9edde0399ddd6d152bad0e832129af4be0998664f05eda6",
+    "status": "CANONICAL_CURRENT",
+    "timestamp_utc": "2026-09-10T02:33:15.445471+00:00"
+  },
+  "current_representation_references": [
+    "refs/heads/feat/scientific-inference-control-plane-v0.1:APEX44/04-evaluation/DRS_real_data.json:9:  \"B_real\": {",
+    "refs/heads/feat/scientific-inference-control-plane-v0.1:APEX44/04-evaluation/DRS_real_data.json:16:    \"file\": \"APEX44/03-computation/output/B_real_6236x1642.npz\",",
+    "refs/heads/main:APEX44/04-evaluation/DRS_real_data.json:9:  \"B_real\": {",
+    "refs/heads/main:APEX44/04-evaluation/DRS_real_data.json:16:    \"file\": \"APEX44/03-computation/output/B_real_6236x1642.npz\",",
+    "refs/remotes/origin/HEAD:APEX44/04-evaluation/DRS_real_data.json:9:  \"B_real\": {",
+    "refs/remotes/origin/HEAD:APEX44/04-evaluation/DRS_real_data.json:16:    \"file\": \"APEX44/03-computation/output/B_real_6236x1642.npz\",",
+    "refs/remotes/origin/main:APEX44/04-evaluation/DRS_real_data.json:9:  \"B_real\": {",
+    "refs/remotes/origin/main:APEX44/04-evaluation/DRS_real_data.json:16:    \"file\": \"APEX44/03-computation/output/B_real_6236x1642.npz\","
+  ],
+  "drs_b_real_metadata": {
+    "density": 0.009981921013423297,
+    "file": "APEX44/03-computation/output/B_real_6236x1642.npz",
+    "nnz": 102210,
+    "sha16": "94b4247ae0dd42e8",
+    "shape": [
+      6236,
+      1642
+    ]
+  },
+  "drs_source_metadata": {
+    "file": "quranic-corpus-morphology-0.4.txt",
+    "lines": 128276,
+    "sha256": "a1d12923815341face765083805d2148ed2d9f5cc3f7d6665219d8d887675d8c46",
+    "size": "6309503"
+  },
+  "generated_at": "2026-09-14T10:08:29.538781+00:00",
+  "labels": [
+    "CANONICAL_CURRENT",
+    "CANONICAL_TARGET",
+    "HISTORICAL",
+    "UNVERIFIED",
+    "CONFLICT"
+  ],
+  "qac_source": {
+    "bytes": 6309503,
+    "in_head": false,
+    "local_lines": 128276,
+    "metadata_content_size_matches": true,
+    "metadata_lines": 128276,
+    "metadata_sha256": "a1d12923815341face765083805d2148ed2d9f5cc3f7d6665219d8d887675d8c46",
+    "metadata_sha256_length": 66,
+    "metadata_size": "6309503",
+    "path": "PHASE2_CLEAN/source/quranic-corpus-morphology-0.4.txt",
+    "sha256": "a1d12923815341face765083805d2148ed2d9f5cc3f7d6665219d887675d8c46",
+    "status": "CONFLICT",
+    "timestamp_utc": "2026-09-10T02:30:17.689471+00:00"
+  },
+  "repository": "agad70696-coder/apex44-zero",
+  "runtime_exclusions": [
+    "__pycache__",
+    "*.pyc",
+    "*.bak",
+    "g2_execution.log"
+  ],
+  "schema": "scientific-inference-control-plane-representation-adjudication-v0.1-r2",
+  "scientific_verdict": {
+    "current_representation": "CANONICAL_CURRENT",
+    "overall": "CONFLICT",
+    "qac_provenance": "CONFLICT",
+    "target_128220x80": "UNVERIFIED"
+  },
+  "target_128220x80": {
+    "evidence_count": 0,
+    "git_reference_matches": [],
+    "status": "UNVERIFIED"
+  }
+}

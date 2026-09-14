@@ -1,0 +1,47 @@
+{
+  "base_commit": "84ba90e805d8427c4be57b965046353849b8720b",
+  "branch": "feat/scientific-inference-control-plane-v0.1",
+  "decision": "BLOCK_G3",
+  "evidence_debt": [
+    {
+      "description": "QAC provenance metadata cannot currently be promoted to VERIFIED because the recorded digest is structurally inconsistent.",
+      "id": "ED-G2-QAC-PROV-001",
+      "status": "OPEN"
+    }
+  ],
+  "next_allowed_stage": "G3_ONLY_AFTER_G2_CONFLICT_RESOLUTION",
+  "overall_status": "CONFLICT",
+  "qac_provenance": {
+    "action": "PRESERVE_CONFLICT_AND_DO_NOT_EDIT_SOURCE_OR_DRS",
+    "content_reextraction": false,
+    "status": "CONFLICT"
+  },
+  "repository": "agad70696-coder/apex44-zero",
+  "representation": {
+    "canonical_current": "APEX44/03-computation/output/B_real_6236x1642.npz",
+    "canonical_current_status": "CANONICAL_CURRENT",
+    "target_128220x80_action": "DO_NOT_USE",
+    "target_128220x80_status": "UNVERIFIED"
+  },
+  "research_debt": [
+    {
+      "description": "DRS QAC SHA metadata conflicts with the local QAC SHA while line count and byte size agree.",
+      "id": "RD-G2-QAC-SHA-001",
+      "status": "OPEN"
+    },
+    {
+      "description": "The previously intended 128220x80 representation has no verified artifact or reference in the current repository history.",
+      "id": "RD-G2-REP-002",
+      "status": "OPEN"
+    }
+  ],
+  "schema": "scientific-inference-control-plane-representation-decision-v0.1",
+  "scientific_constraints": {
+    "allow_claim_promotion": false,
+    "allow_metadata_silent_repair": false,
+    "allow_qac_reextraction": false,
+    "allow_representation_substitution": false,
+    "allow_statistical_promotion": false
+  },
+  "timestamp_utc": "2026-09-14T10:10:57.829430+00:00"
+}

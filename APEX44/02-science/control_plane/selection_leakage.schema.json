@@ -1,0 +1,68 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "scientific-inference-control-plane-selection-leakage-v0.1",
+  "title": "Scientific Inference Control Plane Selection Leakage Record",
+  "type": "object",
+  "required": [
+    "schema",
+    "specification_id",
+    "selection_stage",
+    "selection_rules",
+    "result_visibility",
+    "observed_result_hash",
+    "decision_hash",
+    "decision_status",
+    "violations"
+  ],
+  "properties": {
+    "schema": {
+      "const": "scientific-inference-control-plane-selection-leakage-v0.1"
+    },
+    "specification_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "selection_stage": {
+      "type": "string",
+      "minLength": 1
+    },
+    "selection_rules": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "result_visibility": {
+      "type": "string",
+      "enum": [
+        "NOT_SEEN",
+        "SEEN_AFTER_SELECTION_LOCK",
+        "SEEN_BEFORE_SELECTION",
+        "UNKNOWN"
+      ]
+    },
+    "observed_result_hash": {
+      "type": ["string", "null"]
+    },
+    "decision_hash": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "decision_status": {
+      "type": "string",
+      "enum": [
+        "ALLOWED",
+        "BLOCKED",
+        "INCONCLUSIVE"
+      ]
+    },
+    "violations": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  },
+  "additionalProperties": false
+}

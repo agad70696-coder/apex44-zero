@@ -1,0 +1,40 @@
+{
+  "null_models": [
+    {
+      "description": "Pre-registered permutation null that preserves the representation dimensions and row/column counts while destroying the tested association structure.",
+      "destroys": [
+        "original_pairing_structure",
+        "original_association_alignment",
+        "post_hoc_selected_alignment"
+      ],
+      "family": "label_permutation",
+      "null_id": "NULL-QAC-BASELINE-001",
+      "parameters": {
+        "monte_carlo_count": 10000,
+        "permuted_axis": "rows",
+        "seed_policy": "explicit_seed_required",
+        "zero_p_value_forbidden": true
+      },
+      "preserves": [
+        "matrix_dimensions",
+        "row_count",
+        "column_count",
+        "row_marginal_multiset",
+        "column_marginal_multiset",
+        "permutation_count_definition"
+      ],
+      "result_visibility": "NOT_SEEN",
+      "selection_policy": {
+        "null_must_be_registered_before_result_inspection": true,
+        "post_hoc_null_change_forbidden": true,
+        "result_inspection_allowed": false
+      },
+      "status": "SEALED"
+    }
+  ],
+  "registry_hash": "e10ea091dde8b82c5de29ddbf3ec88529dac5f100797440f863ef68754cf3185",
+  "registry_id": "SIC-NULL-REGISTRY-V0.1",
+  "registry_version": "0.1.0",
+  "schema": "scientific-inference-control-plane-null-registry-v0.1",
+  "sealed": true
+}

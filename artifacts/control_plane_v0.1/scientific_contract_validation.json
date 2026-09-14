@@ -1,0 +1,12 @@
+{
+  "computed_contract_hash": "ae08d4c513930b85a9d2bde91b9a6f77e84aaae989dc629c5971eb7a524df3f5",
+  "contract_hash": "ae08d4c513930b85a9d2bde91b9a6f77e84aaae989dc629c5971eb7a524df3f5",
+  "contract_path": "APEX44/02-science/control_plane/contracts/scientific_inference_v0.1.json",
+  "path": "APEX44/02-science/control_plane/contracts/scientific_inference_v0.1.json",
+  "promotion_allowed": false,
+  "qac_provenance_status": "UNRESOLVED_PROVENANCE_CONFLICT",
+  "representation_status": "CANONICAL_CURRENT",
+  "schema": "scientific-inference-control-plane-validation-report-v0.1",
+  "scientific_execution_allowed": false,
+  "valid": true
+}

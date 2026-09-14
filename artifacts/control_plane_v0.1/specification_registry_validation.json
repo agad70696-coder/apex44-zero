@@ -1,0 +1,11 @@
+{
+  "computed_registry_hash": "08fcabbc85b22bc819a9bb24b55b3f6b28617e9dbd5d5940f76572c3a69110a9",
+  "duplicate_specification_ids": [],
+  "path": "APEX44/02-science/control_plane/specifications/scientific_inference_registry_v0.1.json",
+  "registry_hash": "08fcabbc85b22bc819a9bb24b55b3f6b28617e9dbd5d5940f76572c3a69110a9",
+  "registry_path": "APEX44/02-science/control_plane/specifications/scientific_inference_registry_v0.1.json",
+  "schema": "scientific-inference-control-plane-specification-registry-validation-v0.1",
+  "sealed": true,
+  "specification_count": 1,
+  "valid": true
+}

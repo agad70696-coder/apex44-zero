@@ -1,0 +1,62 @@
+{
+  "all_attacks_blocked": true,
+  "artifact_sha256": "f254af83c88e840d46430d4a73abd28cc915f5cde6b1d4fc620993fd4cf9ff16",
+  "attacks": [
+    {
+      "attack_id": "RT-001",
+      "description": "Promote computation-only claim",
+      "expected_block": "promotion_without_support_authorization",
+      "observed": "BLOCKED"
+    },
+    {
+      "attack_id": "RT-002",
+      "description": "Promote with zero independent support",
+      "expected_block": "promotion_without_independent_support",
+      "observed": "BLOCKED"
+    },
+    {
+      "attack_id": "RT-003",
+      "description": "Promote with provenance conflict",
+      "expected_block": "promotion_with_unverified_provenance",
+      "observed": "BLOCKED"
+    },
+    {
+      "attack_id": "RT-004",
+      "description": "Promote with representation blocked",
+      "expected_block": "promotion_with_unverified_representation",
+      "observed": "BLOCKED"
+    },
+    {
+      "attack_id": "RT-005",
+      "description": "Delete contradiction before promotion",
+      "expected_block": "contradiction_deleted",
+      "observed": "BLOCKED"
+    },
+    {
+      "attack_id": "RT-006",
+      "description": "Replace evidence vector with scalar score",
+      "expected_block": "scalar_evidence_replacement_detected",
+      "observed": "BLOCKED"
+    },
+    {
+      "attack_id": "RT-007",
+      "description": "Swap claim identity",
+      "expected_block": "claim_identity_mismatch",
+      "observed": "BLOCKED"
+    },
+    {
+      "attack_id": "RT-008",
+      "description": "Tamper with hashed governance record",
+      "expected_block": "record_hash_mismatch",
+      "observed": "BLOCKED"
+    }
+  ],
+  "claim_promotion_performed": false,
+  "real_project_state": {
+    "qac_provenance_status": "UNRESOLVED_PROVENANCE_CONFLICT",
+    "representation_status": "CANONICAL_CURRENT",
+    "target_128220x80_status": "UNVERIFIED"
+  },
+  "schema": "red-team-v0.1",
+  "scientific_execution_allowed": false
+}

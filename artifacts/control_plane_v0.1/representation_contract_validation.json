@@ -1,0 +1,48 @@
+{
+  "artifact_sha256": "e2bdf152d881b0db6292ece4be15715d12b38109a02a608e4a0de5d52c16c9a0",
+  "audit": {
+    "current_conflict_preserved": true,
+    "illegal_execution_blocked": true,
+    "illegal_execution_error": "unverified_or_blocked_representation_cannot_allow_execution",
+    "unverified_target_blocked": true,
+    "valid": true
+  },
+  "claim_promotion_allowed": false,
+  "contract": {
+    "contract_hash": "123c54bec062780a963ee6375f001e340de13d2f9c9d7b8de7a1a407ddff7c01",
+    "dimensions": [
+      6236,
+      1642
+    ],
+    "execution_allowed": false,
+    "lock": true,
+    "path": "APEX44/03-computation/output/B_real_6236x1642.npz",
+    "provenance_status": "UNRESOLVED_PROVENANCE_CONFLICT",
+    "representation_id": "REP-CURRENT-QAC-B-6236X1642",
+    "representation_sha256": "94b4247ae0dd42e8c9edde0399ddd6d152bad0e832129af4be0998664f05eda6",
+    "representation_status": "CANONICAL_CURRENT",
+    "schema": "scientific-inference-control-plane-representation-contract-v0.1",
+    "source_metadata": {
+      "byte_count_match": true,
+      "forensics_artifact": "artifacts/control_plane_v0.1/qac_provenance_forensics.json",
+      "line_count_match": true,
+      "metadata_declared_sha256_length": 66,
+      "metadata_path": "APEX44/04-evaluation/DRS_real_data.json",
+      "source_path": "PHASE2_CLEAN/source/quranic-corpus-morphology-0.4.txt"
+    },
+    "source_sha256": "a1d12923815341face765083805d2148ed2d9f5cc3f7d6665219d887675d8c46",
+    "target_status": "CURRENT"
+  },
+  "module": "APEX44/02-science/control_plane/representation_contract.py",
+  "reason": "Current representation is preserved as canonical current but execution remains blocked by unresolved provenance conflict.",
+  "schema": "scientific-inference-control-plane-representation-contract-validation-v0.1",
+  "scientific_execution_allowed": false,
+  "validation": {
+    "computed_contract_hash": "123c54bec062780a963ee6375f001e340de13d2f9c9d7b8de7a1a407ddff7c01",
+    "execution_allowed": false,
+    "provenance_status": "UNRESOLVED_PROVENANCE_CONFLICT",
+    "representation_status": "CANONICAL_CURRENT",
+    "target_status": "CURRENT",
+    "valid": true
+  }
+}

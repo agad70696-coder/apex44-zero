@@ -1,0 +1,133 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "scientific-inference-control-plane-scientific-contract-v0.1",
+  "title": "Scientific Inference Control Plane Scientific Contract",
+  "type": "object",
+  "required": [
+    "schema",
+    "contract_id",
+    "question",
+    "hypothesis",
+    "estimand",
+    "unit",
+    "source_manifest",
+    "representation",
+    "allowed_specifications",
+    "forbidden_adaptive_changes",
+    "confirmation_policy",
+    "claim_policy"
+  ],
+  "properties": {
+    "schema": {
+      "const": "scientific-inference-control-plane-scientific-contract-v0.1"
+    },
+    "contract_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "question": {
+      "type": "string",
+      "minLength": 1
+    },
+    "hypothesis": {
+      "type": "string",
+      "minLength": 1
+    },
+    "estimand": {
+      "type": "string",
+      "minLength": 1
+    },
+    "unit": {
+      "type": "string",
+      "minLength": 1
+    },
+    "source_manifest": {
+      "type": "object",
+      "required": ["path", "sha256"],
+      "properties": {
+        "path": {
+          "type": "string",
+          "minLength": 1
+        },
+        "sha256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        }
+      },
+      "additionalProperties": true
+    },
+    "representation": {
+      "type": "object",
+      "required": [
+        "path",
+        "status",
+        "dimensions",
+        "source_hash",
+        "B_hash",
+        "lock"
+      ],
+      "properties": {
+        "path": {
+          "type": "string",
+          "minLength": 1
+        },
+        "status": {
+          "type": "string",
+          "enum": [
+            "CANONICAL_CURRENT",
+            "VERIFIED_TARGET",
+            "UNVERIFIED",
+            "CONFLICT",
+            "BLOCKED"
+          ]
+        },
+        "dimensions": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "integer",
+            "minimum": 1
+          }
+        },
+        "source_hash": {
+          "type": "string",
+          "minLength": 1
+        },
+        "B_hash": {
+          "type": "string",
+          "minLength": 1
+        },
+        "lock": {
+          "type": "boolean"
+        }
+      },
+      "additionalProperties": true
+    },
+    "allowed_specifications": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "forbidden_adaptive_changes": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "confirmation_policy": {
+      "type": "object"
+    },
+    "claim_policy": {
+      "type": "object"
+    },
+    "contract_hash": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    }
+  },
+  "additionalProperties": true
+}

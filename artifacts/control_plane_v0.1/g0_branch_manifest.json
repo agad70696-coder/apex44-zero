@@ -1,0 +1,12 @@
+{
+  "backup_manifest_sha256": "ea9f124c0cb8c66e8370811be66dbabdb77712fee4eefc96b56736b8b9354f5f",
+  "backup_root": "/data/data/com.termux/files/home/apex44-control-plane-backups/20260914T094550Z",
+  "branch": "feat/scientific-inference-control-plane-v0.1",
+  "head": "84ba90e805d8427c4be57b965046353849b8720b",
+  "main_head": "84ba90e805d8427c4be57b965046353849b8720b",
+  "main_untouched_at_capture": true,
+  "manifest_sha256": "ead084278b13b5c0334ea8d7b0626425559a624e57e8a0fc851a5a0ae72ad326",
+  "parent": "494a55c360a1fc2f60c7d54d786770a9a0b36d62",
+  "schema": "scientific-inference-control-plane-branch-manifest-v0.1",
+  "working_tree_status": "?? APEX44/02-science/control_plane/\n?? APEX44/03-computation/B_to_W.py\n?? APEX44/03-computation/bicm_fdr.py\n?? APEX44/03-computation/bicm_filter.py\n?? APEX44/03-computation/build_B_real.py\n?? APEX44/04-evaluation/governance_update.py\n?? PHASE2_CLEAN/\n?? artifacts/\n?? fix.py"
+}

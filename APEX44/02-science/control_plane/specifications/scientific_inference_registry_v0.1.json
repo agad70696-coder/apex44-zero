@@ -1,0 +1,60 @@
+{
+  "registry_hash": "08fcabbc85b22bc819a9bb24b55b3f6b28617e9dbd5d5940f76572c3a69110a9",
+  "registry_id": "SIC-REGISTRY-V0.1",
+  "registry_version": "0.1.0",
+  "schema": "scientific-inference-control-plane-specification-registry-v0.1",
+  "sealed": true,
+  "specifications": [
+    {
+      "claim_policy": {
+        "claim_requires_evidence_vector": true,
+        "claim_requires_falsification_checks": true,
+        "claim_requires_provenance": true,
+        "computation_success_is_not_claim_support": true,
+        "promotion_requires_kernel_authorization": true,
+        "single_metric_is_insufficient": true
+      },
+      "confirmation_policy": {
+        "confirmation_run_must_use_independent_execution_path": true,
+        "failed_runs_are_preserved": true,
+        "post_hoc_specification_changes_are_forbidden": true,
+        "primary_analysis_must_precede_result_inspection": true
+      },
+      "contract_hash": "ae08d4c513930b85a9d2bde91b9a6f77e84aaae989dc629c5971eb7a524df3f5",
+      "contract_id": "SIC-CP-V0.1-G3-001",
+      "estimand": "The pre-registered statistic produced by the selected specification on the locked representation.",
+      "hypothesis": "A locked specification with explicit provenance, representation, null, and claim rules can constrain downstream inference.",
+      "multiple_testing_policy": {
+        "family_definition_must_be_explicit": true,
+        "post_hoc_procedure_change_forbidden": true,
+        "procedure_must_be_registered_before_execution": true
+      },
+      "null_policy": {
+        "must_be_registered_before_result_inspection": true,
+        "post_hoc_null_change_forbidden": true,
+        "zero_p_value_reporting_forbidden": true
+      },
+      "question": "Can a pre-registered specification produce a reproducible scientific estimate without post-hoc representation or selection changes?",
+      "representation": {
+        "B_hash": "94b4247ae0dd42e8c9edde0399ddd6d152bad0e832129af4be0998664f05eda6",
+        "dimensions": [
+          6236,
+          1642
+        ],
+        "lock": true,
+        "path": "APEX44/03-computation/output/B_real_6236x1642.npz",
+        "qac_provenance_status": "UNRESOLVED_PROVENANCE_CONFLICT",
+        "source_hash": "a1d12923815341face765083805d2148ed2d9f5cc3f7d6665219d8d887675d8c46",
+        "status": "CANONICAL_CURRENT"
+      },
+      "selection_policy": {
+        "post_result_selection_forbidden": true,
+        "selection_leakage_requires_block": true,
+        "selection_rules_must_be_pre_registered": true
+      },
+      "specification_id": "SIC-SPEC-V0.1-001",
+      "status": "BLOCKED",
+      "unit": "pre-registered experiment result"
+    }
+  ]
+}

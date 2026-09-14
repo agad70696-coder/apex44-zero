@@ -1,0 +1,14 @@
+{
+  "reason": "Null registry is structurally sealed; scientific execution remains blocked by unresolved representation provenance conflict.",
+  "registry_hash": "e10ea091dde8b82c5de29ddbf3ec88529dac5f100797440f863ef68754cf3185",
+  "registry_path": "APEX44/02-science/control_plane/nulls/scientific_null_registry_v0.1.json",
+  "schema": "scientific-inference-control-plane-null-registry-validation-v0.1",
+  "scientific_execution_allowed": false,
+  "validation": {
+    "computed_registry_hash": "e10ea091dde8b82c5de29ddbf3ec88529dac5f100797440f863ef68754cf3185",
+    "duplicate_null_ids": [],
+    "null_model_count": 1,
+    "sealed": true,
+    "valid": true
+  }
+}

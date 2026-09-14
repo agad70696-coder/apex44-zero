@@ -1,0 +1,487 @@
+{
+  "artifacts": {
+    "G1": {
+      "exists": true,
+      "path": "artifacts/control_plane_v0.1/g0_branch_manifest.json",
+      "sha256": "a8931a63c869edd7fc19f3518eed7da0a09bda69a8b9e1042910c8f428892886",
+      "top_level_keys": [
+        "backup_manifest_sha256",
+        "backup_root",
+        "branch",
+        "head",
+        "main_head",
+        "main_untouched_at_capture",
+        "manifest_sha256",
+        "parent",
+        "schema",
+        "working_tree_status"
+      ]
+    },
+    "G10": {
+      "exists": true,
+      "path": "artifacts/control_plane_v0.1/synthetic_crosscheck_validation.json",
+      "sha256": "d0ad626776d3a418e42a63f5f2bcb4c24471f1c202855a5938e20f50c063ea57",
+      "top_level_keys": [
+        "artifact_sha256",
+        "claim_promotion_allowed",
+        "crosscheck",
+        "module",
+        "reason",
+        "schema",
+        "scientific_execution_allowed",
+        "scope"
+      ]
+    },
+    "G11": {
+      "exists": true,
+      "path": "artifacts/control_plane_v0.1/multiple_testing_validation.json",
+      "sha256": "5f8e856bbe6042700864ec05adc29333ed11124ebaa199da1a6a4c83b01b032c",
+      "top_level_keys": [
+        "artifact_sha256",
+        "audit",
+        "claim_promotion_allowed",
+        "floating_point_tolerance",
+        "module",
+        "reason",
+        "schema",
+        "scientific_execution_allowed",
+        "scope",
+        "statsmodels_crosscheck",
+        "synthetic_p_values"
+      ]
+    },
+    "G12": {
+      "exists": true,
+      "path": "artifacts/control_plane_v0.1/claim_gate_validation.json",
+      "sha256": "914837beff014a350b026daf371e6b72bc83740821c4294d2f5bd6038410f7f0",
+      "top_level_keys": [
+        "artifact_sha256",
+        "audit",
+        "logic_fix",
+        "module",
+        "promotion_authorized",
+        "schema",
+        "scientific_execution_allowed"
+      ]
+    },
+    "G13": {
+      "exists": true,
+      "path": "artifacts/control_plane_v0.1/evidence_claim_vector_validation.json",
+      "sha256": "5e7da4d8e46881388c662bdf569d964d166be80af658ac1dabfc65725143bd63",
+      "top_level_keys": [
+        "artifact_sha256",
+        "claim_promotion_performed",
+        "module",
+        "module_sha256",
+        "schema",
+        "schema_sha256",
+        "scientific_execution_allowed",
+        "tests",
+        "validation"
+      ]
+    },
+    "G14": {
+      "exists": true,
+      "path": "artifacts/control_plane_v0.1/provenance_validation.json",
+      "sha256": "e0b5e6279a60ad041e0b09446d3afdd94c59668858227301941977812fa21abb",
+      "top_level_keys": [
+        "artifact_sha256",
+        "claim_promotion_performed",
+        "module",
+        "module_sha256",
+        "real_project_provenance_state",
+        "schema",
+        "schema_sha256",
+        "tests",
+        "validation"
+      ]
+    },
+    "G15": {
+      "all_attacks_blocked": true,
+      "exists": true,
+      "path": "artifacts/control_plane_v0.1/red_team_validation.json",
+      "sha256": "c7bfbc4a8afd2fc2e51536f6db361cf334165b67d098f5a8a7653bf7b8ae6829",
+      "top_level_keys": [
+        "all_attacks_blocked",
+        "artifact_sha256",
+        "attacks",
+        "claim_promotion_performed",
+        "real_project_state",
+        "schema",
+        "scientific_execution_allowed"
+      ]
+    },
+    "G16": {
+      "blockers": [
+        "real_qac_provenance_conflict",
+        "real_target_representation_unverified"
+      ],
+      "decision": "BLOCK",
+      "exists": true,
+      "integration_allowed": false,
+      "path": "artifacts/control_plane_v0.1/integration_gate_validation.json",
+      "promotion_authorized": false,
+      "scientific_execution_allowed": false,
+      "sha256": "4400ed89808e6e008b545c02b6ab4caa0bbe121f42a2d478e368cb1a630dcd1c",
+      "top_level_keys": [
+        "artifact_sha256",
+        "blockers",
+        "claim_promotion_performed",
+        "decision",
+        "integration_allowed",
+        "promotion_authorized",
+        "real_project_state",
+        "required_artifacts",
+        "schema",
+        "scientific_execution_allowed",
+        "scientific_execution_performed"
+      ]
+    },
+    "G3": {
+      "exists": true,
+      "path": "artifacts/control_plane_v0.1/scientific_contract_validation.json",
+      "sha256": "306fe7342061b942fe03f153339318f335066da7fb681186b6eb461f507d4d5c",
+      "top_level_keys": [
+        "computed_contract_hash",
+        "contract_hash",
+        "contract_path",
+        "path",
+        "promotion_allowed",
+        "qac_provenance_status",
+        "representation_status",
+        "schema",
+        "scientific_execution_allowed",
+        "valid"
+      ]
+    },
+    "G4": {
+      "exists": true,
+      "path": "artifacts/control_plane_v0.1/specification_registry_validation.json",
+      "sha256": "85e33e849c4e701fd38ee28c3e71c2bfd04d5183480a8eae8199636723af892c",
+      "top_level_keys": [
+        "computed_registry_hash",
+        "duplicate_specification_ids",
+        "path",
+        "registry_hash",
+        "registry_path",
+        "schema",
+        "sealed",
+        "specification_count",
+        "valid"
+      ]
+    },
+    "G5": {
+      "exists": true,
+      "path": "artifacts/control_plane_v0.1/experiment_ledger_validation.json",
+      "sha256": "6967627becc9f2f3084bcf90b34d55eaec058d799a32cf19e3a48fd720dcbf25",
+      "top_level_keys": [
+        "ledger_module",
+        "ledger_schema",
+        "production_ledger_created",
+        "production_ledger_path",
+        "reason",
+        "report_sha256",
+        "schema",
+        "scientific_execution_allowed",
+        "specification_registry_hash",
+        "test_scope",
+        "tests_passed"
+      ]
+    },
+    "G6": {
+      "exists": true,
+      "path": "artifacts/control_plane_v0.1/selection_leakage_validation.json",
+      "sha256": "98c4f9a218b492a500efa0f110037e9b719c77be75739a1c75e3f532f15dc9db",
+      "top_level_keys": [
+        "artifact_sha256",
+        "audit",
+        "blocked_case_hash",
+        "module",
+        "reason",
+        "schema",
+        "scientific_execution_allowed"
+      ]
+    },
+    "G7": {
+      "exists": true,
+      "path": "artifacts/control_plane_v0.1/evidence_contract_validation.json",
+      "sha256": "7500cf0caa889ab8aa2b651b986d8663c8fa4566073e4511876d9b96ef3d39f0",
+      "top_level_keys": [
+        "artifact_sha256",
+        "audit",
+        "claim_promotion_allowed",
+        "module",
+        "reason",
+        "schema",
+        "scientific_execution_allowed",
+        "test_correction"
+      ]
+    },
+    "G8": {
+      "exists": true,
+      "path": "artifacts/control_plane_v0.1/representation_contract_validation.json",
+      "sha256": "5fe008691c2be9030316f7884ddac915d199846a65ef7dbdab23f914f33499b3",
+      "top_level_keys": [
+        "artifact_sha256",
+        "audit",
+        "claim_promotion_allowed",
+        "contract",
+        "module",
+        "reason",
+        "schema",
+        "scientific_execution_allowed",
+        "validation"
+      ]
+    },
+    "G9": {
+      "exists": true,
+      "path": "artifacts/control_plane_v0.1/null_registry_validation.json",
+      "sha256": "fb82d21cec660e9bbccf6b6b757b5ddfeb4471c69373a602fa52be25d669b28f",
+      "top_level_keys": [
+        "reason",
+        "registry_hash",
+        "registry_path",
+        "schema",
+        "scientific_execution_allowed",
+        "validation"
+      ]
+    }
+  },
+  "branch": "feat/scientific-inference-control-plane-v0.1",
+  "claim_promotion_performed": false,
+  "control_modules": {
+    "G10": [
+      {
+        "exists": true,
+        "path": "APEX44/02-science/control_plane/synthetic_crosscheck.py",
+        "sha256": "a11e5df9c6e7e5f6901b45de5514018229cf7e72e1dcd20164484af42c4c160c"
+      }
+    ],
+    "G11": [
+      {
+        "exists": true,
+        "path": "APEX44/02-science/control_plane/multiple_testing.schema.json",
+        "sha256": "92bb5bac39939bd37a4f0e0bf9ed3b7670e3260ad3ae9514a00fe10f96366243"
+      },
+      {
+        "exists": true,
+        "path": "APEX44/02-science/control_plane/multiple_testing.py",
+        "sha256": "81a2588e09321c6c2fa37306d08e055a7270c1f435ae949ae78957996f61fb0f"
+      }
+    ],
+    "G12": [
+      {
+        "exists": true,
+        "path": "APEX44/02-science/control_plane/claim_gate.schema.json",
+        "sha256": "1acdb8668079659ac927a5a66efe3ffd5a20d3d0abd17784dfcd980d725234cf"
+      },
+      {
+        "exists": true,
+        "path": "APEX44/02-science/control_plane/claim_gate.py",
+        "sha256": "33d38000b40460d14a894e6c5844cc5fe3676b3cda4724b636e6734e1211cc01"
+      }
+    ],
+    "G13": [
+      {
+        "exists": true,
+        "path": "APEX44/02-science/control_plane/evidence_claim_vector.schema.json",
+        "sha256": "ba059165c09fa1f37d4c205f52d4a29a9111980b3f07780b8a1b60a61f62bc42"
+      },
+      {
+        "exists": true,
+        "path": "APEX44/02-science/control_plane/evidence_claim_vector.py",
+        "sha256": "535f033100941d579144fc6a329864550f022a56555077ae93618a726c4e7a34"
+      }
+    ],
+    "G14": [
+      {
+        "exists": true,
+        "path": "APEX44/02-science/control_plane/provenance.schema.json",
+        "sha256": "84d15d2cbfe5ddaa176b93b0802bb5e0e096110c012127e36d83a35bbf5021d3"
+      },
+      {
+        "exists": true,
+        "path": "APEX44/02-science/control_plane/provenance.py",
+        "sha256": "374628104205d5e63289c3035f7485b2ab6fc5ac9418445acd4bb1caf0e67a70"
+      }
+    ],
+    "G15": [
+      {
+        "exists": true,
+        "path": "APEX44/02-science/control_plane/red_team.py",
+        "sha256": "e49c7ba2ded59844de071693e2bafe473ec16a1f4e94ec061d0369c42f17498f"
+      }
+    ],
+    "G16": [
+      {
+        "exists": true,
+        "path": "APEX44/02-science/control_plane/integration_gate.py",
+        "sha256": "b29c4700f27f4ed1123edbf677b25d8746f82cc97399f4dfc157eca64296e5b1"
+      }
+    ],
+    "G3": [
+      {
+        "exists": true,
+        "path": "APEX44/02-science/control_plane/scientific_contract.schema.json",
+        "sha256": "d0211accc9f86d3f4635b1146294927471c20f8bc60d5b805d2e6a86654586cd"
+      },
+      {
+        "exists": true,
+        "path": "APEX44/02-science/control_plane/scientific_contract.py",
+        "sha256": "f29b0b5171bf5b22414db3b2dc7e15206f40661c095c5055ef90c1796e5b248a"
+      }
+    ],
+    "G4": [
+      {
+        "exists": true,
+        "path": "APEX44/02-science/control_plane/specification_registry.schema.json",
+        "sha256": "9f8d7657b53732700d31cae055c321318b7628ac019333b9c216c5c527b5e58b"
+      },
+      {
+        "exists": true,
+        "path": "APEX44/02-science/control_plane/specification_registry.py",
+        "sha256": "626de403531196df1ecccae3e53c7ee9726e1df4443ca08f4d70cce0370ae4d1"
+      }
+    ],
+    "G5": [
+      {
+        "exists": true,
+        "path": "APEX44/02-science/control_plane/experiment_ledger.schema.json",
+        "sha256": "98bd941ed8e17a76ff790feefe89e5c621fb1e5541e7730881187d6b75c3480d"
+      },
+      {
+        "exists": true,
+        "path": "APEX44/02-science/control_plane/experiment_ledger.py",
+        "sha256": "0c9e591cd02cb0b94180ba1eafea52c90de0315b1969572af87c1f1cd38ea516"
+      }
+    ],
+    "G6": [
+      {
+        "exists": true,
+        "path": "APEX44/02-science/control_plane/selection_leakage.schema.json",
+        "sha256": "6b998248f14db62cefdb96ae8b152fe31e55e454f775901f75d5ff804abb8425"
+      },
+      {
+        "exists": true,
+        "path": "APEX44/02-science/control_plane/selection_leakage.py",
+        "sha256": "897f5af5dd31a79f12ad33c04967173f5c5fbb8a1706603c7d0ce1563c70526b"
+      }
+    ],
+    "G7": [
+      {
+        "exists": true,
+        "path": "APEX44/02-science/control_plane/evidence_contract.schema.json",
+        "sha256": "d984a8aece3980cd203a84da7f5df02923b32043e943c5931270221ecbf1121f"
+      },
+      {
+        "exists": true,
+        "path": "APEX44/02-science/control_plane/evidence_contract.py",
+        "sha256": "9b04913b460db05c9b2aa7736ff3ae7f9855a3f9bdd85d6fd7b14babd1d35b8a"
+      }
+    ],
+    "G8": [
+      {
+        "exists": true,
+        "path": "APEX44/02-science/control_plane/representation_contract.schema.json",
+        "sha256": "a6a69a94a9b4fbe76bc7a3a56548062f078f548938bc316e3f8a31ad11d2583e"
+      },
+      {
+        "exists": true,
+        "path": "APEX44/02-science/control_plane/representation_contract.py",
+        "sha256": "df28fcc872fea8ebf248fcbefa9291dc7f6afc9ed0d8d5ec17fca38e4196cb30"
+      }
+    ],
+    "G9": [
+      {
+        "exists": true,
+        "path": "APEX44/02-science/control_plane/null_registry.schema.json",
+        "sha256": "f620cf1acd91c7ece056c6670945383ac96c1c2ba766484b6cf0a35221570b82"
+      },
+      {
+        "exists": true,
+        "path": "APEX44/02-science/control_plane/null_registry.py",
+        "sha256": "ccc9f6ff35d328993b13b2c6446dd12d069ffd250ebc89b8ee47b6c18304fbfa"
+      }
+    ]
+  },
+  "head": "84ba90e805d8427c4be57b965046353849b8720b",
+  "manifest_sha256": "c971c71f53f47130b7fd279a470fe83f488ebd69905b63633290217b6d05c7f3",
+  "parent": "494a55c360a1fc2f60c7d54d786770a9a0b36d62",
+  "promotion_authorized": false,
+  "real_project_state": {
+    "qac_provenance_status": "UNRESOLVED_PROVENANCE_CONFLICT",
+    "representation_status": "CANONICAL_CURRENT",
+    "scientific_execution_allowed": false,
+    "target_128220x80_status": "UNVERIFIED"
+  },
+  "release_blockers": [
+    "real_qac_provenance_conflict",
+    "real_target_representation_unverified"
+  ],
+  "release_status": "BLOCKED",
+  "schema": "apex44-scientific-inference-control-plane-release-manifest-v0.1",
+  "scientific_execution_allowed": false,
+  "scientific_execution_performed": false,
+  "stages": {
+    "G1": {
+      "validation_artifact": "g0_branch_manifest.json",
+      "verified_present": true
+    },
+    "G10": {
+      "validation_artifact": "synthetic_crosscheck_validation.json",
+      "verified_present": true
+    },
+    "G11": {
+      "validation_artifact": "multiple_testing_validation.json",
+      "verified_present": true
+    },
+    "G12": {
+      "validation_artifact": "claim_gate_validation.json",
+      "verified_present": true
+    },
+    "G13": {
+      "validation_artifact": "evidence_claim_vector_validation.json",
+      "verified_present": true
+    },
+    "G14": {
+      "validation_artifact": "provenance_validation.json",
+      "verified_present": true
+    },
+    "G15": {
+      "validation_artifact": "red_team_validation.json",
+      "verified_present": true
+    },
+    "G16": {
+      "validation_artifact": "integration_gate_validation.json",
+      "verified_present": true
+    },
+    "G3": {
+      "validation_artifact": "scientific_contract_validation.json",
+      "verified_present": true
+    },
+    "G4": {
+      "validation_artifact": "specification_registry_validation.json",
+      "verified_present": true
+    },
+    "G5": {
+      "validation_artifact": "experiment_ledger_validation.json",
+      "verified_present": true
+    },
+    "G6": {
+      "validation_artifact": "selection_leakage_validation.json",
+      "verified_present": true
+    },
+    "G7": {
+      "validation_artifact": "evidence_contract_validation.json",
+      "verified_present": true
+    },
+    "G8": {
+      "validation_artifact": "representation_contract_validation.json",
+      "verified_present": true
+    },
+    "G9": {
+      "validation_artifact": "null_registry_validation.json",
+      "verified_present": true
+    }
+  }
+}

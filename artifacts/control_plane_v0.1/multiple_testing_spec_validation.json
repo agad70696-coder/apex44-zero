@@ -1,0 +1,12 @@
+{
+  "path": "APEX44/02-science/control_plane/multiple_testing_spec_v0.1.json",
+  "reason": "Specification is structurally locked but execution is disabled pending unresolved representation provenance.",
+  "schema": "scientific-inference-control-plane-multiple-testing-specification-validation-v0.1",
+  "scientific_execution_allowed": false,
+  "specification_hash": "55403d37233a40723f99fd39fc8aba553b392cdaf1b7c52a82a313869c6352dc",
+  "validation": {
+    "execution_allowed": false,
+    "specification_hash": "55403d37233a40723f99fd39fc8aba553b392cdaf1b7c52a82a313869c6352dc",
+    "valid": true
+  }
+}

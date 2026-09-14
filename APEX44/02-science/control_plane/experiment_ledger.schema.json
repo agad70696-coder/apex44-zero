@@ -1,0 +1,94 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "scientific-inference-control-plane-experiment-ledger-v0.1",
+  "title": "Scientific Inference Control Plane Experiment Ledger",
+  "type": "object",
+  "required": [
+    "schema",
+    "experiment_id",
+    "specification_id",
+    "parent_experiment_id",
+    "source_hash",
+    "code_commit",
+    "parameters",
+    "parameters_hash",
+    "seed",
+    "rng_policy",
+    "environment_hash",
+    "status",
+    "start_time_utc",
+    "end_time_utc",
+    "result_hash",
+    "failure_reason",
+    "seen_results_before_change"
+  ],
+  "properties": {
+    "schema": {
+      "const": "scientific-inference-control-plane-experiment-ledger-v0.1"
+    },
+    "experiment_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "specification_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "parent_experiment_id": {
+      "type": ["string", "null"]
+    },
+    "source_hash": {
+      "type": "string",
+      "minLength": 1
+    },
+    "code_commit": {
+      "type": "string",
+      "minLength": 1
+    },
+    "parameters": {
+      "type": "object"
+    },
+    "parameters_hash": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "seed": {
+      "type": ["integer", "null"]
+    },
+    "rng_policy": {
+      "type": "string",
+      "minLength": 1
+    },
+    "environment_hash": {
+      "type": "string",
+      "minLength": 1
+    },
+    "status": {
+      "enum": [
+        "PASS",
+        "FAIL",
+        "INVALID",
+        "NONCONVERGED",
+        "ABORTED",
+        "SUPERSEDED"
+      ]
+    },
+    "start_time_utc": {
+      "type": "string",
+      "minLength": 1
+    },
+    "end_time_utc": {
+      "type": ["string", "null"]
+    },
+    "result_hash": {
+      "type": ["string", "null"]
+    },
+    "failure_reason": {
+      "type": ["string", "null"]
+    },
+    "seen_results_before_change": {
+      "type": "boolean"
+    }
+  },
+  "additionalProperties": false
+}

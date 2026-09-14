@@ -1,0 +1,89 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "scientific-inference-control-plane-representation-contract-v0.1",
+  "title": "Scientific Inference Control Plane Representation Contract",
+  "type": "object",
+  "required": [
+    "schema",
+    "representation_id",
+    "path",
+    "dimensions",
+    "representation_status",
+    "source_sha256",
+    "representation_sha256",
+    "source_metadata",
+    "provenance_status",
+    "target_status",
+    "lock",
+    "execution_allowed"
+  ],
+  "properties": {
+    "schema": {
+      "const": "scientific-inference-control-plane-representation-contract-v0.1"
+    },
+    "representation_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "path": {
+      "type": "string",
+      "minLength": 1
+    },
+    "dimensions": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "integer",
+        "minimum": 1
+      }
+    },
+    "representation_status": {
+      "type": "string",
+      "enum": [
+        "CANONICAL_CURRENT",
+        "VERIFIED_TARGET",
+        "UNVERIFIED",
+        "CONFLICT",
+        "BLOCKED"
+      ]
+    },
+    "source_sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "representation_sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "source_metadata": {
+      "type": "object"
+    },
+    "provenance_status": {
+      "type": "string",
+      "enum": [
+        "VERIFIED",
+        "UNRESOLVED_PROVENANCE_CONFLICT",
+        "UNKNOWN"
+      ]
+    },
+    "target_status": {
+      "type": "string",
+      "enum": [
+        "CURRENT",
+        "VERIFIED_TARGET",
+        "UNVERIFIED_TARGET"
+      ]
+    },
+    "lock": {
+      "type": "boolean"
+    },
+    "execution_allowed": {
+      "type": "boolean"
+    },
+    "contract_hash": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    }
+  },
+  "additionalProperties": false
+}

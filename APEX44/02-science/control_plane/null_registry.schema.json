@@ -1,0 +1,98 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "scientific-inference-control-plane-null-registry-v0.1",
+  "title": "Scientific Inference Control Plane Null Registry",
+  "type": "object",
+  "required": [
+    "schema",
+    "registry_id",
+    "registry_version",
+    "sealed",
+    "null_models",
+    "registry_hash"
+  ],
+  "properties": {
+    "schema": {
+      "const": "scientific-inference-control-plane-null-registry-v0.1"
+    },
+    "registry_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "registry_version": {
+      "type": "string",
+      "minLength": 1
+    },
+    "sealed": {
+      "type": "boolean"
+    },
+    "null_models": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "null_id",
+          "family",
+          "description",
+          "preserves",
+          "destroys",
+          "parameters",
+          "selection_policy",
+          "result_visibility",
+          "status"
+        ],
+        "properties": {
+          "null_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "family": {
+            "type": "string",
+            "minLength": 1
+          },
+          "description": {
+            "type": "string",
+            "minLength": 1
+          },
+          "preserves": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "destroys": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "parameters": {
+            "type": "object"
+          },
+          "selection_policy": {
+            "type": "object"
+          },
+          "result_visibility": {
+            "enum": [
+              "NOT_SEEN",
+              "PRE_REGISTERED_ONLY"
+            ]
+          },
+          "status": {
+            "enum": [
+              "REGISTERED",
+              "SEALED",
+              "BLOCKED"
+            ]
+          }
+        },
+        "additionalProperties": true
+      }
+    },
+    "registry_hash": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    }
+  },
+  "additionalProperties": false
+}

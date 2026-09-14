@@ -1,0 +1,39 @@
+{
+  "artifact_sha256": "f9087fbd23048b13f112845bdee04efe4b75501df657d7bf05f277c43b3d817a",
+  "audit": {
+    "computation_only": {
+      "blockers": [
+        "claim_support_authorization_missing",
+        "independent_support_required"
+      ],
+      "claim_id": "CLAIM-G12-COMPUTATION-ONLY",
+      "claim_text": "A successful computation establishes scientific support.",
+      "decision": "BLOCK",
+      "promotion_authorized": false,
+      "schema": "scientific-inference-control-plane-claim-gate-v0.1",
+      "warnings": [
+        "computation_success_is_not_claim_support"
+      ]
+    },
+    "real_current": {
+      "blockers": [
+        "provenance_not_verified",
+        "representation_not_verified"
+      ],
+      "claim_id": "CLAIM-G12-REAL-CURRENT",
+      "claim_text": "The current QAC-backed representation is ready for scientific claim promotion.",
+      "decision": "BLOCK",
+      "promotion_authorized": false,
+      "schema": "scientific-inference-control-plane-claim-gate-v0.1",
+      "warnings": [
+        "computation_success_is_not_claim_support"
+      ]
+    },
+    "valid": true
+  },
+  "logic_fix": "Claim promotion now requires explicit evidence authorization and at least one independent support unit.",
+  "module": "APEX44/02-science/control_plane/claim_gate.py",
+  "promotion_authorized": false,
+  "schema": "scientific-inference-control-plane-claim-gate-validation-v0.1",
+  "scientific_execution_allowed": false
+}

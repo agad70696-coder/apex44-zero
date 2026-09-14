@@ -1,0 +1,39 @@
+{
+  "artifact_sha256": "df2bfe8b18e4634f5d24dcf1f8d58cbff4818ef1f6081a9784b07e82485b9cd3",
+  "claim_promotion_performed": false,
+  "module": "APEX44/02-science/control_plane/evidence_claim_vector.py",
+  "module_sha256": "535f033100941d579144fc6a329864550f022a56555077ae93618a726c4e7a34",
+  "schema": "evidence-claim-vector-v0.1",
+  "schema_sha256": "ba059165c09fa1f37d4c205f52d4a29a9111980b3f07780b8a1b60a61f62bc42",
+  "scientific_execution_allowed": false,
+  "tests": {
+    "authorization_without_support_block": "PASS",
+    "complete_vector": "PASS",
+    "contradiction_deletion_block": "PASS",
+    "missing_dimension_block": "PASS",
+    "no_scalar_evidence_score": "PASS",
+    "scalar_compression_field_block": "PASS",
+    "separate_evidence_dimensions": "PASS"
+  },
+  "validation": {
+    "claim_id": "CLAIM-G13-001",
+    "contradiction_preserved": true,
+    "dimensions": [
+      "observation",
+      "annotation",
+      "derivation",
+      "inference",
+      "generalization",
+      "compression",
+      "independence",
+      "provenance",
+      "falsification",
+      "claim_support_authorized",
+      "independent_support_count",
+      "contradiction_present",
+      "contradiction_preserved"
+    ],
+    "scalar_evidence_score_present": false,
+    "valid": true
+  }
+}

@@ -1,0 +1,33 @@
+{
+  "artifact_sha256": "ea6fc3f17bf048ce78b99653070c2d9c655ca27a87d7b8258ecb081db3aaa1be",
+  "claim_promotion_performed": false,
+  "module": "APEX44/02-science/control_plane/provenance.py",
+  "module_sha256": "374628104205d5e63289c3035f7485b2ab6fc5ac9418445acd4bb1caf0e67a70",
+  "real_project_provenance_state": {
+    "qac_provenance_status": "UNRESOLVED_PROVENANCE_CONFLICT",
+    "representation_status": "CANONICAL_CURRENT",
+    "scientific_execution_allowed": false,
+    "target_128220x80_status": "UNVERIFIED"
+  },
+  "schema": "provenance-v0.1",
+  "schema_sha256": "84d15d2cbfe5ddaa176b93b0802bb5e0e096110c012127e36d83a35bbf5021d3",
+  "tests": {
+    "conflict_preservation": "PASS",
+    "content_tamper_visible": "PASS",
+    "hash_match": "PASS",
+    "hash_mismatch_detected": "PASS",
+    "independence_group_distinction": "PASS",
+    "lineage_cycle_block": "PASS",
+    "missing_lineage_block": "PASS",
+    "record_hash_determinism": "PASS",
+    "valid_lineage": "PASS"
+  },
+  "validation": {
+    "conflict_preservation": true,
+    "hash_mismatch_detection": true,
+    "independence_group_tracking": true,
+    "lineage_cycle_detection": true,
+    "missing_lineage_block": true,
+    "valid": true
+  }
+}

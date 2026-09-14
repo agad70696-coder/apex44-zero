@@ -1,0 +1,93 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "scientific-inference-control-plane-claim-gate-v0.1",
+  "title": "Scientific Inference Control Plane Claim Gate",
+  "type": "object",
+  "required": [
+    "schema",
+    "claim_id",
+    "claim_text",
+    "evidence_vector",
+    "provenance_status",
+    "representation_status",
+    "selection_status",
+    "multiple_testing_status",
+    "falsification_status",
+    "computation_status",
+    "decision",
+    "gate_hash"
+  ],
+  "properties": {
+    "schema": {
+      "const": "scientific-inference-control-plane-claim-gate-v0.1"
+    },
+    "claim_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "claim_text": {
+      "type": "string",
+      "minLength": 1
+    },
+    "evidence_vector": {
+      "type": "object"
+    },
+    "provenance_status": {
+      "enum": [
+        "VERIFIED",
+        "UNRESOLVED_PROVENANCE_CONFLICT",
+        "UNKNOWN"
+      ]
+    },
+    "representation_status": {
+      "enum": [
+        "VERIFIED",
+        "BLOCKED",
+        "UNVERIFIED",
+        "CONFLICT"
+      ]
+    },
+    "selection_status": {
+      "enum": [
+        "PASS",
+        "BLOCKED",
+        "INCONCLUSIVE"
+      ]
+    },
+    "multiple_testing_status": {
+      "enum": [
+        "PASS",
+        "BLOCKED",
+        "INCONCLUSIVE"
+      ]
+    },
+    "falsification_status": {
+      "enum": [
+        "PASS",
+        "FAIL",
+        "NOT_PERFORMED",
+        "INCONCLUSIVE"
+      ]
+    },
+    "computation_status": {
+      "enum": [
+        "SUCCESS",
+        "FAILURE",
+        "NOT_PERFORMED"
+      ]
+    },
+    "decision": {
+      "enum": [
+        "PROMOTE",
+        "CONDITIONAL",
+        "BLOCK",
+        "REFUTE"
+      ]
+    },
+    "gate_hash": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    }
+  },
+  "additionalProperties": false
+}

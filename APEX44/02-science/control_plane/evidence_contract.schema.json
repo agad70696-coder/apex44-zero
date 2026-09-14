@@ -1,0 +1,84 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "scientific-inference-control-plane-evidence-contract-v0.1",
+  "title": "Scientific Inference Control Plane Evidence Contract",
+  "type": "object",
+  "required": [
+    "schema",
+    "evidence_id",
+    "epistemic_layer",
+    "source",
+    "observation",
+    "derivation",
+    "independence",
+    "provenance",
+    "falsification",
+    "claim_support_status"
+  ],
+  "properties": {
+    "schema": {
+      "const": "scientific-inference-control-plane-evidence-contract-v0.1"
+    },
+    "evidence_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "epistemic_layer": {
+      "type": "string",
+      "enum": [
+        "OBSERVED",
+        "ANNOTATED",
+        "DERIVED",
+        "INFERRED",
+        "GENERALIZED",
+        "COMPRESSED"
+      ]
+    },
+    "source": {
+      "type": "object",
+      "required": [
+        "path",
+        "sha256"
+      ],
+      "properties": {
+        "path": {
+          "type": "string",
+          "minLength": 1
+        },
+        "sha256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        }
+      },
+      "additionalProperties": true
+    },
+    "observation": {
+      "type": "object"
+    },
+    "derivation": {
+      "type": "object"
+    },
+    "independence": {
+      "type": "object"
+    },
+    "provenance": {
+      "type": "object"
+    },
+    "falsification": {
+      "type": "object"
+    },
+    "claim_support_status": {
+      "type": "string",
+      "enum": [
+        "NOT_ASSESSED",
+        "UNSUPPORTED",
+        "CONDITIONAL",
+        "SUPPORTED",
+        "REFUTED",
+        "CONFLICTED",
+        "BLOCKED"
+      ]
+    }
+  },
+  "additionalProperties": true
+}

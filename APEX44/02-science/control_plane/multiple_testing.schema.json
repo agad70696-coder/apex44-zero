@@ -1,0 +1,73 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "scientific-inference-control-plane-multiple-testing-v0.1",
+  "title": "Scientific Inference Control Plane Multiple Testing Specification",
+  "type": "object",
+  "required": [
+    "schema",
+    "specification_id",
+    "family_id",
+    "family_definition",
+    "hypotheses",
+    "alpha",
+    "procedure",
+    "result_visibility",
+    "locked",
+    "execution_allowed",
+    "specification_hash"
+  ],
+  "properties": {
+    "schema": {
+      "const": "scientific-inference-control-plane-multiple-testing-v0.1"
+    },
+    "specification_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "family_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "family_definition": {
+      "type": "string",
+      "minLength": 1
+    },
+    "hypotheses": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "alpha": {
+      "type": "number",
+      "exclusiveMinimum": 0,
+      "exclusiveMaximum": 1
+    },
+    "procedure": {
+      "enum": [
+        "HOLM",
+        "BH"
+      ]
+    },
+    "result_visibility": {
+      "enum": [
+        "NOT_SEEN",
+        "SEEN_AFTER_LOCK",
+        "SEEN_BEFORE_LOCK"
+      ]
+    },
+    "locked": {
+      "type": "boolean"
+    },
+    "execution_allowed": {
+      "type": "boolean"
+    },
+    "specification_hash": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    }
+  },
+  "additionalProperties": false
+}

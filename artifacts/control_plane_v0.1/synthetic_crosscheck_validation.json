@@ -1,0 +1,166 @@
+{
+  "artifact_sha256": "a2689074e07e2724ded629d5438d929109f8900f79ca588826e19cf9be0c3f5a",
+  "claim_promotion_allowed": false,
+  "crosscheck": {
+    "all_equal": true,
+    "case_count": 5,
+    "cases": {
+      "binary": {
+        "equal": true,
+        "hash_a": "97807c3629ab7b19e963f48b65e7fd8c0750929e16f9959f31a238a65723e1f7",
+        "hash_b": "97807c3629ab7b19e963f48b65e7fd8c0750929e16f9959f31a238a65723e1f7",
+        "result_a": {
+          "col_sums": [
+            2,
+            1,
+            1
+          ],
+          "cols": 3,
+          "nnz": 4,
+          "row_sums": [
+            2,
+            1,
+            1
+          ],
+          "rows": 3
+        },
+        "result_b": {
+          "col_sums": [
+            2,
+            1,
+            1
+          ],
+          "cols": 3,
+          "nnz": 4,
+          "row_sums": [
+            2,
+            1,
+            1
+          ],
+          "rows": 3
+        }
+      },
+      "empty": {
+        "equal": true,
+        "hash_a": "fe80103e5927ec1e0ecc1a21dd3d45afe69aa99a014c6dabd35ed939970b87b4",
+        "hash_b": "fe80103e5927ec1e0ecc1a21dd3d45afe69aa99a014c6dabd35ed939970b87b4",
+        "result_a": {
+          "col_sums": [],
+          "cols": 0,
+          "nnz": 0,
+          "row_sums": [],
+          "rows": 0
+        },
+        "result_b": {
+          "col_sums": [],
+          "cols": 0,
+          "nnz": 0,
+          "row_sums": [],
+          "rows": 0
+        }
+      },
+      "single": {
+        "equal": true,
+        "hash_a": "8991222ec925a8c2b57eed007c0463d06976bced8a90c421f38d7201ae9ec1d1",
+        "hash_b": "8991222ec925a8c2b57eed007c0463d06976bced8a90c421f38d7201ae9ec1d1",
+        "result_a": {
+          "col_sums": [
+            1
+          ],
+          "cols": 1,
+          "nnz": 1,
+          "row_sums": [
+            1
+          ],
+          "rows": 1
+        },
+        "result_b": {
+          "col_sums": [
+            1
+          ],
+          "cols": 1,
+          "nnz": 1,
+          "row_sums": [
+            1
+          ],
+          "rows": 1
+        }
+      },
+      "weighted": {
+        "equal": true,
+        "hash_a": "c27fc3f48c84e42ab28d87de69fcbbbaf2b82a1cd8aedd1eebbde4263500aadf",
+        "hash_b": "c27fc3f48c84e42ab28d87de69fcbbbaf2b82a1cd8aedd1eebbde4263500aadf",
+        "result_a": {
+          "col_sums": [
+            7,
+            4,
+            4
+          ],
+          "cols": 3,
+          "nnz": 5,
+          "row_sums": [
+            5,
+            4,
+            6
+          ],
+          "rows": 3
+        },
+        "result_b": {
+          "col_sums": [
+            7,
+            4,
+            4
+          ],
+          "cols": 3,
+          "nnz": 5,
+          "row_sums": [
+            5,
+            4,
+            6
+          ],
+          "rows": 3
+        }
+      },
+      "zero_row": {
+        "equal": true,
+        "hash_a": "308812c4053a8198d14386416d2f18d1dfd9a80e3884b44b4aee2f0ec7438bc0",
+        "hash_b": "308812c4053a8198d14386416d2f18d1dfd9a80e3884b44b4aee2f0ec7438bc0",
+        "result_a": {
+          "col_sums": [
+            1,
+            0,
+            2
+          ],
+          "cols": 3,
+          "nnz": 2,
+          "row_sums": [
+            0,
+            3
+          ],
+          "rows": 2
+        },
+        "result_b": {
+          "col_sums": [
+            1,
+            0,
+            2
+          ],
+          "cols": 3,
+          "nnz": 2,
+          "row_sums": [
+            0,
+            3
+          ],
+          "rows": 2
+        }
+      }
+    },
+    "schema": "scientific-inference-control-plane-synthetic-crosscheck-v0.1",
+    "valid": true
+  },
+  "module": "APEX44/02-science/control_plane/synthetic_crosscheck.py",
+  "reason": "Cross-implementation invariants were tested only on synthetic matrices. No scientific dataset was executed.",
+  "schema": "scientific-inference-control-plane-synthetic-crosscheck-validation-v0.1",
+  "scientific_execution_allowed": false,
+  "scope": "synthetic_only"
+}

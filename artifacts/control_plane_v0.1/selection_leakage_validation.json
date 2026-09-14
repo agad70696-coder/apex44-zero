@@ -1,0 +1,55 @@
+{
+  "artifact_sha256": "78cb8a3bfedd1ca09b9c88b30834631db5498f173d16c85ee33b3a59320489f9",
+  "audit": {
+    "allowed_cases": [
+      {
+        "decision_hash": "9d6f1ab9f3e5fe39546dd45e9502081017eebc6271421aeb9b6570b956d0139a",
+        "decision_status": "ALLOWED",
+        "observed_result_hash": null,
+        "result_visibility": "NOT_SEEN",
+        "schema": "scientific-inference-control-plane-selection-leakage-v0.1",
+        "selection_rules": [
+          "selection_rules_registered_before_execution"
+        ],
+        "selection_stage": "specification_selection",
+        "specification_id": "SIC-SPEC-V0.1-001",
+        "violations": []
+      },
+      {
+        "decision_hash": "3d378bf82f1a9f5d2d6c9f940d9cc6e2cd08a36a142b147f7c071a349eb11450",
+        "decision_status": "ALLOWED",
+        "observed_result_hash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "result_visibility": "SEEN_AFTER_SELECTION_LOCK",
+        "schema": "scientific-inference-control-plane-selection-leakage-v0.1",
+        "selection_rules": [
+          "specification_locked_before_result_inspection"
+        ],
+        "selection_stage": "post_lock_confirmation",
+        "specification_id": "SIC-SPEC-V0.1-001",
+        "violations": []
+      }
+    ],
+    "blocked_case": {
+      "decision_hash": "7991cdce1b0d9249a601cf790c01b2e659bfb212e9cdf2b502d3230612c42fe1",
+      "decision_status": "BLOCKED",
+      "observed_result_hash": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "result_visibility": "SEEN_BEFORE_SELECTION",
+      "schema": "scientific-inference-control-plane-selection-leakage-v0.1",
+      "selection_rules": [
+        "selection_rules_registered_before_execution"
+      ],
+      "selection_stage": "specification_selection",
+      "specification_id": "SIC-SPEC-V0.1-001",
+      "violations": [
+        "result_observed_before_selection_lock",
+        "selection_leakage_result_seen_before_selection"
+      ]
+    },
+    "valid": true
+  },
+  "blocked_case_hash": "7991cdce1b0d9249a601cf790c01b2e659bfb212e9cdf2b502d3230612c42fe1",
+  "module": "APEX44/02-science/control_plane/selection_leakage.py",
+  "reason": "Selection leakage control was tested independently; scientific execution remains blocked by G3/G4 provenance state.",
+  "schema": "scientific-inference-control-plane-selection-leakage-audit-v0.1",
+  "scientific_execution_allowed": false
+}

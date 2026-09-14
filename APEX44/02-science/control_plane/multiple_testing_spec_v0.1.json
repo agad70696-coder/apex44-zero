@@ -1,0 +1,15 @@
+{
+  "alpha": 0.05,
+  "execution_allowed": false,
+  "family_definition": "All inferential hypotheses generated under the registered SIC-SPEC-V0.1-001 specification and its declared analysis family. The family definition is fixed before result inspection.",
+  "family_id": "FAMILY-SCIENTIFIC-001",
+  "hypotheses": [
+    "All primary hypotheses declared by SIC-SPEC-V0.1-001"
+  ],
+  "locked": true,
+  "procedure": "HOLM",
+  "result_visibility": "NOT_SEEN",
+  "schema": "scientific-inference-control-plane-multiple-testing-v0.1",
+  "specification_hash": "55403d37233a40723f99fd39fc8aba553b392cdaf1b7c52a82a313869c6352dc",
+  "specification_id": "SIC-MT-V0.1-001"
+}

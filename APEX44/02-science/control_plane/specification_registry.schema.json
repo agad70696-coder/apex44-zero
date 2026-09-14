@@ -1,0 +1,112 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "scientific-inference-control-plane-specification-registry-v0.1",
+  "title": "Scientific Inference Control Plane Specification Registry",
+  "type": "object",
+  "required": [
+    "schema",
+    "registry_id",
+    "registry_version",
+    "sealed",
+    "specifications"
+  ],
+  "properties": {
+    "schema": {
+      "const": "scientific-inference-control-plane-specification-registry-v0.1"
+    },
+    "registry_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "registry_version": {
+      "type": "string",
+      "minLength": 1
+    },
+    "sealed": {
+      "type": "boolean"
+    },
+    "specifications": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "specification_id",
+          "contract_id",
+          "contract_hash",
+          "question",
+          "hypothesis",
+          "estimand",
+          "unit",
+          "representation",
+          "null_policy",
+          "selection_policy",
+          "multiple_testing_policy",
+          "confirmation_policy",
+          "claim_policy",
+          "status"
+        ],
+        "properties": {
+          "specification_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "contract_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "contract_hash": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{64}$"
+          },
+          "question": {
+            "type": "string",
+            "minLength": 1
+          },
+          "hypothesis": {
+            "type": "string",
+            "minLength": 1
+          },
+          "estimand": {
+            "type": "string",
+            "minLength": 1
+          },
+          "unit": {
+            "type": "string",
+            "minLength": 1
+          },
+          "representation": {
+            "type": "object"
+          },
+          "null_policy": {
+            "type": "object"
+          },
+          "selection_policy": {
+            "type": "object"
+          },
+          "multiple_testing_policy": {
+            "type": "object"
+          },
+          "confirmation_policy": {
+            "type": "object"
+          },
+          "claim_policy": {
+            "type": "object"
+          },
+          "status": {
+            "enum": [
+              "REGISTERED",
+              "SEALED",
+              "BLOCKED"
+            ]
+          }
+        },
+        "additionalProperties": true
+      }
+    },
+    "registry_hash": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    }
+  },
+  "additionalProperties": true
+}

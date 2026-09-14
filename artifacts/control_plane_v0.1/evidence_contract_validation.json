@@ -1,0 +1,29 @@
+{
+  "artifact_sha256": "15cac1195915278c2696ac1312912d34d43297daa190b153cd25cd1c29485e47",
+  "audit": {
+    "derived": {
+      "claim_authorization": true,
+      "claim_support_status": "SUPPORTED",
+      "epistemic_layer": "DERIVED",
+      "evidence_id": "EVID-DERIVED-001",
+      "reasons": []
+    },
+    "evidence_tamper_detected": true,
+    "observed": {
+      "claim_authorization": false,
+      "claim_support_status": "NOT_ASSESSED",
+      "epistemic_layer": "OBSERVED",
+      "evidence_id": "EVID-OBSERVED-001",
+      "reasons": [
+        "observation_is_not_independent_claim_support"
+      ]
+    },
+    "raw_observation_support_blocked": true
+  },
+  "claim_promotion_allowed": false,
+  "module": "APEX44/02-science/control_plane/evidence_contract.py",
+  "reason": "Evidence control validated structurally. Scientific execution remains blocked by unresolved QAC provenance conflict.",
+  "schema": "scientific-inference-control-plane-evidence-contract-validation-v0.1",
+  "scientific_execution_allowed": false,
+  "test_correction": "Accepted either valid rejection invariant message; validator rejects OBSERVED+SUPPORTED at the earlier layer constraint."
+}
