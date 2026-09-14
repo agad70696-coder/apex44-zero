@@ -1,0 +1,95 @@
+{
+  "base_real_commit": "84ba90e805d8427c4be57b965046353849b8720b",
+  "branch": "feat/scientific-inference-control-plane-v0.1",
+  "claim_boundary": {
+    "allowed": [
+      "The current B_real artifact is exactly reproducible from the currently present local QAC source using the currently reconstructed producer algorithm.",
+      "The current artifact bytes and matrix semantics are verified against the reproduced result."
+    ],
+    "not_allowed": [
+      "Claiming that build_B_real.py was the historical producer of B_real at commit 84ba90e.",
+      "Claiming that the malformed 66-character metadata SHA is the canonical QAC SHA.",
+      "Promoting the real scientific result while provenance conflict remains unresolved."
+    ]
+  },
+  "dangling_forensic_artifact": {
+    "blob": "acf2bfe38004b8c04b09f5e70bc55559c9bddcca",
+    "content_sha256": "461d8ceee75659c385073b4294b673a1c6538890178ee555a0d9c5b42dcd068c",
+    "generated_at_utc": "2026-09-14T10:03:11.814460+00:00",
+    "historical_status": "NOT_EVIDENCE_OF_HISTORICAL_PRODUCER",
+    "producer_field": null,
+    "size": 12497
+  },
+  "epistemic_verdict": {
+    "algorithmic_reproducibility": "VERIFIED_EXACT",
+    "historical_producer_lineage": "UNBOUND",
+    "overall_status": "REPRODUCIBLE_BUT_HISTORICALLY_UNBOUND",
+    "promotion": "BLOCKED",
+    "representation": "VERIFIED_CURRENT",
+    "scientific_execution": "BLOCKED",
+    "source_content": "VERIFIED_LOCAL_HASH",
+    "source_metadata_provenance": "CONFLICTED"
+  },
+  "generated_at_utc": "2026-09-14T16:45:43.302739+00:00",
+  "head": "70a2c8e70c6acaeeb7c645ae70f9c8fafb2f14c2",
+  "historical_producer": {
+    "b_real_mtime_local": "2026-09-10T05:33:15+03:00",
+    "candidate": "APEX44/03-computation/build_B_real.py",
+    "candidate_sha256": "d4e9697aca3408400a485933799bd519662fbb7b45377d3a7b13f954325b9052",
+    "file_mtime_local": "2026-09-10T05:46:30+03:00",
+    "git_history_found": false,
+    "historical_binding": "NOT_ESTABLISHED",
+    "present_in_0649043": false,
+    "present_in_84ba90e": false,
+    "reachable_git_blob_found": false,
+    "tracked": false,
+    "unreachable_matching_producer_found": false
+  },
+  "metadata_conflict": {
+    "conflict_type": "QAC_SHA_MISMATCH",
+    "metadata_path": "APEX44/04-evaluation/DRS_real_data.json",
+    "metadata_present_since_commit": "84ba90e805d8427c4be57b965046353849b8720b",
+    "metadata_sha256": "a1d12923815341face765083805d2148ed2d9f5cc3f7d6665219d887675d8c46",
+    "metadata_sha256_length": 66,
+    "status": "UNRESOLVED"
+  },
+  "parent_of_real_commit": "494a55c360a1fc2f60c7d54d786770a9a0b36d62",
+  "preservation_rule": {
+    "action": "PRESERVE_CONFLICT_AND_UNBOUND_LINEAGE",
+    "required": true
+  },
+  "repository": "agad70696-coder/apex44-zero",
+  "representation": {
+    "git_blob_sha1": "b5e0176f962d36d6217fc900e14fed1e9f64c305",
+    "nnz": 102210,
+    "path": "APEX44/03-computation/output/B_real_6236x1642.npz",
+    "sha256": "94b4247ae0dd42e8c9edde0399ddd6d152bad0e832129af4be0998664f05eda6",
+    "shape": [
+      6236,
+      1642
+    ],
+    "status": "CANONICAL_CURRENT"
+  },
+  "reproducibility": {
+    "matrix_semantically_identical": true,
+    "npz_byte_identical": true,
+    "real_b_sha256": "94b4247ae0dd42e8c9edde0399ddd6d152bad0e832129af4be0998664f05eda6",
+    "recreated_b_sha256": "94b4247ae0dd42e8c9edde0399ddd6d152bad0e832129af4be0998664f05eda6",
+    "recreated_nnz": 102210,
+    "recreated_shape": [
+      6236,
+      1642
+    ],
+    "roots_byte_identical": true,
+    "status": "EXACT_REPRODUCIBILITY"
+  },
+  "schema": "scientific-inference-control-plane-provenance-adjudication-v0.1",
+  "source": {
+    "bytes": 6309503,
+    "git_tracked": false,
+    "lines": 128276,
+    "local_sha256": "a1d12923815341face765083805d2148ed2d9f5cc3f7d6665219d887675d8c46",
+    "local_sha256_length": 64,
+    "path": "PHASE2_CLEAN/source/quranic-corpus-morphology-0.4.txt"
+  }
+}
