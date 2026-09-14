@@ -404,9 +404,16 @@
       }
     ]
   },
-  "head": "84ba90e805d8427c4be57b965046353849b8720b",
-  "manifest_sha256": "c971c71f53f47130b7fd279a470fe83f488ebd69905b63633290217b6d05c7f3",
-  "parent": "494a55c360a1fc2f60c7d54d786770a9a0b36d62",
+  "head": "064904366936b4c5ad1b4964b3a79c7750367a9c",
+  "manifest_sha256": "cfd20214c31fa1a1527211116d913e6edf9c27851a774a12721bfd2105010dff",
+  "parent": "84ba90e805d8427c4be57b965046353849b8720b",
+  "post_commit_rebinding": {
+    "commit_head": "064904366936b4c5ad1b4964b3a79c7750367a9c",
+    "commit_parent": "84ba90e805d8427c4be57b965046353849b8720b",
+    "lineage_relation": "POST_COMMIT_REBINDING_OF_PRE_COMMIT_RELEASE_MANIFEST",
+    "previous_manifest_head": "84ba90e805d8427c4be57b965046353849b8720b",
+    "status": "RECORDED"
+  },
   "promotion_authorized": false,
   "real_project_state": {
     "qac_provenance_status": "UNRESOLVED_PROVENANCE_CONFLICT",
