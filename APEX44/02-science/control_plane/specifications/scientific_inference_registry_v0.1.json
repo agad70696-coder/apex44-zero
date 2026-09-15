@@ -1,5 +1,5 @@
 {
-  "registry_hash": "08fcabbc85b22bc819a9bb24b55b3f6b28617e9dbd5d5940f76572c3a69110a9",
+  "registry_hash": "b38dd53772ee22398bb031c19656ff21608d296ffe2f600f739d267db1f8601f",
   "registry_id": "SIC-REGISTRY-V0.1",
   "registry_version": "0.1.0",
   "schema": "scientific-inference-control-plane-specification-registry-v0.1",
@@ -20,7 +20,7 @@
         "post_hoc_specification_changes_are_forbidden": true,
         "primary_analysis_must_precede_result_inspection": true
       },
-      "contract_hash": "ae08d4c513930b85a9d2bde91b9a6f77e84aaae989dc629c5971eb7a524df3f5",
+      "contract_hash": "1507f63cf0cdfe5c503c659e244c97bf2cef28801e6e4454db64a30dad67fc2e",
       "contract_id": "SIC-CP-V0.1-G3-001",
       "estimand": "The pre-registered statistic produced by the selected specification on the locked representation.",
       "hypothesis": "A locked specification with explicit provenance, representation, null, and claim rules can constrain downstream inference.",
@@ -44,7 +44,7 @@
         "lock": true,
         "path": "APEX44/03-computation/output/B_real_6236x1642.npz",
         "qac_provenance_status": "UNRESOLVED_PROVENANCE_CONFLICT",
-        "source_hash": "a1d12923815341face765083805d2148ed2d9f5cc3f7d6665219d8d887675d8c46",
+        "source_hash": "a1d12923815341face765083805d2148ed2d9f5cc3f7d6665219d887675d8c46",
         "status": "CANONICAL_CURRENT"
       },
       "selection_policy": {

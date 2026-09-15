@@ -1,0 +1,93 @@
+{
+  "artifact_sha256": "10cfa73dccc130a826ea855c5d3d9675204edbbd362ebb2ca7df55cffc9fcde4",
+  "commit_or_push_performed": false,
+  "current_canonical_bindings": {
+    "contract_hash": "1507f63cf0cdfe5c503c659e244c97bf2cef28801e6e4454db64a30dad67fc2e",
+    "qac_sha256": "a1d12923815341face765083805d2148ed2d9f5cc3f7d6665219d887675d8c46",
+    "registry_hash": "b38dd53772ee22398bb031c19656ff21608d296ffe2f600f739d267db1f8601f"
+  },
+  "current_gate_state": {
+    "blockers": [
+      "real_qac_provenance_conflict",
+      "real_target_representation_unverified"
+    ],
+    "decision": "BLOCK",
+    "promotion_authorized": false,
+    "release_status": "BLOCKED",
+    "scientific_execution_allowed": false
+  },
+  "files_currently_modified": [
+    "APEX44/02-science/control_plane/contracts/scientific_inference_v0.1.json",
+    "APEX44/02-science/control_plane/specifications/scientific_inference_registry_v0.1.json",
+    "APEX44/04-evaluation/DRS_real_data.json",
+    "artifacts/control_plane_v0.1/experiment_ledger_validation.json",
+    "artifacts/control_plane_v0.1/scientific_contract_validation.json",
+    "artifacts/control_plane_v0.1/specification_registry_validation.json"
+  ],
+  "g47_record_audit": {
+    "audited_classification": "FAILED_PARTIAL_TRANSACTION",
+    "correction_scope_observed": [
+      "APEX44/04-evaluation/DRS_real_data.json",
+      "APEX44/02-science/control_plane/contracts/scientific_inference_v0.1.json",
+      "APEX44/02-science/control_plane/specifications/scientific_inference_registry_v0.1.json",
+      "artifacts/control_plane_v0.1/scientific_contract_validation.json",
+      "artifacts/control_plane_v0.1/specification_registry_validation.json",
+      "artifacts/control_plane_v0.1/experiment_ledger_validation.json",
+      "artifacts/control_plane_v0.1/integration_gate_validation.json",
+      "artifacts/control_plane_v0.1/release_manifest.json"
+    ],
+    "historically_safe_interpretation": "Treat current-binding correction as a G48 repair outcome, not as successful completion of G47.",
+    "original_status": "CORRECTED_CANONICAL_CURRENT_BINDINGS",
+    "status_interpretation_conflict": true
+  },
+  "gate": "G50",
+  "generated_at_utc": "2026-09-15T07:21:51.258529+00:00",
+  "historical_files_preserved": [
+    "artifacts/control_plane_v0.1/g37_provenance_conflict_adjudication.json",
+    "artifacts/control_plane_v0.1/qac_provenance_forensics.json",
+    "artifacts/control_plane_v0.1/representation_adjudication.json",
+    "artifacts/control_plane_v0.1/release_manifest.json"
+  ],
+  "no_destructive_git_action": true,
+  "schema": "scientific-inference-control-plane-g50-g47-transaction-record-audit-v0.1",
+  "scientific_state": {
+    "current_data_contract": "CONSISTENT",
+    "historical_lineage": "UNBOUND",
+    "promotion": "BLOCKED",
+    "scientific_execution": "BLOCKED",
+    "target_128220x80": "UNVERIFIED"
+  },
+  "staged_files": [],
+  "transaction_lineage": {
+    "baseline_head": "431237800fbaa53231ede1d7e921af3d4b5e35de",
+    "g47_failure": "KeyError:contract_hash during final verification",
+    "g47_result": "FAILED_PARTIAL_TRANSACTION",
+    "g48_result": "REPAIR_REVALIDATION_PASS",
+    "g49_result": "PRE_COMMIT_AUDIT_PASS",
+    "interpretation": "G47 did not complete successfully. The current canonical binding correction was completed and revalidated by G48."
+  },
+  "untracked_preserved_exact_lines": [
+    "M APEX44/02-science/control_plane/contracts/scientific_inference_v0.1.json",
+    " M APEX44/02-science/control_plane/specifications/scientific_inference_registry_v0.1.json",
+    " M APEX44/04-evaluation/DRS_real_data.json",
+    " M artifacts/control_plane_v0.1/experiment_ledger_validation.json",
+    " M artifacts/control_plane_v0.1/scientific_contract_validation.json",
+    " M artifacts/control_plane_v0.1/specification_registry_validation.json",
+    "?? APEX44/02-science/control_plane/claim_gate.py.pre_g12_support_fix.bak",
+    "?? APEX44/02-science/control_plane/integration_gate.py.pre_g16_g10_realstate_fix.bak",
+    "?? APEX44/02-science/control_plane/integration_gate.py.pre_g16_schema_fix.bak",
+    "?? APEX44/02-science/control_plane/multiple_testing.py.pre_g11_float_fix.bak",
+    "?? APEX44/02-science/control_plane/red_team.py.pre_g15_deepcopy_fix.bak",
+    "?? APEX44/02-science/control_plane/representation_adjudication.py.pre_g2_fix.bak",
+    "?? APEX44/03-computation/B_to_W.py",
+    "?? APEX44/03-computation/bicm_fdr.py",
+    "?? APEX44/03-computation/bicm_filter.py",
+    "?? APEX44/03-computation/build_B_real.py",
+    "?? APEX44/04-evaluation/governance_update.py",
+    "?? PHASE2_CLEAN/",
+    "?? artifacts/control_plane_v0.1/g47_provenance_correction.json",
+    "?? artifacts/control_plane_v0.1/representation_adjudication.pre_g2_3.json",
+    "?? \"cientific inference control plane v0.1' -n 3\"",
+    "?? fix.py"
+  ]
+}
