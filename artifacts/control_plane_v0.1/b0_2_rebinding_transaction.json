@@ -1,0 +1,30 @@
+{
+  "artifact_sha256": "db0cc2ac896417601d163209e09a8dfbe62d8386be89427526fbac9f990714cd",
+  "base_head": "a2fde53a79179f7405925e48e780feb9c33614a6",
+  "branch": "feat/scientific-inference-control-plane-v0.1",
+  "decision": "LOCAL_REBINDING_VALID",
+  "destructive_git_action": false,
+  "diff_sha256": "500ba68133f8c7c1d4781168979f2f5c1bcac183b83e008bf581c68a0f71d1f2",
+  "g16_rebinding": {
+    "declared_after": "738aad7328b5b3472bd242c9458d153addb5b337753941411d45b2682dc5201c",
+    "declared_before": "b29c4700f27f4ed1123edbf677b25d8746f82cc97399f4dfc157eca64296e5b1",
+    "match": true,
+    "observed_live": "738aad7328b5b3472bd242c9458d153addb5b337753941411d45b2682dc5201c"
+  },
+  "generated_at_utc": "2026-09-15T19:44:38.863962+00:00",
+  "historical_preservation": true,
+  "manifest_self_hash": {
+    "declared": "4ebb8bb1b7b519dc375e80e0d3b5e02c83f316f1d3eaa006eb37c925a06c859f",
+    "match": true,
+    "observed": "4ebb8bb1b7b519dc375e80e0d3b5e02c83f316f1d3eaa006eb37c925a06c859f"
+  },
+  "schema": "apex44-b0-2-rebinding-transaction-v0.1",
+  "scientific_blockers": [
+    "real_qac_provenance_conflict",
+    "real_target_representation_unverified"
+  ],
+  "scientific_execution": false,
+  "scientific_promotion": false,
+  "transaction_type": "CROSS_BOUNDARY_REBINDING",
+  "working_tree_status": " M APEX44/00-governance/audit_trail.json\n M APEX44/00-governance/biadj.npy\n M APEX44/00-governance/validated_backbone.json\n M APEX44/02-science/control_plane/integration_gate.py\n M artifacts/control_plane_v0.1/release_manifest.json\n?? APEX44/02-science/control_plane/claim_gate.py.pre_g12_support_fix.bak\n?? APEX44/02-science/control_plane/integration_gate.py.pre_g16_g10_realstate_fix.bak\n?? APEX44/02-science/control_plane/integration_gate.py.pre_g16_schema_fix.bak\n?? APEX44/02-science/control_plane/multiple_testing.py.pre_g11_float_fix.bak\n?? APEX44/02-science/control_plane/red_team.py.pre_g15_deepcopy_fix.bak\n?? APEX44/02-science/control_plane/representation_adjudication.py.pre_g2_fix.bak\n?? APEX44/03-computation/B_to_W.py\n?? APEX44/03-computation/bicm_fdr.py\n?? APEX44/03-computation/bicm_filter.py\n?? APEX44/03-computation/build_B_real.py\n?? APEX44/03-computation/output/G63_current_projection_meta.json\n?? APEX44/03-computation/output/G64_W_morph_int64.npz\n?? APEX44/03-computation/output/G64_W_morph_int64_meta.json\n?? APEX44/04-evaluation/governance_update.py\n?? PHASE2_CLEAN/\n?? artifacts/audit_workspace/\n?? artifacts/control_plane_v0.1/g47_provenance_correction.json\n?? artifacts/control_plane_v0.1/representation_adjudication.pre_g2_3.json\n?? \"cientific inference control plane v0.1' -n 3\"\n?? fix.py\n?? tests/audit/\n?? tools/\n"
+}
