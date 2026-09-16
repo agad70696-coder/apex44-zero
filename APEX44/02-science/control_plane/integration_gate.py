@@ -383,7 +383,12 @@ def main() -> int:
         artifact["artifact_sha256"],
     )
 
-    return 0 if result["decision"] == "BLOCK" else 0
+    decision = result["decision"]
+    if decision == "BLOCK":
+        return 1
+    if decision in {"READY", "PASS"}:
+        return 0
+    return 1
 
 
 if __name__ == "__main__":
