@@ -1,0 +1,19 @@
+ D apex.py
+ D official_quranqa
+ M release/pre-g0-g10-snapshot/git_commit.txt
+ M release/pre-g0-g10-snapshot/git_status.txt
+ M release/pre-g0-g10-snapshot/tracked_files.txt
+ D verify_fixes.py
+ D verify_for_court.py
+?? README_FIX_TODO.md
+?? [True,True,False,False]
+?? apex/__init__.py
+?? apex_core.py
+?? artifacts/
+?? evidence_chain.json.bak.invalid
+?? forensic_report.txt
+?? release/maintenance/
+?? release/reports/
+?? "tatus --short --branch"
+?? tools/
+?? "witch -c evidence-hardening-2026-09"

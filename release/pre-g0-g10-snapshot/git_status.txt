@@ -1,0 +1,13 @@
+ D apex.py
+ D official_quranqa
+ D verify_fixes.py
+ D verify_for_court.py
+?? README_FIX_TODO.md
+?? apex/__init__.py
+?? apex_core.py
+?? artifacts/
+?? forensic_report.txt
+?? release/
+?? "tatus --short --branch"
+?? tools/
+?? "witch -c evidence-hardening-2026-09"

@@ -1,0 +1,1 @@
+Linux localhost 5.10.236-android13-4-31267806 #1 SMP PREEMPT Fri Jun 5 15:54:01 KST 2026 aarch64 Android

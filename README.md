@@ -1,24 +1,36 @@
-# APEX44-ZERO - Quantum Sealed
+# APEX44-ZERO - Audited 2026-09-04
+Branch: research/g0-g10-gate e9b7c2e - VALID JSON
 
-![v3.0](https://img.shields.io/badge/v3.0-QUANTUM%20SAFE%2050y-brightgreen?style=for-the-badge)
-![NIST](https://img.shields.io/badge/NIST-SHAKE--256%20512--bit-blue?style=for-the-badge)
-![Seals](https://img.shields.io/badge/Seals-25%2F25%20128--char-success?style=for-the-badge)
-![Grover](https://img.shields.io/badge/Grover-256--bit%20SAFE-orange?style=for-the-badge)
-![Termux](https://img.shields.io/badge/Built%20on-Termux%20Python%203.13.13-black?style=for-the-badge)
+Built with love on Termux in Edfu, Aswan - Egypt
 
-First project in Egypt sealed with quantum-safe crypto for 50 years (2026-2076)
+## Reproducibility - QAC 6236x80
+- biadj_hash: 0be169fa1f1b66c2
+- BiCM: solve_tool(method=newton, tolerance=1e-8)
+- newton_steps=160, err_final=9.84e-09
+- Ensemble: R=10000, seed=44, entropy depends on size
 
-## Achievement
-- 25 Questions sealed 128 hex chars = 512-bit each
-- Dev21: 156 pairs + Zero4: 4 core = 25/25 = 100% Quantum Sealed
+## Statistics - Truth-in-labeling fix
+- Holm-Bonferroni step-down alpha/(m-i+1)
+- NOT Bonferroni alpha/m
+- p=[0.001,0.01,0.03,0.20] => [True,True,False,False]
+- Bonferroni <= Holm <= BH
 
-## Security
-- Hash: SHAKE-256 (NIST Post-Quantum 2024)
-- Seal: 128 char = 512-bit
-- Grover Resistance: 256-bit SAFE
-- IRRE Hash binding - any tamper detected
+## Integrity - Tamper-Evident
+- Canonical JSON RFC8785 sort_keys=True separators=,: 
+- self_hash=SHA256(canonical)
+- genesis prev_hash=null
+- verify_chain() recomputes
+- Limitation: tamper-evident, not tamper-proof
+
+## PQC - NIST SP 800-208
+- ML-DSA FIPS 204 core
+- SLH-DSA FIPS 205 + LMS-W4-SHA256 RFC8554
+- Hash-based security only
+
+## Evidence
+- evidence_chain.json VALID JSON
+- python -m json.tool passes
+- chain_head eb5558211f9514f2
 
 ## GATE
 ./scripts/quality-gate-strict.sh
-
-Built with love on Termux in Edfu, Aswan - Egypt

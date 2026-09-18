@@ -1,0 +1,45 @@
+{
+  "version": "1.0.0",
+  "mode": "governed",
+  "fail_closed": true,
+
+  "auto_fix_allowed": [
+    "formatting",
+    "lint",
+    "documentation",
+    "generated_metadata",
+    "dependency_patch_pr"
+  ],
+
+  "pr_required": [
+    "ci",
+    "workflow",
+    "dependency",
+    "tests"
+  ],
+
+  "human_review_required": [
+    "parser",
+    "normalization",
+    "tokenization",
+    "dataset",
+    "bipartite_matrix",
+    "null_model",
+    "statistics",
+    "multiple_testing",
+    "backbone",
+    "cryptography",
+    "scientific_claim",
+    "release_policy"
+  ],
+
+  "never_auto_merge": [
+    "scientific_claim",
+    "null_model",
+    "p_value_logic",
+    "threshold",
+    "observed_matrix",
+    "cryptography",
+    "release_policy"
+  ]
+}

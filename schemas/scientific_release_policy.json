@@ -1,0 +1,26 @@
+{
+  "protocol": "APEX44-SCI-G0-G10",
+  "version": "1.0.0",
+  "release_mode": true,
+  "required_gates": [
+    "G0",
+    "G1",
+    "G2",
+    "G3",
+    "G4",
+    "G5",
+    "G6",
+    "G7",
+    "G8",
+    "G9"
+  ],
+  "null_ensemble": {
+    "R": 10000,
+    "seed": 44
+  },
+  "statistics": {
+    "alpha": 0.05,
+    "bh_q": 0.10
+  },
+  "fail_closed": true
+}
