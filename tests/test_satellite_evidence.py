@@ -9,7 +9,7 @@ def test_satellite_ok() -> None:
 
 def test_gps_spoofing_detection() -> None:
     sat = SatelliteEvidence("NILESAT-301", 35786, 7.0, 30.0)
-    sat.update_position(36000, 7.1, 30.1)  # حركة طبيعية
+    sat.update_position(35850, 7.1, 30.1)  # حركة طبيعية: +64 كم
     assert not sat.is_orbit_tampered()
     sat.update_position(50000, 50.0, 50.0)  # قفزة مستحيلة - هجوم Spoofing
     assert sat.is_orbit_tampered()

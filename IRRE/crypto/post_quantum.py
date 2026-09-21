@@ -1,4 +1,5 @@
 import base64
+import os
 import re
 from pathlib import Path
 
@@ -41,7 +42,8 @@ class QuantumSafeEvidence:
     def generate_keypair(self):
         if not PQC_AVAILABLE:
             raise RuntimeError("PQC library missing - production requires pyspx SPHINCS+")
-        pk, sk = sphincs.generate_keypair()
+        seed = os.urandom(sphincs.crypto_sign_SEEDBYTES)
+        pk, sk = sphincs.generate_keypair(seed)
         self.pk, self.sk = pk, sk
         self.sk_path.write_text(base64.b64encode(self.sk).decode())
         self.pk_path.write_text(base64.b64encode(self.pk).decode())
@@ -56,6 +58,9 @@ class QuantumSafeEvidence:
             "algorithm": ALGO,
             "pqc_available": True,
         }
+
+    def verify_seal(self, ai_hash: str, signature_b64: str) -> bool:
+        return self.verify_proof(ai_hash, signature_b64)
 
     def verify_proof(self, ai_hash: str, signature_b64: str, public_key_b64: str | None = None):
         pk = base64.b64decode(public_key_b64) if public_key_b64 else self.pk

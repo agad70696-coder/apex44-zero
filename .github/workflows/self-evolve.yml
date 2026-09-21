@@ -2,45 +2,89 @@ name: Self-Evolve - Genesis Loop
 
 on:
   schedule:
-    - cron: '0 */6 * * *'  # Every 6 hours - Genesis Loop
+    - cron: '0 */6 * * *'
   workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
 
 jobs:
   spotlight:
     runs-on: ubuntu-latest
-    permissions:
-      contents: read
-      pull-requests: write
+
     steps:
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+
       - uses: actions/setup-python@a309ff8b426b58ec0e2a45f0f869d46889d02405
         with:
           python-version: '3.11'
-      - name: Install deps
+          cache: pip
+          cache-dependency-path: |
+            requirements.txt
+            requirements-ci.txt
+
+      - name: Install CI dependencies
         run: |
-          pip install rfc8785 jcs
-          pip install -r requirements.txt 2>/dev/null || true
+          python -m pip install --upgrade pip
+          python -m pip install -r requirements-ci.txt
+
+      - name: Verify execution environment
+        run: |
+          python --version
+          python -m pip --version
+          python -c "import pytest; print('pytest:', pytest.__version__)"
+
       - name: Run Opportunity Spotlight
         run: |
           mkdir -p data
           python IRRE/discovery/opportunity_scanner.py
-          cat data/opportunity_ledger.jsonl || true
-      - name: Run Tests (6 passed gate)
-        run: |
-          python -m pytest tests/ -v || python -m pytest -v
-      - name: TLA+ Formal Check (if tlc available)
-        run: |
-          ls specs/evidence_chain.tla && echo "TLA spec present with Inv_Crypto"
-      - name: Auto-heal if FAIL detected
-        run: |
-          if grep -q '"status": "FAIL"' data/opportunity_ledger.jsonl; then
-            echo "FAIL detected - would open PR via agentic CI healer"
-            echo "See: https://github.com/devankit57/agentic-ci-healer pattern"
+          if [ -f data/opportunity_ledger.jsonl ]; then
+            cat data/opportunity_ledger.jsonl
+          else
+            echo "No opportunity ledger generated."
           fi
+
+      - name: Run Tests
+        run: |
+          python -m pytest tests/ -v
+
+      - name: TLA+ Formal Check
+        run: |
+          test -f specs/evidence_chain.tla
+          if command -v tlc >/dev/null 2>&1; then
+            echo "TLC available"
+            tlc specs/evidence_chain.tla
+          else
+            echo "TLC unavailable; specification presence verified only"
+          fi
+
+      - name: Auto-heal if FAIL detected
+        if: always()
+        run: |
+          if [ -f data/opportunity_ledger.jsonl ] &&
+             grep -q '"status": "FAIL"' data/opportunity_ledger.jsonl; then
+            echo "FAIL detected - auto-heal proposal path available"
+          else
+            echo "No FAIL record detected."
+          fi
+
       - name: Commit opportunity ledger
+        if: success()
         run: |
           git config user.name "APEX44 Self-Evolve"
           git config user.email "self-evolve@apex44.zero"
-          git add data/opportunity_ledger.jsonl data/opportunity_report.md || true
-          git commit -m "auto: spotlight scan $(date -u +%Y-%m-%dT%H:%MZ) - $(cat data/opportunity_ledger.jsonl | tail -1)" || echo "No changes"
-          git push || echo "Push skipped"
+
+          if [ -f data/opportunity_ledger.jsonl ] ||
+             [ -f data/opportunity_report.md ]; then
+            git add data/opportunity_ledger.jsonl data/opportunity_report.md || true
+
+            if git diff --cached --quiet; then
+              echo "No ledger changes."
+            else
+              git commit -m "auto: spotlight scan $(date -u +%Y-%m-%dT%H:%MZ)"
+              git push
+            fi
+          else
+            echo "No opportunity artifacts to commit."
+          fi
