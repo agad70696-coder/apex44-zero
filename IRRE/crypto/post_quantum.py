@@ -7,6 +7,7 @@ fail-closed: do not substitute a classical or HMAC signature when the PQ library
 from __future__ import annotations
 
 import base64
+from contextlib import suppress
 import importlib
 import os
 import re
@@ -24,6 +25,7 @@ for module_name in ("pyspx.shake_128f", "pyspx.shake256_128f"):
 PQC_AVAILABLE = SPHINCS_MODULE is not None
 sphincs = SPHINCS_MODULE
 ALGO = "SPHINCS+-SHAKE-128f (PySPX binding)" if PQC_AVAILABLE else "UNAVAILABLE"
+SHA256_HEX_LENGTH = 64
 
 
 def _sanitize_model_id(model_id: str) -> str:
@@ -35,7 +37,7 @@ def _sanitize_model_id(model_id: str) -> str:
 def _message(ai_hash: str) -> bytes:
     if not isinstance(ai_hash, str) or not ai_hash:
         raise ValueError("ai_hash must be a non-empty string")
-    if len(ai_hash) == 64 and re.fullmatch(r"[a-fA-F0-9]{64}", ai_hash):
+    if len(ai_hash) == SHA256_HEX_LENGTH and re.fullmatch(r"[a-fA-F0-9]{64}", ai_hash):
         return bytes.fromhex(ai_hash)
     return ai_hash.encode("utf-8")
 
@@ -73,15 +75,11 @@ class QuantumSafeEvidence:
         self.pk, self.sk = pk, sk
         # Best-effort restrictive file permissions on Unix-like platforms.
         self.sk_path.write_text(base64.b64encode(sk).decode("ascii"), encoding="ascii")
-        try:
+        with suppress(OSError):
             self.sk_path.chmod(0o600)
-        except OSError:
-            pass
         self.pk_path.write_text(base64.b64encode(pk).decode("ascii"), encoding="ascii")
-        try:
+        with suppress(OSError):
             self.pk_path.chmod(0o644)
-        except OSError:
-            pass
         return pk, sk
 
     def export_proof(self, ai_hash: str) -> dict[str, object]:

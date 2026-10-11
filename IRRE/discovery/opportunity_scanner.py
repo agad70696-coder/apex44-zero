@@ -25,17 +25,20 @@ class OpportunityScanner:
         """Check DNS resolution only; this does not establish RPC endpoint health."""
         try:
             socket.gethostbyname("polygon-amoy.drpc.org")
-            return {"status": "PASS", "opportunity": "RPC hostname resolved via DNS"}
         except OSError as exc:
             return {"status": "FAIL", "opportunity": f"RPC hostname DNS lookup failed: {exc}"}
+        else:
+            return {"status": "PASS", "opportunity": "RPC hostname resolved via DNS"}
 
     def scan_jcs(self) -> dict[str, str]:
         try:
-            from IRRE.ledger import jcs_canonical
+            # Keep the optional validator lazy so a missing dependency becomes a typed scan failure.
+            from IRRE.ledger import jcs_canonical  # noqa: PLC0415
             valid = jcs_canonical.is_jcs()
-            return {"status": "PASS" if valid else "FAIL", "opportunity": "JCS check"}
         except Exception as exc:
             return {"status": "FAIL", "opportunity": f"JCS check error: {type(exc).__name__}: {exc}"}
+        else:
+            return {"status": "PASS" if valid else "FAIL", "opportunity": "JCS check"}
 
     def scan_tla(self) -> dict[str, str]:
         """Check invariant names are present; this is not a TLC model-checker run."""
@@ -52,13 +55,13 @@ class OpportunityScanner:
         return {"status": "PASS", "opportunity": "TLA+ invariant names present (static check only)"}
 
     def scan_nist(self) -> dict[str, str]:
-        today = dt.datetime.now(dt.timezone.utc).date()
+        today = dt.datetime.now(dt.UTC).date()
         days = (dt.date(2030, 12, 31) - today).days
         return {"status": "OPPORTUNITY", "opportunity": f"{days} days until 2030-12-31 review date"}
 
     @staticmethod
     def _timestamp() -> str:
-        return dt.datetime.now(dt.timezone.utc).replace(microsecond=0).isoformat().replace("+00:00", "Z")
+        return dt.datetime.now(dt.UTC).replace(microsecond=0).isoformat().replace("+00:00", "Z")
 
     def write_outputs(
         self, results: Mapping[str, Mapping[str, Any]], observed_at: str | None = None

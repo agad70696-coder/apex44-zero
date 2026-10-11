@@ -1,3 +1,5 @@
+from pathlib import Path
+
 from IRRE.ai.ai_evidence import AIModelEvidence
 from IRRE.crypto.forensic_signer import ForensicSigner
 from IRRE.crypto.post_quantum import QuantumSafeEvidence
@@ -28,8 +30,7 @@ def main() -> None:
     print(f"Block #{block['index']} Created: {block['block_hash']}")
     print(f"Chain Valid: {ledger.verify()}")
 
-    with open("evidence_chain.json", "w", encoding="utf-8") as stream:
-        stream.write(ledger.export())
+    Path("evidence_chain.json").write_text(ledger.export(), encoding="utf-8")
     ledger.close()
     print("\nDone! Evidence chain export saved to evidence_chain.json.")
 

@@ -16,6 +16,13 @@ from cryptography.hazmat.primitives.asymmetric.ed25519 import Ed25519PrivateKey,
 _VALID_DIGEST = re.compile(r"^(?:[a-fA-F0-9]{64}|[a-fA-F0-9]{128})$")
 
 
+class InvalidDigestError(ValueError):
+    """Raised when signer input is not a supported hexadecimal digest."""
+
+    def __init__(self) -> None:
+        super().__init__("Expected a 64- or 128-character hexadecimal digest")
+
+
 class ForensicSigner:
     """Ephemeral Ed25519 signer used only as a development fallback."""
 
@@ -25,7 +32,7 @@ class ForensicSigner:
     @staticmethod
     def _message(digest: str) -> bytes:
         if not isinstance(digest, str) or not _VALID_DIGEST.fullmatch(digest):
-            raise ValueError("Expected a 64- or 128-character hexadecimal digest")
+            raise InvalidDigestError()
         return digest.lower().encode("ascii")
 
     def sign(self, digest: str) -> str:
@@ -50,6 +57,7 @@ class ForensicSigner:
             if not isinstance(public_key, Ed25519PublicKey):
                 return False
             public_key.verify(signature, message)
-            return True
         except (ValueError, TypeError, UnicodeError, InvalidSignature):
             return False
+        else:
+            return True
