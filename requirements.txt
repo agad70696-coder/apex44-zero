@@ -2,3 +2,4 @@ cryptography>=44.0.0
 adafruit-circuitpython-atecc
 numpy
 pyspx==0.5.0
+scipy>=1.13

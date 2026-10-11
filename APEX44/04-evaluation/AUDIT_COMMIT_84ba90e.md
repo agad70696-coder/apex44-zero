@@ -1,29 +1,47 @@
-# Audit: commit 84ba90e805d8427c4be57b965046353849b8720b
+# Forensic audit and correction of commit 84ba90e805d8427c4be57b965046353849b8720b
 
-Date of review: 2026-10-11
+Review and corrected replay: 2026-10-11.
 
-## Scope and decision
+## Decision
 
-This review covers the committed QAC-derived matrix bundle and the claims attached to it. The four NPZ outputs and JSON summaries are present, but the repository snapshot does not close the provenance chain needed to promote the results as independently reproduced real-data evidence.
+The original commit's reported significance masks were not safe to rely on. The earlier audit was incomplete because it did not identify integer overflow in the projection. This repair corrects the computation, includes the exact QAC morphology v0.4 source as an unmodified file, and adds a source-to-output reproduction command and blocking CI checks.
 
-Current disposition: REVIEW_REQUIRED; evidence status PARTIAL_EVIDENCE; promotion authority NONE.
+Current disposition: REPRODUCED_SCOPED for source-to-array reproduction; overall scientific claim remains REVIEW_REQUIRED; promotion authority remains NONE.
 
-## Findings
+## Confirmed source identity
 
-1. **Source closure is missing.** DRS_real_data.json refers to quranic-corpus-morphology-0.4.txt and records a SHA-256, line count, and byte-size claim, but the source file is not in the inspected repository tree. Its bytes and source digest cannot be recomputed from this snapshot.
-2. **No checked-in producer reproduces the committed matrix.** apply_to_qac.py discovers qac_batch*.py files and extracts regex matches from their source text; its fallback fabricates placeholder observations, and build_biadj adds edges to empty rows and columns. It does not parse the named QAC morphology text. bicm_10k_ensemble.py has a hard-coded 5x4 example under __main__. Neither binds its outputs to the committed 6236x1642 matrix.
-3. **Method equivalence is not established.** The result metadata describes an analytic Chung-Lu/Poisson-tail calculation with Holm correction, whereas the candidate implementation performs sampled BiCM operations. No committed replay record shows that the listed method produced the published arrays.
-4. **Artifact identity does not establish provenance.** The original report used short SHA-256 prefixes for two arrays; the repair adds full SHA-256 entries for four arrays and root labels plus regression checks. Hashes establish byte identity only and do not authenticate source ancestry or generation.
-5. **CI failure on main is independent.** Self-Evolve run #156 (run ID 38136630526) stopped at the test step because pytest was not installed (No module named pytest). The open repair PR already installs pytest; this audit is being added to that PR rather than changing main directly.
+The exact source file was recovered from the existing local project workspace at PHASE2_CLEAN/source/quranic-corpus-morphology-0.4.txt. Its raw SHA-256 matches the source hash already recorded in the original result report:
 
-## Repairs
+a1d12923815341face765083805d2148ed2d9f5cc3f7d6665219d887675d8c46
 
-- Downgraded the real-data claim to REVIEW_REQUIRED, with PARTIAL_EVIDENCE and promotion_authority=NONE.
-- Replaced the historical comparison's affirmative verdict with NOT_VERIFIED; the counts remain reported outputs, not independently reproduced findings.
-- Added reproducibility limitations to both result metadata files without changing the binary arrays or inventing replacement numerical results.
-- Added a full SHA-256 manifest for the four NPZ outputs and the root-label file, with tests binding each committed file byte-for-byte to the manifest. This is byte identity, not proof of origin or validity.
-- Added regression checks for source/replay closure, matrix dimensions, stored entry counts, symmetry of the two significance masks, and root-label uniqueness.
+Its raw size is 6,309,503 bytes and its line count is 128,276. The file was added to the repair branch byte-for-byte, preserving the copyright/license block and CRLF line endings. A source manifest records version, byte length, line count, and digest. This closes the input's byte-identity gap in the repository snapshot; it does not independently authenticate upstream custody.
 
-## Requirements for scientific promotion
+## Critical computational defect: int8 overflow
 
-Supply the unmodified QAC morphology v0.4 source or an auditable acquisition receipt; check in a deterministic producer that reads that exact source and records its full SHA-256; record full SHA-256 hashes for every output; run it in a clean environment; and attach a replay receipt binding source, code, parameters, seed, and outputs. Statistical assumptions and family-wise/FDR calculations must then be re-evaluated from the executable producer. Until then, retain these arrays as analysis artifacts but keep their real-data and historical-comparison claims review-only.
+The previous projection calculation multiplied an int8 incidence matrix directly. Counts over the signed 8-bit range overflowed. Inspection of the pre-repair matrix found 1,580 negative stored entries and a maximum of 127, which is impossible for a co-occurrence count. The old projection had 318,274 stored entries; the corrected int64 projection has 318,278 stored entries and maximum common-verse count 2,567. A total of 2,108 matrix coordinates differ, and two undirected pairs had been erased by wraparound to zero.
+
+The incidence matrix remains binary int8 for storage efficiency, but is promoted to int64 before multiplication. The corrected projection is symmetric, nonnegative, and has a zero diagonal.
+
+## Corrected statistical calculation
+
+The prior counts 616 (Holm) and 3729 (BH/FDR) came from the overflowed matrix and a multiple-testing family restricted to observed nonzero edges. They are explicitly invalidated. The corrected analysis tests the full family of 1,347,261 unordered root/lemma pairs, including zero-observation pairs with p-value 1. The expected count uses a degree-based Poisson-tail approximation and is not an exact sampled BiCM null.
+
+Corrected counts: Holm 542 undirected pairs; Benjamini-Hochberg 1,685 undirected pairs. The historical figure of 1,816 has not been recreated under a source-bound comparable method; the verdict remains NOT_VERIFIED.
+
+## Reproducibility and tests
+
+Read-only verification from the repository root:
+
+python APEX44/03-computation/reproduce_qac_analysis.py --verify
+
+To intentionally regenerate matrices and metadata:
+
+python APEX44/03-computation/reproduce_qac_analysis.py --write
+
+The runner verifies the source hash and source manifest, rebuilds the incidence matrix from the raw corpus, performs the projection using wide integers, recalculates both correction procedures across the full pair family, and semantically compares every matrix and root label with the stored files. Full SHA-256 values for committed outputs are recorded in both report metadata files. These hashes establish byte identity of stored artifacts, not mathematical validity or upstream provenance by themselves.
+
+The repair also adds a regression test showing int8 overflow on a 300-common-neighbor synthetic fixture and a blocking quality-gate step that executes the targeted tests and the full source-to-output replay. Local result: PASS_SCOPED_REPRODUCTION; targeted tests: pass.
+
+## Boundaries
+
+Reproducing a result from a fixed corpus establishes computational reproducibility, not the validity of the degree-based Poisson approximation, root/lemma feature selection, linguistic interpretation, or comparison with a historical number. Those remain review-required. No promotion authority is granted.

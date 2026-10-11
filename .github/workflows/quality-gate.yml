@@ -58,3 +58,8 @@ jobs:
 
       - name: Pytest
         run: uv run python -m pytest -q --import-mode=importlib
+
+      - name: QAC source-bound replay and overflow regression
+        run: |
+          uv run python -m pytest -q --import-mode=importlib APEX44/04-evaluation/tests/test_real_data_provenance.py
+          uv run python APEX44/03-computation/reproduce_qac_analysis.py --verify

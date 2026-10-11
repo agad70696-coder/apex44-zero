@@ -2,9 +2,13 @@
   "date": "2026-09-10T05:41:15.256837",
   "source": {
     "file": "quranic-corpus-morphology-0.4.txt",
-    "sha256": "a1d12923815341face765083805d2148ed2d9f5cc3f7d6665219d8d887675d8c46",
+    "sha256": "a1d12923815341face765083805d2148ed2d9f5cc3f7d6665219d887675d8c46",
     "lines": 128276,
-    "size": "6309503"
+    "size": "6309503",
+    "bytes": 6309503,
+    "version": "0.4",
+    "license_notice": "GNU General Public License (as stated in the unmodified source header)",
+    "origin_url": "http://corpus.quran.com/download"
   },
   "B_real": {
     "shape": [
@@ -13,130 +17,169 @@
     ],
     "nnz": 102210,
     "density": 0.009981921013423297,
-    "file": "APEX44/03-computation/output/B_real_6236x1642.npz",
-    "sha16": "94b4247ae0dd42e8"
+    "file": "APEX44/03-computation/output/B_real_6236x1642.npz"
   },
   "W_morph": {
     "shape": [
       1642,
       1642
     ],
-    "nnz": 318274,
-    "sha16": "b273d989453e6b5d",
+    "nnz": 318278,
+    "dtype": "int64",
+    "max_common_verses": 2567,
     "file": "APEX44/03-computation/output/W_morph_1642x1642.npz"
   },
   "W_sig_Holm": {
-    "undirected": 616,
-    "directed": 1232,
-    "method": "BiCM Chung-Lu Poisson sf + Holm alpha=0.05",
+    "undirected": 542,
+    "directed": 1084,
+    "alpha": 0.05,
+    "tested_hypotheses": 1347261,
+    "family": "all unordered root pairs, including pairs with zero observed co-occurrence",
+    "method": "Degree-based bipartite projection: lambda_ij = d_i*d_j*sum_v(k_v^2)/E^2; Poisson upper-tail approximation; Holm FWER alpha=0.05 and BH FDR alpha=0.05. This is an approximation, not an exact sampled BiCM null.",
     "file": "APEX44/03-computation/output/W_sig_1642x1642.npz"
   },
   "W_fdr_BH": {
-    "undirected": 3729,
-    "directed": 7458,
-    "method": "BiCM + Benjamini-Hochberg FDR alpha=0.05",
+    "undirected": 1685,
+    "directed": 3370,
+    "alpha": 0.05,
+    "tested_hypotheses": 1347261,
+    "family": "all unordered root pairs, including pairs with zero observed co-occurrence",
+    "method": "Benjamini-Hochberg FDR alpha=0.05 over the full pair family",
     "file": "APEX44/03-computation/output/W_fdr_1642x1642.npz"
   },
   "historical_comparison": {
     "historical_claim": 1816,
-    "real_Holm": 616,
-    "real_FDR": 3729,
-    "verdict": "NOT_VERIFIED: reported counts are descriptive only until the source, generator, and outputs are bound and replayed."
+    "legacy_overflow_holm": 616,
+    "legacy_overflow_fdr": 3729,
+    "corrected_all_pairs_holm": 542,
+    "corrected_all_pairs_fdr": 1685,
+    "verdict": "NOT_VERIFIED: the historical 1816 figure has not been recreated under a source-bound comparable method. Previous 616/3729 counts are invalidated because the prior projection used int8 arithmetic and corrected only the nonzero-edge family."
   },
   "top_10_Holm": [
     {
-      "a": "Alh",
-      "b": "Hkm",
-      "obs": 127,
-      "exp": 78.13308617446995,
-      "p_holm": 0.03804434261437399
+      "a": "wA@",
+      "b": "{l~a*iY",
+      "observed": 737,
+      "expected_poisson_mean": 475.0259570736503,
+      "p_raw": 6.374043717170029e-29,
+      "p_holm_adjusted": 8.587239176645806e-23
     },
     {
-      "a": "hu",
-      "b": "na`",
-      "obs": 127,
-      "exp": 43.70626642254029,
-      "p_holm": 1.8658704045646565e-19
-    },
-    {
-      "a": "Amn",
-      "b": "kfr",
-      "obs": 126,
-      "exp": 73.96693869706088,
-      "p_holm": 0.0037478453708807914
-    },
-    {
-      "a": "hu",
-      "b": "w",
-      "obs": 126,
-      "exp": 45.25339089767446,
-      "p_holm": 9.452445614851462e-18
-    },
-    {
-      "a": "<in",
-      "b": "tumo",
-      "obs": 125,
-      "exp": 39.715688531473226,
-      "p_holm": 5.159162021163137e-22
-    },
-    {
-      "a": "<il~aA",
-      "b": ">an",
-      "obs": 124,
-      "exp": 72.01103190184718,
-      "p_holm": 0.0027099538872664536
+      "a": "wna",
+      "b": "laA",
+      "observed": 682,
+      "expected_poisson_mean": 522.3340401603575,
+      "p_raw": 1.4059290805543035e-11,
+      "p_holm_adjusted": 1.8937850655775663e-05
     },
     {
       "a": "wA@",
-      "b": "ya`^",
-      "obs": 123,
-      "exp": 72.61056463716297,
-      "p_holm": 0.00725602707517111
+      "b": "kwn",
+      "observed": 582,
+      "expected_poisson_mean": 449.4211790173876,
+      "p_raw": 1.224230297130392e-09,
+      "p_holm_adjusted": 0.0016488655937627428
     },
     {
-      "a": "<ilaY`",
-      "b": "w^A@",
-      "obs": 120,
-      "exp": 67.6675547419924,
-      "p_holm": 0.0009631526476343178
+      "a": "bi",
+      "b": "hi.",
+      "observed": 443,
+      "expected_poisson_mean": 273.35700567023616,
+      "p_raw": 3.0208774467379577e-21,
+      "p_holm_adjusted": 4.069698908348356e-15
     },
     {
-      "a": "{l",
-      "b": "dnw",
-      "obs": 120,
-      "exp": 54.52073690757228,
-      "p_holm": 2.2038088781914792e-09
+      "a": "{lo",
+      "b": "ArD",
+      "observed": 429,
+      "expected_poisson_mean": 314.0363468184739,
+      "p_raw": 4.5194511725746655e-10,
+      "p_holm_adjusted": 0.00060872352259873
     },
     {
-      "a": "qwl",
-      "b": "ya`",
-      "obs": 120,
-      "exp": 51.72702436700719,
-      "p_holm": 6.276672656637928e-11
+      "a": "wA@",
+      "b": "Amn",
+      "observed": 415,
+      "expected_poisson_mean": 276.3023064877306,
+      "p_raw": 4.808877125459743e-15,
+      "p_holm_adjusted": 6.478124935495078e-09
+    },
+    {
+      "a": "Alh",
+      "b": "Elm",
+      "observed": 408,
+      "expected_poisson_mean": 300.95707267203244,
+      "p_raw": 2.720215789485512e-09,
+      "p_holm_adjusted": 0.00366367911261593
+    },
+    {
+      "a": "Alh",
+      "b": "man",
+      "observed": 383,
+      "expected_poisson_mean": 286.07458006737147,
+      "p_raw": 2.8467257646711017e-08,
+      "p_holm_adjusted": 0.03833770989055513
+    },
+    {
+      "a": "{l~a*iY",
+      "b": "Amn",
+      "observed": 372,
+      "expected_poisson_mean": 197.72237591493908,
+      "p_raw": 1.662177153504896e-28,
+      "p_holm_adjusted": 2.2393133182134054e-22
+    },
+    {
+      "a": "maA",
+      "b": "<il~aA",
+      "observed": 353,
+      "expected_poisson_mean": 245.0504800948256,
+      "p_raw": 5.720983281846394e-11,
+      "p_holm_adjusted": 7.70590703639941e-05
     }
   ],
   "status": "REVIEW_REQUIRED",
   "reproducibility_audit": {
-    "status": "BLOCKED",
-    "reason": "SOURCE_AND_EXECUTABLE_GENERATOR_NOT_CLOSED",
-    "source_available_in_snapshot": false,
-    "generator_bound_to_outputs": false,
-    "replay_receipt": null,
-    "limitations": [
-      "The referenced quranic-corpus-morphology-0.4.txt source file is absent from this repository snapshot; the declared source SHA-256 therefore cannot be independently recomputed from the committed inputs.",
-      "The checked-in apply_to_qac.py scans qac_batch*.py source files with regular expressions rather than parsing the named morphology corpus, and build_biadj inserts edges into empty rows and columns.",
-      "The checked-in bicm_10k_ensemble.py executable example uses a hard-coded 5x4 synthetic matrix; neither checked-in candidate is a replayable producer of the committed 6236x1642 matrix.",
-      "The published matrix checksums are partial SHA-256 prefixes for only some outputs; full SHA-256 values and a replay receipt do not bind all four NPZ outputs to an executable computation.",
-      "The declared method says analytic Chung-Lu/Poisson with Holm correction, while the checked-in candidate code performs sampled BiCM operations on different inputs; equivalence has not been demonstrated."
-    ]
+    "status": "PASS_SCOPED",
+    "reason": "SOURCE_BOUND_REPLAY_AND_WIDE_INTEGER_PROJECTION",
+    "source_available_in_snapshot": true,
+    "source_sha256_verified": "a1d12923815341face765083805d2148ed2d9f5cc3f7d6665219d887675d8c46",
+    "producer": "APEX44/03-computation/reproduce_qac_analysis.py",
+    "producer_sha256": "eed03d0a1ab9370f57f34ee8bea3bc074f017e99a1368c868669935e18044a5c",
+    "environment": {
+      "python": "3.13.13",
+      "numpy": "2.4.4",
+      "scipy": "1.18.0"
+    },
+    "artifact_sha256": {
+      "APEX44/03-computation/output/B_real_6236x1642.npz": "94b4247ae0dd42e8c9edde0399ddd6d152bad0e832129af4be0998664f05eda6",
+      "APEX44/03-computation/output/W_morph_1642x1642.npz": "d8a996c460f35dae857f51af7733ba75d6bde431f6253479b5ff659a7fb7d9df",
+      "APEX44/03-computation/output/W_sig_1642x1642.npz": "1075ffe70c25fd886f5033110efe26e1d97873460129f112db44d818b9e7c67c",
+      "APEX44/03-computation/output/W_fdr_1642x1642.npz": "723ba60f1efd4979a62148e0b4cc635ef9344a198b54b1c5505f112c1c8bb23a",
+      "APEX44/03-computation/output/roots_1642.json": "ab502c9a773c36a3306c27940f9bdde921af3d7ce69e7445f39b516b86b5d4d2"
+    },
+    "replay_receipt": "Generated and semantically compared all four sparse matrices and root labels; see test_real_data_provenance.py and CI replay step."
   },
-  "evidence_status": "PARTIAL_EVIDENCE",
+  "evidence_status": "REPRODUCED_SCOPED",
   "promotion_authority": "NONE",
   "artifact_sha256": {
     "APEX44/03-computation/output/B_real_6236x1642.npz": "94b4247ae0dd42e8c9edde0399ddd6d152bad0e832129af4be0998664f05eda6",
-    "APEX44/03-computation/output/W_morph_1642x1642.npz": "b273d989453e6b5df27860a8a1bfbea28619878703cd7b6d6622e5c7b88e3f10",
-    "APEX44/03-computation/output/W_sig_1642x1642.npz": "d67075caa9d5b211db9a1413c40f661b94f1c6a7fb1c1f52ac18c89dcb66cdb1",
-    "APEX44/03-computation/output/W_fdr_1642x1642.npz": "cfe77212fc0f5b68ac565b5a8baa7ff45a12214d9803655ac1244bde06609462",
+    "APEX44/03-computation/output/W_morph_1642x1642.npz": "d8a996c460f35dae857f51af7733ba75d6bde431f6253479b5ff659a7fb7d9df",
+    "APEX44/03-computation/output/W_sig_1642x1642.npz": "1075ffe70c25fd886f5033110efe26e1d97873460129f112db44d818b9e7c67c",
+    "APEX44/03-computation/output/W_fdr_1642x1642.npz": "723ba60f1efd4979a62148e0b4cc635ef9344a198b54b1c5505f112c1c8bb23a",
     "APEX44/03-computation/output/roots_1642.json": "ab502c9a773c36a3306c27940f9bdde921af3d7ce69e7445f39b516b86b5d4d2"
+  },
+  "computation_audit": {
+    "status": "CORRECTED",
+    "defect": "integer overflow in int8 projection multiplication",
+    "legacy_projection_dtype": "int8",
+    "legacy_negative_projection_entries": 1580,
+    "legacy_projection_nnz": 318274,
+    "corrected_projection_dtype": "int64",
+    "corrected_projection_nnz": 318278,
+    "corrected_projection_max": 2567,
+    "changed_coordinates_vs_legacy": 2108,
+    "undirected_pairs_previously_lost_to_zero_wraparound": 2,
+    "multiple_testing_family_changed": true,
+    "legacy_counts_valid": false
   }
 }
