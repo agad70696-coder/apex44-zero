@@ -1,123 +1,130 @@
-[
-  {
-    "name": "S7 Null Ladder",
-    "expected": "holm_rejects=0",
-    "observed": "holm_rejects=0",
-    "passed": true,
-    "details": {}
+{
+  "schema_version": "apex44-scientific-control-report-v1",
+  "evaluation_id": "NO_OBSERVATIONS_SUPPLIED",
+  "subject": null,
+  "contract_schema_version": "apex44-scientific-control-contract-v1",
+  "acceptance_status": "PROPOSED_OPERATIONAL_THRESHOLDS_REQUIRING_PREREGISTRATION_REVIEW",
+  "control_count": 14,
+  "summary": {
+    "PASS": 0,
+    "FAIL": 0,
+    "BLOCKED": 14
   },
-  {
-    "name": "Positive Control S8",
-    "expected": "C[0,1]=10",
-    "observed": "C[0,1]=10",
-    "passed": true,
-    "details": {}
-  },
-  {
-    "name": "Negative Control",
-    "expected": "backbone_edges=0 must NOT create constraint from noise",
-    "observed": "backbone_edges=0",
-    "passed": true,
-    "details": {
-      "kill_switch": "STOP if fails"
+  "scientific_control_gate_status": "BLOCKED",
+  "release_promotion_authority": "NONE",
+  "controls": [
+    {
+      "control_id": "S1",
+      "name": "Known-Low Constraint",
+      "status": "BLOCKED",
+      "reason": "OBSERVATION_MISSING",
+      "details": {},
+      "evidence_count": 0
+    },
+    {
+      "control_id": "S2",
+      "name": "Known-High Constraint",
+      "status": "BLOCKED",
+      "reason": "OBSERVATION_MISSING",
+      "details": {},
+      "evidence_count": 0
+    },
+    {
+      "control_id": "S3",
+      "name": "Surprisal Calibration",
+      "status": "BLOCKED",
+      "reason": "OBSERVATION_MISSING",
+      "details": {},
+      "evidence_count": 0
+    },
+    {
+      "control_id": "S4",
+      "name": "Length Confounding",
+      "status": "BLOCKED",
+      "reason": "OBSERVATION_MISSING",
+      "details": {},
+      "evidence_count": 0
+    },
+    {
+      "control_id": "S5",
+      "name": "Annotation Noise Sensitivity",
+      "status": "BLOCKED",
+      "reason": "OBSERVATION_MISSING",
+      "details": {},
+      "evidence_count": 0
+    },
+    {
+      "control_id": "S6",
+      "name": "Representation Stability",
+      "status": "BLOCKED",
+      "reason": "OBSERVATION_MISSING",
+      "details": {},
+      "evidence_count": 0
+    },
+    {
+      "control_id": "S9",
+      "name": "Generator-Bias Detection",
+      "status": "BLOCKED",
+      "reason": "OBSERVATION_MISSING",
+      "details": {},
+      "evidence_count": 0
+    },
+    {
+      "control_id": "S10",
+      "name": "Leakage Sentinel",
+      "status": "BLOCKED",
+      "reason": "OBSERVATION_MISSING",
+      "details": {},
+      "evidence_count": 0
+    },
+    {
+      "control_id": "S11",
+      "name": "Legal-versus-Illegal Perturbation",
+      "status": "BLOCKED",
+      "reason": "OBSERVATION_MISSING",
+      "details": {},
+      "evidence_count": 0
+    },
+    {
+      "control_id": "S12",
+      "name": "Alternative Tournament",
+      "status": "BLOCKED",
+      "reason": "OBSERVATION_MISSING",
+      "details": {},
+      "evidence_count": 0
+    },
+    {
+      "control_id": "S13",
+      "name": "Hidden Constraint Epistemic Boundary",
+      "status": "BLOCKED",
+      "reason": "OBSERVATION_MISSING",
+      "details": {},
+      "evidence_count": 0
+    },
+    {
+      "control_id": "S14",
+      "name": "Annotation Multiverse / DRS",
+      "status": "BLOCKED",
+      "reason": "OBSERVATION_MISSING",
+      "details": {},
+      "evidence_count": 0
+    },
+    {
+      "control_id": "S15",
+      "name": "Kill Switch",
+      "status": "BLOCKED",
+      "reason": "OBSERVATION_MISSING",
+      "details": {},
+      "evidence_count": 0
+    },
+    {
+      "control_id": "S16",
+      "name": "Failure Profile and Localization",
+      "status": "BLOCKED",
+      "reason": "OBSERVATION_MISSING",
+      "details": {},
+      "evidence_count": 0
     }
-  },
-  {
-    "name": "S1 Known-Low",
-    "expected": "LCD low",
-    "observed": "wide choice",
-    "passed": true,
-    "details": {}
-  },
-  {
-    "name": "S2 Known-High",
-    "expected": "LCD high",
-    "observed": "constrained",
-    "passed": true,
-    "details": {}
-  },
-  {
-    "name": "S3 Surprisal",
-    "expected": "-log2(P)",
-    "observed": "pending",
-    "passed": true,
-    "details": {}
-  },
-  {
-    "name": "S4 Length",
-    "expected": "no false LCD from length",
-    "observed": "pending",
-    "passed": true,
-    "details": {}
-  },
-  {
-    "name": "S5 Annotation Noise",
-    "expected": "sensitivity",
-    "observed": "pending",
-    "passed": true,
-    "details": {}
-  },
-  {
-    "name": "S6 Representation",
-    "expected": "ROOT->LEMMA->POS->SYNTAX invariance",
-    "observed": "pending",
-    "passed": true,
-    "details": {}
-  },
-  {
-    "name": "S9 Generator Bias",
-    "expected": "detect artifact",
-    "observed": "pending",
-    "passed": true,
-    "details": {}
-  },
-  {
-    "name": "S10 Leakage",
-    "expected": "must FAIL",
-    "observed": "pending",
-    "passed": true,
-    "details": {}
-  },
-  {
-    "name": "S11 Perturbation",
-    "expected": "Legal vs Illegal",
-    "observed": "pending",
-    "passed": true,
-    "details": {}
-  },
-  {
-    "name": "S12 Tournament",
-    "expected": "Alternative Advantage only",
-    "observed": "pending",
-    "passed": true,
-    "details": {}
-  },
-  {
-    "name": "S13 Hidden Constraint",
-    "expected": "candidate not fact",
-    "observed": "pending",
-    "passed": true,
-    "details": {}
-  },
-  {
-    "name": "S14 Multiverse DRS",
-    "expected": "multiple annotations",
-    "observed": "pending",
-    "passed": true,
-    "details": {}
-  },
-  {
-    "name": "S15 Kill Switch",
-    "expected": "reject claim",
-    "observed": "pending",
-    "passed": true,
-    "details": {}
-  },
-  {
-    "name": "S16 Failure Profile",
-    "expected": "identify type location",
-    "observed": "pending",
-    "passed": true,
-    "details": {}
-  }
-]
+  ],
+  "interpretation_boundary": "No observation records were supplied. These 14 controls are deliberately BLOCKED, not passed. Thresholds remain proposed pending preregistration review. This report neither establishes a scientific claim nor authorizes release."
+}
