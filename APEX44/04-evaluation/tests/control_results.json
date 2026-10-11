@@ -126,5 +126,5 @@
       "evidence_count": 0
     }
   ],
-  "interpretation_boundary": "No observation records were supplied. These 14 controls are deliberately BLOCKED, not passed. Thresholds remain proposed pending preregistration review. This report neither establishes a scientific claim nor authorizes release."
+  "interpretation_boundary": "No observation records were supplied. These 14 controls are deliberately BLOCKED, not passed. Thresholds remain proposed pending preregistration review. SHA-256 byte identity is checked only when a scoped observation references an existing evidence file; origin, independence, semantic identity, admissibility, and truth require separate adjudication. This report does not authorize release."
 }

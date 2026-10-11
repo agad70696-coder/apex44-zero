@@ -1,9 +1,15 @@
 {
-  "schema_version":"apex44-scientific-control-contract-v1",
-  "acceptance_status":"PROPOSED_OPERATIONAL_THRESHOLDS_REQUIRING_PREREGISTRATION_REVIEW",
-  "scope":"Fourteen scientific controls previously represented as pending while incorrectly marked passed.",
-  "decision_rule":"PASS requires metrics to satisfy the listed acceptance rule and an evidence record with source, role, and SHA-256. Missing data or provenance is BLOCKED, never PASS.",
-  "controls":[
+  "schema_version": "apex44-scientific-control-contract-v1",
+  "acceptance_status": "PROPOSED_OPERATIONAL_THRESHOLDS_REQUIRING_PREREGISTRATION_REVIEW",
+  "scope": "Fourteen scientific controls previously represented as pending while incorrectly marked passed.",
+  "decision_rule": "PASS requires metrics to meet the stated acceptance rule and evidence bytes to hash-match the referenced local file. Missing observations or provenance are BLOCKED, never PASS.",
+  "evidence_policy": {
+    "required_fields": ["source", "path", "role", "sha256"],
+    "byte_identity": "The gate recomputes SHA-256 from bytes read at the evidence-root-relative path and requires an exact match.",
+    "limits": "Byte identity does not establish origin, independence, semantic identity, admissibility, or truth. Those require separate provenance and adjudication.",
+    "path_policy": "Evidence paths must be relative to the configured evidence root and resolve to files inside that root."
+  },
+  "controls": [
     {"id":"S1","name":"Known-Low Constraint","objective":"Low-constraint fixture has low density and broad choice.","fixture":"Frozen low-constraint synthetic fixture with known ground truth.","metrics_required":["constraint_density","choice_cardinality"],"acceptance":{"constraint_density_max":0.25,"choice_cardinality_min":3}},
     {"id":"S2","name":"Known-High Constraint","objective":"High-constraint fixture has high density and narrow choice.","fixture":"Frozen high-constraint synthetic fixture with known ground truth.","metrics_required":["constraint_density","choice_cardinality"],"acceptance":{"constraint_density_min":0.75,"choice_cardinality_max":2}},
     {"id":"S3","name":"Surprisal Calibration","objective":"Surprisal equals -log2(P) and is inversely ordered by probability.","fixture":"At least three fixed, nonzero probabilities with independently calculable values.","metrics_required":["probabilities","surprisal_bits"],"acceptance":{"absolute_tolerance":1e-9,"minimum_points":3}},
