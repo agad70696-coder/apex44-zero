@@ -86,13 +86,15 @@ jobs:
           retention-days: 30
 
   publish:
-    name: Publish validated scan snapshot
+    name: Propose validated scan snapshot
     needs: validate
-    if: success()
+    if: success() && github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     timeout-minutes: 5
     permissions:
       contents: write
+      pull-requests: write
+      actions: write
     steps:
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
         with:
@@ -105,9 +107,7 @@ jobs:
           name: opportunity-scan-${{ github.run_id }}-${{ github.run_attempt }}
           path: data
 
-      - name: Validate and publish snapshot
-        env:
-          TARGET_REF: ${{ github.ref_name }}
+      - name: Validate snapshot before proposing
         run: |
           set -euo pipefail
           test -s data/opportunity_ledger.jsonl
@@ -117,7 +117,11 @@ jobs:
           from pathlib import Path
 
           ledger = Path("data/opportunity_ledger.jsonl")
-          records = [json.loads(line) for line in ledger.read_text(encoding="utf-8").splitlines() if line]
+          records = [
+              json.loads(line)
+              for line in ledger.read_text(encoding="utf-8").splitlines()
+              if line
+          ]
           if not records:
               raise SystemExit("Opportunity ledger is empty")
           required = {"observed_at", "check", "status", "opportunity"}
@@ -126,12 +130,39 @@ jobs:
                   raise SystemExit(f"Ledger record {number} is missing required fields")
           print(f"Validated {len(records)} opportunity records")
           PY
-          git config user.name "APEX44 Self-Evolve"
-          git config user.email "self-evolve@apex44.zero"
-          git add -- data/opportunity_ledger.jsonl data/opportunity_report.md
-          if git diff --cached --quiet; then
-            echo "No opportunity snapshot changes to commit."
-          else
-            git commit -m "auto: update opportunity scan $(date -u +'%Y-%m-%dT%H:%MZ')"
-            git push origin "HEAD:${TARGET_REF}"
-          fi
+          git diff --check -- data/opportunity_ledger.jsonl data/opportunity_report.md
+
+      - name: Open or update a proposal pull request
+        id: snapshot_pr
+        uses: peter-evans/create-pull-request@5f6978faf089d4d20b00c7766989d076bb2fc7f1
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          branch: automation/opportunity-snapshot
+          base: main
+          delete-branch: true
+          add-paths: |
+            data/opportunity_ledger.jsonl
+            data/opportunity_report.md
+          commit-message: "auto: propose validated opportunity scan snapshot"
+          title: "chore: propose opportunity scan snapshot"
+          body: |
+            This pull request proposes the latest validated Opportunity Scanner outputs.
+
+            The source workflow verifies artifact presence, parses every JSONL record, and
+            checks required fields before opening this proposal. Scanner findings are
+            observations, not proof that the repository or its scientific claims are valid.
+            Review the diff and the dispatched CI runs before merging. Generated snapshot
+            files are never pushed directly to main by this workflow.
+          draft: false
+
+      # GITHUB_TOKEN-created PR events do not trigger push/pull_request workflows.
+      # Dispatch the repository's tests explicitly against the proposal branch.
+      - name: Dispatch CI for a created or updated proposal
+        if: steps.snapshot_pr.outputs.pull-request-operation == 'created' || steps.snapshot_pr.outputs.pull-request-operation == 'updated'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_REPO: ${{ github.repository }}
+        run: |
+          set -euo pipefail
+          gh workflow run quality-gate.yml --repo "$GH_REPO" --ref automation/opportunity-snapshot
+          gh workflow run python-package-conda.yml --repo "$GH_REPO" --ref automation/opportunity-snapshot
