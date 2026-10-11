@@ -56,4 +56,4 @@ jobs:
             IRRE/medicine/personalized_evidence.py
 
       - name: Pytest
-        run: uv run pytest -q --import-mode=importlib
+        run: uv run python -m pytest -q --import-mode=importlib
