@@ -1,32 +1,61 @@
-name: Gate - QAC Real
-on: [push, workflow_dispatch]
+name: IRRE Evidence Law Smoke Test
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
 permissions:
   contents: read
+
 jobs:
-  test:
+  evidence-law:
     runs-on: ubuntu-latest
+    timeout-minutes: 5
     steps:
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+
       - uses: actions/setup-python@a309ff8b426b58ec0e2a45f0f869d46889d02405
         with:
-          python-version: '3.11'
-      - name: Real QAC Tests
+          python-version: "3.11"
+
+      - name: Verify evidence and claim behavior fail-closed
         run: |
-          python -c "
-          import pathlib
-          print('🔒 QAC Real - Requirements check')
-          files=['IRRE/README.md','IRRE/core/evidence.py']
-          ok=0
-          for f in files:
-              e=pathlib.Path(f).exists()
-              print(f\"{'✅' if e else '❌'} {f}\")
-              ok+=e
-          try:
-              from IRRE.core.evidence import Evidence, Claim
-              ev=Evidence('https://example.com')
-              c=Claim('test',[ev])
-              print('✅ Evidence Law' if c.verify() else '❌ Law failed')
-          except Exception as ex:
-              print(f'⚠️ Skip: {ex}')
-          print('🔒 For Eternity Locked')
-          "
+          python - <<'PY'
+          from pathlib import Path
+          from IRRE.core.evidence import Evidence, Claim
+
+          required = (Path("IRRE/README.md"), Path("IRRE/core/evidence.py"))
+          missing = [str(path) for path in required if not path.is_file()]
+          if missing:
+              raise SystemExit(f"Required project files are missing: {', '.join(missing)}")
+
+          valid_evidence = Evidence(
+              "https://example.com/source",
+              "This is a sufficiently long quotation for a positive evidence test.",
+              confidence=0.9,
+          )
+          if not valid_evidence.is_valid():
+              raise SystemExit("Positive evidence fixture was rejected")
+
+          supported_claim = Claim("test claim", [valid_evidence])
+          if not supported_claim.verify() or supported_claim.status != "verified":
+              raise SystemExit("A valid evidence-backed claim was not verified")
+
+          short_evidence = Evidence("https://example.com/source", "short", confidence=0.9)
+          if short_evidence.is_valid():
+              raise SystemExit("Negative evidence fixture was incorrectly accepted")
+
+          unsupported_claim = Claim("unsupported claim", [short_evidence])
+          if unsupported_claim.verify() or unsupported_claim.status != "rejected":
+              raise SystemExit("An invalid evidence-backed claim was not rejected")
+
+          empty_claim = Claim("claim with no evidence", [])
+          if empty_claim.verify() or empty_claim.status != "rejected":
+              raise SystemExit("A claim without evidence was not rejected")
+
+          print("PASS: valid evidence-backed claim verified")
+          print("PASS: short/invalid evidence rejected")
+          print("PASS: claim without evidence rejected")
+          print("PASS: required project files exist")
+          PY
