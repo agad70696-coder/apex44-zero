@@ -1,50 +1,65 @@
+"""Regression tests for forensic signatures and tamper detection."""
 import hashlib
+
+import pytest
 
 from main import ForensicSigner
 
 
-def merkle_root(h_list):
-    cur = h_list[:]
+def merkle_root(h_list: list[str]) -> str:
+    if not h_list:
+        raise ValueError("A Merkle tree requires at least one leaf")
+    cur = list(h_list)
     while len(cur) > 1:
         if len(cur) % 2 == 1:
             cur.append(cur[-1])
-        nxt = []
-        for i in range(0, len(cur), 2):
-            nxt.append(hashlib.sha256((cur[i] + cur[i + 1]).encode()).hexdigest())
-        cur = nxt
+        cur = [
+            hashlib.sha256((cur[i] + cur[i + 1]).encode("ascii")).hexdigest()
+            for i in range(0, len(cur), 2)
+        ]
     return cur[0]
 
 
-print("=== محاكاة محكمة - APEX44 Zero ===\n")
+def test_signature_verifies_for_original_merkle_root() -> None:
+    leaves = [
+        hashlib.sha256(b"car-crash-image-1.jpg").hexdigest(),
+        hashlib.sha256(b"speed-log-120kmh.json").hexdigest(),
+        hashlib.sha256(b"lidar-scan-data").hexdigest(),
+    ]
+    root = merkle_root(leaves)
+    signer = ForensicSigner()
+    signature = signer.sign(root)
+    public_key = signer.get_public_pem()
+    assert signer.verify(root, signature, public_key)
 
-# 1. الضابط بيجمع أدلة حقيقية
-print("1. الضابط صور الحادثة:")
-h1 = hashlib.sha256(b"car-crash-image-1.jpg").hexdigest()
-h2 = hashlib.sha256(b"speed-log-120kmh.json").hexdigest()
-h3 = hashlib.sha256(b"lidar-scan-data").hexdigest()
-root_original = merkle_root([h1, h2, h3])
-print(f" Merkle Root الأصلي: {root_original[:20]}...\n")
 
-# 2. الضابط بيمضي - Private بيفضل معاه
-officer = ForensicSigner()
-public_for_court = officer.get_public_pem()
-signature = officer.sign(root_original)
+def test_signature_rejects_tampered_merkle_root() -> None:
+    first = hashlib.sha256(b"car-crash-image-1.jpg").hexdigest()
+    speed = hashlib.sha256(b"speed-log-120kmh.json").hexdigest()
+    lidar = hashlib.sha256(b"lidar-scan-data").hexdigest()
+    root_original = merkle_root([first, speed, lidar])
+    root_fake = merkle_root(
+        [first, hashlib.sha256(b"speed-log-60kmh.json").hexdigest(), lidar]
+    )
+    signer = ForensicSigner()
+    signature = signer.sign(root_original)
+    assert not signer.verify(root_fake, signature, signer.get_public_pem())
 
-print("2. الضابط مضى التقرير:")
-print(f" Public Key للمحكمة:\n {public_for_court[:60]}...\n")
-print(f" التوقيع: {signature[:30]}...\n")
 
-# 3. المحكمة بتتأكد - قبل التزوير
-is_valid = officer.verify(root_original, signature, public_for_court)
-print(f"3. المحكمة بتفحص التقرير الأصلي: {is_valid} -> مقبول ✅\n")
+def test_signature_rejects_wrong_public_key() -> None:
+    digest = hashlib.sha256(b"synthetic evidence").hexdigest()
+    signer = ForensicSigner()
+    signature = signer.sign(digest)
+    other = ForensicSigner()
+    assert not signer.verify(digest, signature, other.get_public_pem())
 
-# 4. محاولة تزوير - حد غير سرعة العربية من 120 لـ 60
-print("4. محاولة تزوير! حد غير اللوج من 120kmh لـ 60kmh")
-h2_fake = hashlib.sha256(b"speed-log-60kmh.json").hexdigest()
-root_fake = merkle_root([h1, h2_fake, h3])
-print(f" Merkle Root المزور: {root_fake[:20]}...\n")
 
-# 5. المحكمة بتكشف التزوير بنفس التوقيع والـ Public بس
-is_valid_after = officer.verify(root_fake, signature, public_for_court)
-print(f"5. المحكمة بتفحص بعد التزوير: {is_valid_after} -> مرفوض ❌ تزوير مكشوف!")
-print("\n=== الحكم: تم كشف التلاعب بدون الحاجة للـ Private Key ===")
+def test_signer_rejects_non_digest_input() -> None:
+    signer = ForensicSigner()
+    with pytest.raises(ValueError):
+        signer.sign("not-a-hex-digest")
+
+
+def test_merkle_root_rejects_empty_input() -> None:
+    with pytest.raises(ValueError):
+        merkle_root([])
