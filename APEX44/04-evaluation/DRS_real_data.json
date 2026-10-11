@@ -2,117 +2,209 @@
   "date": "2026-09-10T05:41:15.256837",
   "source": {
     "file": "quranic-corpus-morphology-0.4.txt",
-    "sha256": "a1d12923815341face765083805d2148ed2d9f5cc3f7d6665219d8d887675d8c46",
+    "sha256": "a1d12923815341face765083805d2148ed2d9f5cc3f7d6665219d887675d8c46",
     "lines": 128276,
-    "size": "6309503"
+    "size": "6309503",
+    "bytes": 6309503,
+    "version": "0.4",
+    "license_notice": "GNU General Public License (as stated in the unmodified source header)",
+    "origin_url": "http://corpus.quran.com/download"
   },
   "B_real": {
     "shape": [
       6236,
       1642
     ],
-    "nnz": 102210,
-    "density": 0.009981921013423297,
-    "file": "APEX44/03-computation/output/B_real_6236x1642.npz",
-    "sha16": "94b4247ae0dd42e8"
+    "nnz": 44431,
+    "density": 0.004339171632398106,
+    "file": "APEX44/03-computation/output/B_real_6236x1642.npz"
   },
   "W_morph": {
     "shape": [
       1642,
       1642
     ],
-    "nnz": 318274,
-    "sha16": "b273d989453e6b5d"
+    "nnz": 148370,
+    "dtype": "int64",
+    "max_common_verses": 514,
+    "file": "APEX44/03-computation/output/W_morph_1642x1642.npz"
   },
   "W_sig_Holm": {
-    "undirected": 616,
-    "directed": 1232,
-    "method": "BiCM Chung-Lu Poisson sf + Holm alpha=0.05",
+    "undirected": 245,
+    "directed": 490,
+    "alpha": 0.05,
+    "tested_hypotheses": 1347261,
+    "family": "all unordered root pairs, including pairs with zero observed co-occurrence",
+    "method": "Degree-based bipartite projection: lambda_ij = d_i*d_j*sum_v(k_v^2)/E^2; Poisson upper-tail approximation; Holm FWER alpha=0.05 and BH FDR alpha=0.05. This is an approximation, not an exact sampled BiCM null.",
     "file": "APEX44/03-computation/output/W_sig_1642x1642.npz"
   },
   "W_fdr_BH": {
-    "undirected": 3729,
-    "directed": 7458,
-    "method": "BiCM + Benjamini-Hochberg FDR alpha=0.05",
+    "undirected": 660,
+    "directed": 1320,
+    "alpha": 0.05,
+    "tested_hypotheses": 1347261,
+    "family": "all unordered root pairs, including pairs with zero observed co-occurrence",
+    "method": "Benjamini-Hochberg FDR alpha=0.05 over the full pair family",
     "file": "APEX44/03-computation/output/W_fdr_1642x1642.npz"
   },
   "historical_comparison": {
     "historical_claim": 1816,
-    "real_Holm": 616,
-    "real_FDR": 3729,
-    "verdict": "HISTORICAL_UNDERCOUNT: Real FDR 3729 > 1816, Holm strict 616 is 33% of historical"
+    "legacy_overflow_holm": 616,
+    "legacy_overflow_fdr": 3729,
+    "corrected_all_pairs_holm": 245,
+    "corrected_all_pairs_fdr": 660,
+    "intermediate_mixed_int64_holm": 542,
+    "intermediate_mixed_int64_fdr": 1685,
+    "verdict": "NOT_VERIFIED: the historical 1816 figure has not been recreated under a source-bound comparable method. Previous 616/3729 counts are invalidated by int8 overflow; the intermediate 542/1685 counts still used a mixed ROOT/LEM/surface feature space and are not accepted as root-only results."
   },
   "top_10_Holm": [
     {
       "a": "Alh",
-      "b": "Hkm",
-      "obs": 127,
-      "exp": 78.13308617446995,
-      "p_holm": 0.03804434261437399
+      "b": "$yA",
+      "observed": 282,
+      "expected_poisson_mean": 199.59191000087458,
+      "p_raw": 2.2780159314377162e-08,
+      "p_holm_adjusted": 0.0306854441004489
     },
     {
-      "a": "hu",
-      "b": "na`",
-      "obs": 127,
-      "exp": 43.70626642254029,
-      "p_holm": 1.8658704045646565e-19
+      "a": "ArD",
+      "b": "smw",
+      "observed": 224,
+      "expected_poisson_mean": 36.64081735763758,
+      "p_raw": 5.551944304114052e-97,
+      "p_holm_adjusted": 7.479918035105002e-91
+    },
+    {
+      "a": "$yA",
+      "b": "kll",
+      "observed": 135,
+      "expected_poisson_mean": 37.70895585434299,
+      "p_raw": 1.4254536180242571e-34,
+      "p_holm_adjusted": 1.9204438123367985e-28
+    },
+    {
+      "a": "qwm",
+      "b": "ywm",
+      "observed": 104,
+      "expected_poisson_mean": 53.24581690254475,
+      "p_raw": 5.008245920908547e-10,
+      "p_holm_adjusted": 0.0006746628113039587
     },
     {
       "a": "Amn",
-      "b": "kfr",
-      "obs": 126,
-      "exp": 73.96693869706088,
-      "p_holm": 0.0037478453708807914
+      "b": "Eml",
+      "observed": 101,
+      "expected_poisson_mean": 53.536804798657194,
+      "p_raw": 4.866370386514557e-09,
+      "p_holm_adjusted": 0.006555273427376753
     },
     {
-      "a": "hu",
-      "b": "w",
-      "obs": 126,
-      "exp": 45.25339089767446,
-      "p_holm": 9.452445614851462e-18
+      "a": "Eml",
+      "b": "SlH",
+      "observed": 93,
+      "expected_poisson_mean": 12.588183700929077,
+      "p_raw": 6.740170677180297e-48,
+      "p_holm_adjusted": 9.080735385855218e-42
     },
     {
-      "a": "<in",
-      "b": "tumo",
-      "obs": 125,
-      "exp": 39.715688531473226,
-      "p_holm": 5.159162021163137e-22
+      "a": "rHm",
+      "b": "gfr",
+      "observed": 91,
+      "expected_poisson_mean": 14.957724162280433,
+      "p_raw": 2.304689285295472e-40,
+      "p_holm_adjusted": 3.1049972489928952e-34
     },
     {
-      "a": "<il~aA",
-      "b": ">an",
-      "obs": 124,
-      "exp": 72.01103190184718,
-      "p_holm": 0.0027099538872664536
+      "a": "Amn",
+      "b": "SlH",
+      "observed": 82,
+      "expected_poisson_mean": 29.077497813967167,
+      "p_raw": 7.803797955335135e-16,
+      "p_holm_adjusted": 1.0513378054800913e-09
     },
     {
-      "a": "wA@",
-      "b": "ya`^",
-      "obs": 123,
-      "exp": 72.61056463716297,
-      "p_holm": 0.00725602707517111
+      "a": "Aty",
+      "b": "ktb",
+      "observed": 78,
+      "expected_poisson_mean": 32.07822177680468,
+      "p_raw": 5.282326996445029e-12,
+      "p_holm_adjusted": 7.116150201184878e-06
     },
     {
-      "a": "<ilaY`",
-      "b": "w^A@",
-      "obs": 120,
-      "exp": 67.6675547419924,
-      "p_holm": 0.0009631526476343178
-    },
-    {
-      "a": "{l",
-      "b": "dnw",
-      "obs": 120,
-      "exp": 54.52073690757228,
-      "p_holm": 2.2038088781914792e-09
-    },
-    {
-      "a": "qwl",
-      "b": "ya`",
-      "obs": 120,
-      "exp": 51.72702436700719,
-      "p_holm": 6.276672656637928e-11
+      "a": "Elm",
+      "b": "Hkm",
+      "observed": 71,
+      "expected_poisson_mean": 32.55089967634343,
+      "p_raw": 3.829339358161124e-09,
+      "p_holm_adjusted": 0.005158361363822598
     }
   ],
-  "status": "SUPPORTED_REAL_DATA"
+  "status": "REVIEW_REQUIRED",
+  "reproducibility_audit": {
+    "status": "PASS_SCOPED",
+    "reason": "SOURCE_BOUND_REPLAY_AND_WIDE_INTEGER_PROJECTION",
+    "source_available_in_snapshot": true,
+    "source_sha256_verified": "a1d12923815341face765083805d2148ed2d9f5cc3f7d6665219d887675d8c46",
+    "producer": "APEX44/03-computation/reproduce_qac_analysis.py",
+    "producer_sha256": "125c6816f59c2fdbe192bc1b18657efa91b89c28221d272efee79e69933ce59b",
+    "environment": {
+      "python": "3.13.13",
+      "numpy": "2.4.4",
+      "scipy": "1.18.0"
+    },
+    "artifact_sha256": {
+      "APEX44/03-computation/output/B_real_6236x1642.npz": "a75fdf4d57bd9448a74607fff9b9ddf31c26e2c3f356eb9fd40d19aa511c8c3a",
+      "APEX44/03-computation/output/W_morph_1642x1642.npz": "97dd90779c26e2cac1905864ea1eb276bd48838ac5a570e3227d23231b3ead40",
+      "APEX44/03-computation/output/W_sig_1642x1642.npz": "ecfca2720f2f02132eb3f60871cc2637b1801f186b3789050220943adfabbd9c",
+      "APEX44/03-computation/output/W_fdr_1642x1642.npz": "382d02d725879c3b929750a34be1f7cb9921f32d5e3a14e56cf88eab3242c8f9",
+      "APEX44/03-computation/output/roots_1642.json": "8f7a1e9246ef5f8ce40a031b99ee51c80cf8ba7de182017fb8390e0e23b51eba"
+    },
+    "replay_receipt": "Generated and semantically compared all four sparse matrices and root labels; see test_real_data_provenance.py and CI replay step."
+  },
+  "evidence_status": "REPRODUCED_SCOPED",
+  "promotion_authority": "NONE",
+  "artifact_sha256": {
+    "APEX44/03-computation/output/B_real_6236x1642.npz": "a75fdf4d57bd9448a74607fff9b9ddf31c26e2c3f356eb9fd40d19aa511c8c3a",
+    "APEX44/03-computation/output/W_morph_1642x1642.npz": "97dd90779c26e2cac1905864ea1eb276bd48838ac5a570e3227d23231b3ead40",
+    "APEX44/03-computation/output/W_sig_1642x1642.npz": "ecfca2720f2f02132eb3f60871cc2637b1801f186b3789050220943adfabbd9c",
+    "APEX44/03-computation/output/W_fdr_1642x1642.npz": "382d02d725879c3b929750a34be1f7cb9921f32d5e3a14e56cf88eab3242c8f9",
+    "APEX44/03-computation/output/roots_1642.json": "8f7a1e9246ef5f8ce40a031b99ee51c80cf8ba7de182017fb8390e0e23b51eba"
+  },
+  "computation_audit": {
+    "status": "CORRECTED",
+    "defects": [
+      "integer overflow in the legacy int8 projection multiplication",
+      "legacy incidence matrix mixed ROOT, LEM fallback, and raw surface fallback features"
+    ],
+    "primary_feature_layer": "ROOT-only",
+    "corrected_projection_dtype": "int64",
+    "corrected_projection_nnz": 148370,
+    "corrected_projection_max": 514,
+    "legacy_mixed_projection": {
+      "incidence_nnz": 102210,
+      "projection_dtype": "int8",
+      "negative_entries": 1580,
+      "projection_nnz": 318274,
+      "intermediate_int64_projection_nnz": 318278,
+      "intermediate_int64_projection_max": 2567,
+      "intermediate_int64_holm_undirected": 542,
+      "intermediate_int64_bh_undirected": 1685,
+      "counts_valid_for_root_only_claim": false
+    },
+    "legacy_feature_mix": {
+      "explicit_root_records": 49968,
+      "lemma_fallback_records": 24640,
+      "raw_surface_fallback_records": 53611
+    },
+    "multiple_testing_family": "all unordered root pairs, including zero-observation pairs",
+    "legacy_counts_valid": false
+  },
+  "feature_extraction": {
+    "primary_layer": "ROOT",
+    "rule": "Only explicit ROOT: feature values are admitted to the primary root graph.",
+    "root_feature_records": 49968,
+    "lemma_fallback_records_excluded_from_legacy_parser": 24640,
+    "surface_fallback_records_excluded_from_legacy_parser": 53611,
+    "typed_feature_layers_pooled": false
+  }
 }

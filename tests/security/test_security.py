@@ -1,9 +1,12 @@
 import hashlib
 import re
+from pathlib import Path
+
+EXPECTED_HASH_HEX_LENGTH = 128
 
 
 def test_quantum_hash_length() -> None:
-    assert len(hashlib.shake_256(b"test").hexdigest(64)) == 128
+    assert len(hashlib.shake_256(b"test").hexdigest(64)) == EXPECTED_HASH_HEX_LENGTH
 
 
 def test_valid_hash_both() -> None:
@@ -35,7 +38,7 @@ def test_chain_recompute() -> None:
 
 
 def test_rpc_fixed() -> None:
-    c = open("IRRE/ledger/blockchain_anchor.py").read()
+    c = Path("IRRE/ledger/blockchain_anchor.py").read_text(encoding="utf-8")
     assert "polygon-amoy.drpc.org" in c and "POL" in c
 
 

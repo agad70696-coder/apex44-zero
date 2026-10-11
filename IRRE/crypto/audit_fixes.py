@@ -1,10 +1,11 @@
 import json
 import os
+from pathlib import Path
 
 
 # Fix fsync + HMAC
 def write_tamper_evident(path, chain) -> None:
-    with open(path, "w") as f:
+    with Path(path).open("w", encoding="utf-8") as f:
         for e in chain:
             f.write(json.dumps(e) + "\n")
             f.flush()
@@ -15,7 +16,7 @@ def write_tamper_evident(path, chain) -> None:
 # Verify chain with first-break diagnostics
 def verify_chain_detailed(path) -> str:
     prev = "0" * 64
-    with open(path) as f:
+    with Path(path).open(encoding="utf-8") as f:
         for i, line in enumerate(f):
             e = json.loads(line)
             if e["prev"] != prev:

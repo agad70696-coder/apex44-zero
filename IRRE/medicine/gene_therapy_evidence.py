@@ -1,5 +1,6 @@
 import hashlib
 import time
+from typing import ClassVar
 
 
 def gene_hash(data: str) -> str:
@@ -12,7 +13,7 @@ class GeneTherapyEvidence:
     """
 
     # جينات ممنوع لمسها - لو اتعدلت المريض هيموت
-    FORBIDDEN_GENES = ["TP53", "BRCA1", "PTEN"]  # جينات حارسة من السرطان
+    FORBIDDEN_GENES: ClassVar[list[str]] = ["TP53", "BRCA1", "PTEN"]  # جينات حارسة من السرطان
 
     def __init__(self, patient_id: str, disease: str, target_gene: str) -> None:
         self.patient_id = patient_id

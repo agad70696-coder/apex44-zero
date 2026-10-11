@@ -90,7 +90,7 @@ class DarwinGodelMachine:
             "mutation": "add POL token check",
         }
 
-        with open(LEDGER, "a") as f:
+        with LEDGER.open("a", encoding="utf-8") as f:
             f.write(json.dumps(ledger_entry) + "\n")
 
         if eval_result.get("score", 0) >= 0.75:

@@ -2,45 +2,167 @@ name: Self-Evolve - Genesis Loop
 
 on:
   schedule:
-    - cron: '0 */6 * * *'  # Every 6 hours - Genesis Loop
+    - cron: '0 */6 * * *' # Every six hours
   workflow_dispatch:
 
+# Read-only by default; only the publish job receives write access.
+permissions:
+  contents: read
+
+concurrency:
+  group: self-evolve-${{ github.ref }}
+  cancel-in-progress: false
+
 jobs:
-  spotlight:
+  validate:
+    name: Scan and validate
     runs-on: ubuntu-latest
+    timeout-minutes: 20
     permissions:
       contents: read
-      pull-requests: write
     steps:
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          fetch-depth: 1
       - uses: actions/setup-python@a309ff8b426b58ec0e2a45f0f869d46889d02405
         with:
           python-version: '3.11'
-      - name: Install deps
+          cache: pip
+          cache-dependency-path: requirements.txt
+
+      - name: Install dependencies
         run: |
-          pip install rfc8785 jcs
-          pip install -r requirements.txt 2>/dev/null || true
+          python -m pip install --upgrade pip
+          python -m pip install pytest rfc8785 jcs
+          python -m pip install -r requirements.txt
+          python -m pip check
+
       - name: Run Opportunity Spotlight
+        id: scan
         run: |
-          mkdir -p data
           python IRRE/discovery/opportunity_scanner.py
-          cat data/opportunity_ledger.jsonl || true
-      - name: Run Tests (6 passed gate)
+          test -s data/opportunity_ledger.jsonl
+          test -s data/opportunity_report.md
+          cat data/opportunity_ledger.jsonl
+
+      - name: Run Python test suite
+        run: python -m pytest -v --import-mode=importlib
+
+      - name: Validate TLA+ invariant declarations (static check only)
         run: |
-          python -m pytest tests/ -v || python -m pytest -v
-      - name: TLA+ Formal Check (if tlc available)
-        run: |
-          ls specs/evidence_chain.tla && echo "TLA spec present with Inv_Crypto"
-      - name: Auto-heal if FAIL detected
+          python - <<'PY'
+          from pathlib import Path
+
+          spec = Path("specs/evidence_chain.tla")
+          if not spec.is_file():
+              raise SystemExit(f"Missing TLA+ specification: {spec}")
+          text = spec.read_text(encoding="utf-8")
+          required = ("Inv_Crypto", "Inv_Linkage")
+          missing = [name for name in required if name not in text]
+          if missing:
+              raise SystemExit(f"Missing invariant names: {', '.join(missing)}")
+          print("Static declaration check passed for: " + ", ".join(required))
+          print("NOTE: This does not execute the TLC model checker.")
+          PY
+
+      - name: Report scanner findings
+        if: always() && steps.scan.outcome == 'success'
         run: |
           if grep -q '"status": "FAIL"' data/opportunity_ledger.jsonl; then
-            echo "FAIL detected - would open PR via agentic CI healer"
-            echo "See: https://github.com/devankit57/agentic-ci-healer pattern"
+            echo "::warning::One or more scanner checks reported FAIL; inspect the ledger and report artifact."
+          else
+            echo "No FAIL findings in the recorded scanner snapshot."
           fi
-      - name: Commit opportunity ledger
+
+      - name: Upload scan evidence
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: opportunity-scan-${{ github.run_id }}-${{ github.run_attempt }}
+          path: |
+            data/opportunity_ledger.jsonl
+            data/opportunity_report.md
+          if-no-files-found: warn
+          retention-days: 30
+
+  publish:
+    name: Propose validated scan snapshot
+    needs: validate
+    if: success() && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      contents: write
+      pull-requests: write
+      actions: write
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          fetch-depth: 1
+          persist-credentials: true
+
+      - name: Download validated scan evidence
+        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        with:
+          name: opportunity-scan-${{ github.run_id }}-${{ github.run_attempt }}
+          path: data
+
+      - name: Validate snapshot before proposing
         run: |
-          git config user.name "APEX44 Self-Evolve"
-          git config user.email "self-evolve@apex44.zero"
-          git add data/opportunity_ledger.jsonl data/opportunity_report.md || true
-          git commit -m "auto: spotlight scan $(date -u +%Y-%m-%dT%H:%MZ) - $(cat data/opportunity_ledger.jsonl | tail -1)" || echo "No changes"
-          git push || echo "Push skipped"
+          set -euo pipefail
+          test -s data/opportunity_ledger.jsonl
+          test -s data/opportunity_report.md
+          python - <<'PY'
+          import json
+          from pathlib import Path
+
+          ledger = Path("data/opportunity_ledger.jsonl")
+          records = [
+              json.loads(line)
+              for line in ledger.read_text(encoding="utf-8").splitlines()
+              if line
+          ]
+          if not records:
+              raise SystemExit("Opportunity ledger is empty")
+          required = {"observed_at", "check", "status", "opportunity"}
+          for number, record in enumerate(records, start=1):
+              if not required.issubset(record):
+                  raise SystemExit(f"Ledger record {number} is missing required fields")
+          print(f"Validated {len(records)} opportunity records")
+          PY
+          git diff --check -- data/opportunity_ledger.jsonl data/opportunity_report.md
+
+      - name: Open or update a proposal pull request
+        id: snapshot_pr
+        uses: peter-evans/create-pull-request@5f6978faf089d4d20b00c7766989d076bb2fc7f1
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          branch: automation/opportunity-snapshot
+          base: main
+          delete-branch: true
+          add-paths: |
+            data/opportunity_ledger.jsonl
+            data/opportunity_report.md
+          commit-message: "auto: propose validated opportunity scan snapshot"
+          title: "chore: propose opportunity scan snapshot"
+          body: |
+            This pull request proposes the latest validated Opportunity Scanner outputs.
+
+            The source workflow verifies artifact presence, parses every JSONL record, and
+            checks required fields before opening this proposal. Scanner findings are
+            observations, not proof that the repository or its scientific claims are valid.
+            Review the diff and the dispatched CI runs before merging. Generated snapshot
+            files are never pushed directly to main by this workflow.
+          draft: false
+
+      # GITHUB_TOKEN-created PR events do not trigger push/pull_request workflows.
+      # Dispatch the repository's tests explicitly against the proposal branch.
+      - name: Dispatch CI for a created or updated proposal
+        if: steps.snapshot_pr.outputs.pull-request-operation == 'created' || steps.snapshot_pr.outputs.pull-request-operation == 'updated'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_REPO: ${{ github.repository }}
+        run: |
+          set -euo pipefail
+          gh workflow run quality-gate.yml --repo "$GH_REPO" --ref automation/opportunity-snapshot
+          gh workflow run python-package-conda.yml --repo "$GH_REPO" --ref automation/opportunity-snapshot

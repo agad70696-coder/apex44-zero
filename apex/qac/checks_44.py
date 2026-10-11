@@ -63,9 +63,7 @@ def check_no_exit_0_on_error() -> bool:
         if (BASE / "apex.py").exists()
         else ""
     )
-    if "except" in content and "sys.exit(0)" in content:
-        return False  # ده غلط
-    return True
+    return not ("except" in content and "sys.exit(0)" in content)  # ده غلط
 
 
 # الـ 44 فحص الحقيقيين

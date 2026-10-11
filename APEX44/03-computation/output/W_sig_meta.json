@@ -1,155 +1,199 @@
 {
+  "schema_version": "apex44-qac-projection-reproduction-v1",
+  "source_sha256": "a1d12923815341face765083805d2148ed2d9f5cc3f7d6665219d887675d8c46",
+  "producer": "APEX44/03-computation/reproduce_qac_analysis.py",
+  "numeric_dtype": "int64 for projection and significance matrices",
+  "feature_layer": "ROOT-only",
+  "source_feature_rule": "Include explicit ROOT: values only; exclude LEM and surface/POS fallbacks.",
   "B_shape": [
     6236,
     1642
   ],
-  "B_nnz": 102210,
-  "W_morph_nnz": 318274,
-  "W_sig_nnz_undirected": 616,
-  "W_sig_nnz_directed": 1232,
-  "method": "BiCM Chung-Lu analytic E=d_a d_b S2/E^2 Poisson sf + Holm alpha=0.05 NO statsmodels",
-  "E": 102210,
-  "S2": 2298440,
+  "B_nnz": 44431,
+  "W_morph_nnz": 148370,
+  "W_morph_max_common_verses": 514,
+  "W_sig_nnz_undirected": 245,
+  "W_sig_nnz_directed": 490,
+  "W_fdr_nnz_undirected": 660,
+  "W_fdr_nnz_directed": 1320,
+  "method": "Degree-based bipartite projection: lambda_ij = d_i*d_j*sum_v(k_v^2)/E^2; Poisson upper-tail approximation; Holm FWER alpha=0.05 and BH FDR alpha=0.05. This is an approximation, not an exact sampled BiCM null.",
+  "multiple_testing_family": "all unordered pairs among the 1642 retained root/lemma labels, including zero-observation pairs with upper-tail p=1",
+  "E": 44431,
+  "S2": 467027,
+  "tested_hypotheses": 1347261,
+  "nonzero_projection_pairs": 74185,
+  "zero_projection_pairs": 1273076,
+  "alpha": 0.05,
+  "bh_cutoff": 2.3837696168826917e-05,
   "top_20": [
     {
       "a": "Alh",
+      "b": "$yA",
+      "observed": 282,
+      "expected_poisson_mean": 199.59191000087458,
+      "p_raw": 2.2780159314377162e-08,
+      "p_holm_adjusted": 0.0306854441004489
+    },
+    {
+      "a": "ArD",
+      "b": "smw",
+      "observed": 224,
+      "expected_poisson_mean": 36.64081735763758,
+      "p_raw": 5.551944304114052e-97,
+      "p_holm_adjusted": 7.479918035105002e-91
+    },
+    {
+      "a": "$yA",
+      "b": "kll",
+      "observed": 135,
+      "expected_poisson_mean": 37.70895585434299,
+      "p_raw": 1.4254536180242571e-34,
+      "p_holm_adjusted": 1.9204438123367985e-28
+    },
+    {
+      "a": "qwm",
+      "b": "ywm",
+      "observed": 104,
+      "expected_poisson_mean": 53.24581690254475,
+      "p_raw": 5.008245920908547e-10,
+      "p_holm_adjusted": 0.0006746628113039587
+    },
+    {
+      "a": "Amn",
+      "b": "Eml",
+      "observed": 101,
+      "expected_poisson_mean": 53.536804798657194,
+      "p_raw": 4.866370386514557e-09,
+      "p_holm_adjusted": 0.006555273427376753
+    },
+    {
+      "a": "Eml",
+      "b": "SlH",
+      "observed": 93,
+      "expected_poisson_mean": 12.588183700929077,
+      "p_raw": 6.740170677180297e-48,
+      "p_holm_adjusted": 9.080735385855218e-42
+    },
+    {
+      "a": "rHm",
+      "b": "gfr",
+      "observed": 91,
+      "expected_poisson_mean": 14.957724162280433,
+      "p_raw": 2.304689285295472e-40,
+      "p_holm_adjusted": 3.1049972489928952e-34
+    },
+    {
+      "a": "Amn",
+      "b": "SlH",
+      "observed": 82,
+      "expected_poisson_mean": 29.077497813967167,
+      "p_raw": 7.803797955335135e-16,
+      "p_holm_adjusted": 1.0513378054800913e-09
+    },
+    {
+      "a": "Aty",
+      "b": "ktb",
+      "observed": 78,
+      "expected_poisson_mean": 32.07822177680468,
+      "p_raw": 5.282326996445029e-12,
+      "p_holm_adjusted": 7.116150201184878e-06
+    },
+    {
+      "a": "Elm",
       "b": "Hkm",
-      "obs": 127,
-      "exp": 78.13308617446995,
-      "p_holm": 0.03804434261437399
+      "observed": 71,
+      "expected_poisson_mean": 32.55089967634343,
+      "p_raw": 3.829339358161124e-09,
+      "p_holm_adjusted": 0.005158361363822598
     },
     {
-      "a": "hu",
-      "b": "na`",
-      "obs": 127,
-      "exp": 43.70626642254029,
-      "p_holm": 1.8658704045646565e-19
+      "a": "E*b",
+      "b": "Alm",
+      "observed": 70,
+      "expected_poisson_mean": 5.802724484427522,
+      "p_raw": 7.811269925293856e-50,
+      "p_holm_adjusted": 1.052379589701155e-43
     },
     {
-      "a": "Amn",
-      "b": "kfr",
-      "obs": 126,
-      "exp": 73.96693869706088,
-      "p_holm": 0.0037478453708807914
+      "a": "smw",
+      "b": "xlq",
+      "observed": 66,
+      "expected_poisson_mean": 18.153859509011344,
+      "p_raw": 4.058276363060073e-18,
+      "p_holm_adjusted": 5.467415431499971e-12
     },
     {
-      "a": "hu",
-      "b": "w",
-      "obs": 126,
-      "exp": 45.25339089767446,
-      "p_holm": 9.452445614851462e-18
-    },
-    {
-      "a": "<in",
-      "b": "tumo",
-      "obs": 125,
-      "exp": 39.715688531473226,
-      "p_holm": 5.159162021163137e-22
-    },
-    {
-      "a": "<il~aA",
-      "b": ">an",
-      "obs": 124,
-      "exp": 72.01103190184718,
-      "p_holm": 0.0027099538872664536
-    },
-    {
-      "a": "wA@",
-      "b": "ya`^",
-      "obs": 123,
-      "exp": 72.61056463716297,
-      "p_holm": 0.00725602707517111
-    },
-    {
-      "a": "<ilaY`",
-      "b": "w^A@",
-      "obs": 120,
-      "exp": 67.6675547419924,
-      "p_holm": 0.0009631526476343178
-    },
-    {
-      "a": "{l",
+      "a": "Hyy",
       "b": "dnw",
-      "obs": 120,
-      "exp": 54.52073690757228,
-      "p_holm": 2.2038088781914792e-09
+      "observed": 66,
+      "expected_poisson_mean": 4.875348425272438,
+      "p_raw": 3.8719885079160685e-50,
+      "p_holm_adjusted": 5.216571365186495e-44
     },
     {
-      "a": "qwl",
-      "b": "ya`",
-      "obs": 120,
-      "exp": 51.72702436700719,
-      "p_holm": 6.276672656637928e-11
+      "a": "byn",
+      "b": "jyA",
+      "observed": 65,
+      "expected_poisson_mean": 28.140185582749705,
+      "p_raw": 2.026683933551765e-09,
+      "p_holm_adjusted": 0.0027300993131571106
     },
     {
-      "a": "qwl",
-      "b": "<i*",
-      "obs": 118,
-      "exp": 66.94085506318578,
-      "p_holm": 0.0017495491062895626
+      "a": "Hyy",
+      "b": "mwt",
+      "observed": 65,
+      "expected_poisson_mean": 5.4466783188590515,
+      "p_raw": 4.0190503301071544e-46,
+      "p_holm_adjusted": 5.414685652488514e-40
     },
     {
-      "a": "naA",
-      "b": "naA^",
-      "obs": 117,
-      "exp": 49.0639989621403,
-      "p_holm": 2.2151851568278966e-11
+      "a": "$yA",
+      "b": "qdr",
+      "observed": 64,
+      "expected_poisson_mean": 12.852911713733807,
+      "p_raw": 2.4323282046696578e-24,
+      "p_holm_adjusted": 3.2769298504591498e-18
     },
     {
-      "a": "himo",
-      "b": "hum",
-      "obs": 117,
-      "exp": 66.67420050347835,
-      "p_holm": 0.002537504637320252
+      "a": "ArD",
+      "b": "xlq",
+      "observed": 64,
+      "expected_poisson_mean": 22.692324386264183,
+      "p_raw": 1.0054567274726702e-12,
+      "p_holm_adjusted": 1.354529183203177e-06
     },
     {
-      "a": "kumo",
-      "b": "kumu",
-      "obs": 116,
-      "exp": 40.71542311836311,
-      "p_holm": 8.040867811129098e-17
+      "a": "ktb",
+      "b": "nzl",
+      "observed": 63,
+      "expected_poisson_mean": 16.9631748902033,
+      "p_raw": 8.464374753245995e-18,
+      "p_holm_adjusted": 1.1403391883817576e-11
     },
     {
-      "a": "wna",
-      "b": "laEal~",
-      "obs": 112,
-      "exp": 49.62986985947322,
-      "p_holm": 3.3431094322578567e-09
+      "a": "rsl",
+      "b": "jyA",
+      "observed": 62,
+      "expected_poisson_mean": 26.590615892069657,
+      "p_raw": 3.32527585037448e-09,
+      "p_holm_adjusted": 0.004479362713384698
     },
     {
-      "a": "wA@",
-      "b": ">ay~uhaA",
-      "obs": 109,
-      "exp": 58.470612576241756,
-      "p_holm": 0.00037032295202387593
-    },
-    {
-      "a": "Alh",
-      "b": "dwn",
-      "obs": 109,
-      "exp": 58.70316527394039,
-      "p_holm": 0.00045431794618941304
-    },
-    {
-      "a": "Amn",
-      "b": "ya`^",
-      "obs": 108,
-      "exp": 30.223050220304444,
-      "p_holm": 9.351085323316879e-23
-    },
-    {
-      "a": "{l~a*iY",
-      "b": ">uwla`^}ik",
-      "obs": 108,
-      "exp": 51.13981230441716,
-      "p_holm": 4.869358805933082e-07
-    },
-    {
-      "a": ">a",
-      "b": "rAy",
-      "obs": 105,
-      "exp": 29.53529266779173,
-      "p_holm": 7.37482511762901e-22
+      "a": "Axr",
+      "b": "dnw",
+      "observed": 57,
+      "expected_poisson_mean": 7.328163471527516,
+      "p_raw": 3.7403126797704444e-31,
+      "p_holm_adjusted": 5.039132517508052e-25
     }
-  ]
+  ],
+  "artifact_sha256": {
+    "APEX44/03-computation/output/B_real_6236x1642.npz": "a75fdf4d57bd9448a74607fff9b9ddf31c26e2c3f356eb9fd40d19aa511c8c3a",
+    "APEX44/03-computation/output/W_morph_1642x1642.npz": "97dd90779c26e2cac1905864ea1eb276bd48838ac5a570e3227d23231b3ead40",
+    "APEX44/03-computation/output/W_sig_1642x1642.npz": "ecfca2720f2f02132eb3f60871cc2637b1801f186b3789050220943adfabbd9c",
+    "APEX44/03-computation/output/W_fdr_1642x1642.npz": "382d02d725879c3b929750a34be1f7cb9921f32d5e3a14e56cf88eab3242c8f9",
+    "APEX44/03-computation/output/roots_1642.json": "8f7a1e9246ef5f8ce40a031b99ee51c80cf8ba7de182017fb8390e0e23b51eba"
+  },
+  "reproducibility_status": "PASS_SCOPED",
+  "interpretation_boundary": "Successful replay establishes source-to-array reproducibility, not the validity of the degree-based Poisson approximation, annotation ontology, or historical claim."
 }

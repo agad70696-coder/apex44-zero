@@ -1,63 +1,19 @@
-import numpy as np, json
-from pathlib import Path
-from dataclasses import dataclass, field
+"""Executable sanity controls; the 14 scientific controls use a separate fail-closed gate."""
+from __future__ import annotations
+import numpy as np
 
-@dataclass(frozen=True)
-class ControlResult:
-    name: str
-    expected: str
-    observed: str
-    passed: bool
-    details: dict = field(default_factory=dict)
+def _holm_adjusted_pvalues(pvalues: np.ndarray) -> np.ndarray:
+    if pvalues.ndim!=1 or np.any((pvalues<0)|(pvalues>1)): raise ValueError("pvalues must be one-dimensional and in [0, 1]")
+    n=len(pvalues); order=np.argsort(pvalues); sorted_p=pvalues[order]
+    adjusted_sorted=np.maximum.accumulate(np.minimum((n-np.arange(n))*sorted_p,1.0))
+    adjusted=np.empty(n,dtype=float); adjusted[order]=adjusted_sorted
+    return adjusted
 
-def test_S7():
-    np.random.seed(44)
-    p = np.random.rand(190)
-    m = len(p)
-    order = np.argsort(p)
-    sp = p[order]
-    adj = np.array([min((m - i) * pv, 1.0) for i, pv in enumerate(sp)])
-    for i in range(1, m):
-        adj[i] = max(adj[i], adj[i-1])
-    pa = np.empty(m)
-    pa[order] = adj
-    return ControlResult("S7 Null Ladder", "holm_rejects=0", f"holm_rejects={int((pa<=0.05).sum())}", int((pa<=0.05).sum())==0, {})
+def test_null_ladder_has_no_false_discoveries_for_frozen_seed() -> None:
+    rng=np.random.default_rng(44); pvalues=rng.random(190)
+    assert int(np.count_nonzero(_holm_adjusted_pvalues(pvalues)<=0.05))==0
 
-def test_pos():
-    np.random.seed(44)
-    B = (np.random.rand(100,20)<0.05).astype(int)
-    B[0:10,0]=1
-    B[0:10,1]=1
-    C=B.T@B
-    return ControlResult("Positive Control S8", "C[0,1]=10", f"C[0,1]={int(C[0,1])}", int(C[0,1])>=10, {})
-
-def test_neg():
-    return ControlResult("Negative Control", "backbone_edges=0 must NOT create constraint from noise", "backbone_edges=0", True, {"kill_switch":"STOP if fails"})
-
-def test_all():
-    results=[test_S7(), test_pos(), test_neg()]
-    results+=[
-        ControlResult("S1 Known-Low","LCD low","wide choice",True,{}),
-        ControlResult("S2 Known-High","LCD high","constrained",True,{}),
-        ControlResult("S3 Surprisal","-log2(P)","pending",True,{}),
-        ControlResult("S4 Length","no false LCD from length","pending",True,{}),
-        ControlResult("S5 Annotation Noise","sensitivity","pending",True,{}),
-        ControlResult("S6 Representation","ROOT->LEMMA->POS->SYNTAX invariance","pending",True,{}),
-        ControlResult("S9 Generator Bias","detect artifact","pending",True,{}),
-        ControlResult("S10 Leakage","must FAIL","pending",True,{}),
-        ControlResult("S11 Perturbation","Legal vs Illegal","pending",True,{}),
-        ControlResult("S12 Tournament","Alternative Advantage only","pending",True,{}),
-        ControlResult("S13 Hidden Constraint","candidate not fact","pending",True,{}),
-        ControlResult("S14 Multiverse DRS","multiple annotations","pending",True,{}),
-        ControlResult("S15 Kill Switch","reject claim","pending",True,{}),
-        ControlResult("S16 Failure Profile","identify type location","pending",True,{}),
-    ]
-    print(f"Controls {len([r for r in results if r.passed])}/{len(results)} PASSED")
-    for r in results:
-        print(f"{'PASS' if r.passed else 'FAIL'} {r.name}")
-    Path("APEX44/04-evaluation/tests/control_results.json").write_text(json.dumps([r.__dict__ for r in results], indent=2))
-    return results
-
-if __name__=="__main__":
-    test_all()
-
+def test_positive_control_recovers_injected_cooccurrence_signal() -> None:
+    rng=np.random.default_rng(44); binary=(rng.random((100,20))<0.05).astype(np.int8)
+    binary[:10,0]=1; binary[:10,1]=1
+    assert int((binary.T@binary)[0,1])>=10
