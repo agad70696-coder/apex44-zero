@@ -131,5 +131,12 @@
     ]
   },
   "evidence_status": "PARTIAL_EVIDENCE",
-  "promotion_authority": "NONE"
+  "promotion_authority": "NONE",
+  "artifact_sha256": {
+    "APEX44/03-computation/output/B_real_6236x1642.npz": "94b4247ae0dd42e8c9edde0399ddd6d152bad0e832129af4be0998664f05eda6",
+    "APEX44/03-computation/output/W_morph_1642x1642.npz": "b273d989453e6b5df27860a8a1bfbea28619878703cd7b6d6622e5c7b88e3f10",
+    "APEX44/03-computation/output/W_sig_1642x1642.npz": "d67075caa9d5b211db9a1413c40f661b94f1c6a7fb1c1f52ac18c89dcb66cdb1",
+    "APEX44/03-computation/output/W_fdr_1642x1642.npz": "cfe77212fc0f5b68ac565b5a8baa7ff45a12214d9803655ac1244bde06609462",
+    "APEX44/03-computation/output/roots_1642.json": "ab502c9a773c36a3306c27940f9bdde921af3d7ce69e7445f39b516b86b5d4d2"
+  }
 }

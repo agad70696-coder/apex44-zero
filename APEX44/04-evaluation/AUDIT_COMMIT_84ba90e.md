@@ -13,7 +13,7 @@ Current disposition: REVIEW_REQUIRED; evidence status PARTIAL_EVIDENCE; promotio
 1. **Source closure is missing.** DRS_real_data.json refers to quranic-corpus-morphology-0.4.txt and records a SHA-256, line count, and byte-size claim, but the source file is not in the inspected repository tree. Its bytes and source digest cannot be recomputed from this snapshot.
 2. **No checked-in producer reproduces the committed matrix.** apply_to_qac.py discovers qac_batch*.py files and extracts regex matches from their source text; its fallback fabricates placeholder observations, and build_biadj adds edges to empty rows and columns. It does not parse the named QAC morphology text. bicm_10k_ensemble.py has a hard-coded 5x4 example under __main__. Neither binds its outputs to the committed 6236x1642 matrix.
 3. **Method equivalence is not established.** The result metadata describes an analytic Chung-Lu/Poisson-tail calculation with Holm correction, whereas the candidate implementation performs sampled BiCM operations. No committed replay record shows that the listed method produced the published arrays.
-4. **Artifact identity is only partially recorded.** The report has short SHA-256 prefixes for two artifacts and no complete digest inventory binding all four arrays, labels, source, and producer together.
+4. **Artifact identity does not establish provenance.** The original report used short SHA-256 prefixes for two arrays; the repair adds full SHA-256 entries for four arrays and root labels plus regression checks. Hashes establish byte identity only and do not authenticate source ancestry or generation.
 5. **CI failure on main is independent.** Self-Evolve run #156 (run ID 38136630526) stopped at the test step because pytest was not installed (No module named pytest). The open repair PR already installs pytest; this audit is being added to that PR rather than changing main directly.
 
 ## Repairs
@@ -21,7 +21,8 @@ Current disposition: REVIEW_REQUIRED; evidence status PARTIAL_EVIDENCE; promotio
 - Downgraded the real-data claim to REVIEW_REQUIRED, with PARTIAL_EVIDENCE and promotion_authority=NONE.
 - Replaced the historical comparison's affirmative verdict with NOT_VERIFIED; the counts remain reported outputs, not independently reproduced findings.
 - Added reproducibility limitations to both result metadata files without changing the binary arrays or inventing replacement numerical results.
-- Added regression checks for source/replay closure, NPZ byte identity where checksums are recorded, dimensions, stored entry counts, symmetry of the two significance masks, and root-label uniqueness.
+- Added a full SHA-256 manifest for the four NPZ outputs and the root-label file, with tests binding each committed file byte-for-byte to the manifest. This is byte identity, not proof of origin or validity.
+- Added regression checks for source/replay closure, matrix dimensions, stored entry counts, symmetry of the two significance masks, and root-label uniqueness.
 
 ## Requirements for scientific promotion
 

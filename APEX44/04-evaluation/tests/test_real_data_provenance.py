@@ -81,6 +81,8 @@ def test_claim_is_not_promoted_without_source_generator_and_replay() -> None:
 def test_matrix_bundle_matches_reported_shapes_counts_and_hash_prefixes() -> None:
     report = _json(EVAL / "DRS_real_data.json")
     meta = _json(OUTPUT / "W_sig_meta.json")
+    manifest = report.get("artifact_sha256", {})
+    assert manifest and meta.get("artifact_sha256") == manifest
     n_roots = int(meta["B_shape"][1])
     artifacts = [
         (
@@ -113,6 +115,8 @@ def test_matrix_bundle_matches_reported_shapes_counts_and_hash_prefixes() -> Non
     for path, expected_shape, expected_nnz, sha_prefix in artifacts:
         assert path.is_file(), f"Missing matrix artifact: {path}"
         digest = hashlib.sha256(path.read_bytes()).hexdigest()
+        relpath = path.relative_to(ROOT).as_posix()
+        assert digest == manifest.get(relpath), f"Full SHA-256 manifest mismatch for {relpath}"
         if sha_prefix:
             assert digest.startswith(sha_prefix), (
                 f"SHA-256 prefix mismatch for {path.name}: "
@@ -132,7 +136,9 @@ def test_matrix_bundle_matches_reported_shapes_counts_and_hash_prefixes() -> Non
             f"{filename} is not symmetric; undirected-edge counts cannot be inferred as nnz/2"
         )
 
-    roots = json.loads((OUTPUT / "roots_1642.json").read_text(encoding="utf-8"))
+    roots_path = OUTPUT / "roots_1642.json"
+    roots = json.loads(roots_path.read_text(encoding="utf-8"))
+    assert hashlib.sha256(roots_path.read_bytes()).hexdigest() == manifest.get("APEX44/03-computation/output/roots_1642.json")
     assert len(roots) == n_roots, f"Expected {n_roots} root labels, got {len(roots)}"
     assert len(set(roots)) == len(roots), "Root labels contain duplicates"
     assert meta["B_nnz"] == report["B_real"]["nnz"]
