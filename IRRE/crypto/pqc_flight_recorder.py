@@ -60,8 +60,9 @@ if __name__ == "__main__":
     print(
         f"Chain verified: {rec.verify_chain()} | Height: {len(rec.chain)} | Backend: {rec.backend}"
     )
-    pathlib.Path("data/flight_recorder.jsonl").parent.mkdir(exist_ok=True)
-    with open("data/flight_recorder.jsonl", "w") as f:
+    output_path = pathlib.Path("data/flight_recorder.jsonl")
+    output_path.parent.mkdir(exist_ok=True)
+    with output_path.open("w", encoding="utf-8") as f:
         for e in rec.chain:
             f.write(json.dumps(e) + "\n")
     print("Flight recorder saved - offline verifiable forever")
