@@ -10,7 +10,7 @@ from __future__ import annotations
 import hashlib
 import json
 import time
-from typing import Any
+from typing import Any, ClassVar
 
 
 def personal_hash(data: str) -> str:
@@ -20,12 +20,12 @@ def personal_hash(data: str) -> str:
 class PersonalizedMedicineEvidence:
     """Record sample prescription data and apply a deliberately narrow test policy."""
 
-    HIGH_RISK_COMBINATIONS = {
+    HIGH_RISK_COMBINATIONS: ClassVar[dict[str, set[str]]] = {
         "CYP2D6-poor": {"codeine", "tramadol"},
         "HLA-B*58:01": {"allopurinol"},
     }
     # This single test-fixture rule is not a complete dosage guideline.
-    DEMO_ALLOWLIST_MAX_DOSE_MG = {"paracetamol": 1000.0}
+    DEMO_ALLOWLIST_MAX_DOSE_MG: ClassVar[dict[str, float]] = {"paracetamol": 1000.0}
 
     def __init__(self, patient_id: str, genome_marker: str, age: int, weight: float) -> None:
         if not patient_id or not genome_marker:
