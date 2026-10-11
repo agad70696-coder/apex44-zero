@@ -29,6 +29,4 @@ class NeuralEvidence:
     def detect_fake_consciousness(self) -> bool:
         # لو الإشارة كلها قيمة واحدة يبقى مزيفة - مفيش مخ بيعمل كده
         # المخ الحقيقي عشوائي ومعقد
-        if len(set(self.eeg_data)) < 3:
-            return True  # إشارة مزيفة - Flatline
-        return False
+        return len(set(self.eeg_data)) < 3  # إشارة مزيفة - Flatline
