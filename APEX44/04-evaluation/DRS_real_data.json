@@ -22,7 +22,8 @@
       1642
     ],
     "nnz": 318274,
-    "sha16": "b273d989453e6b5d"
+    "sha16": "b273d989453e6b5d",
+    "file": "APEX44/03-computation/output/W_morph_1642x1642.npz"
   },
   "W_sig_Holm": {
     "undirected": 616,
@@ -40,7 +41,7 @@
     "historical_claim": 1816,
     "real_Holm": 616,
     "real_FDR": 3729,
-    "verdict": "HISTORICAL_UNDERCOUNT: Real FDR 3729 > 1816, Holm strict 616 is 33% of historical"
+    "verdict": "NOT_VERIFIED: reported counts are descriptive only until the source, generator, and outputs are bound and replayed."
   },
   "top_10_Holm": [
     {
@@ -114,5 +115,21 @@
       "p_holm": 6.276672656637928e-11
     }
   ],
-  "status": "SUPPORTED_REAL_DATA"
+  "status": "REVIEW_REQUIRED",
+  "reproducibility_audit": {
+    "status": "BLOCKED",
+    "reason": "SOURCE_AND_EXECUTABLE_GENERATOR_NOT_CLOSED",
+    "source_available_in_snapshot": false,
+    "generator_bound_to_outputs": false,
+    "replay_receipt": null,
+    "limitations": [
+      "The referenced quranic-corpus-morphology-0.4.txt source file is absent from this repository snapshot; the declared source SHA-256 therefore cannot be independently recomputed from the committed inputs.",
+      "The checked-in apply_to_qac.py scans qac_batch*.py source files with regular expressions rather than parsing the named morphology corpus, and build_biadj inserts edges into empty rows and columns.",
+      "The checked-in bicm_10k_ensemble.py executable example uses a hard-coded 5x4 synthetic matrix; neither checked-in candidate is a replayable producer of the committed 6236x1642 matrix.",
+      "The published matrix checksums are partial SHA-256 prefixes for only some outputs; full SHA-256 values and a replay receipt do not bind all four NPZ outputs to an executable computation.",
+      "The declared method says analytic Chung-Lu/Poisson with Holm correction, while the checked-in candidate code performs sampled BiCM operations on different inputs; equivalence has not been demonstrated."
+    ]
+  },
+  "evidence_status": "PARTIAL_EVIDENCE",
+  "promotion_authority": "NONE"
 }

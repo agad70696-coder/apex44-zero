@@ -151,5 +151,17 @@
       "exp": 29.53529266779173,
       "p_holm": 7.37482511762901e-22
     }
-  ]
+  ],
+  "reproducibility_audit": {
+    "status": "BLOCKED",
+    "reason": "SOURCE_AND_EXECUTABLE_GENERATOR_NOT_CLOSED",
+    "promotion_authority": "NONE",
+    "limitations": [
+      "The referenced quranic-corpus-morphology-0.4.txt source file is absent from this repository snapshot; the declared source SHA-256 therefore cannot be independently recomputed from the committed inputs.",
+      "The checked-in apply_to_qac.py scans qac_batch*.py source files with regular expressions rather than parsing the named morphology corpus, and build_biadj inserts edges into empty rows and columns.",
+      "The checked-in bicm_10k_ensemble.py executable example uses a hard-coded 5x4 synthetic matrix; neither checked-in candidate is a replayable producer of the committed 6236x1642 matrix.",
+      "The published matrix checksums are partial SHA-256 prefixes for only some outputs; full SHA-256 values and a replay receipt do not bind all four NPZ outputs to an executable computation.",
+      "The declared method says analytic Chung-Lu/Poisson with Holm correction, while the checked-in candidate code performs sampled BiCM operations on different inputs; equivalence has not been demonstrated."
+    ]
+  }
 }
