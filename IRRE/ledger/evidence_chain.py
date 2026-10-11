@@ -7,6 +7,7 @@ promoting it to a signature-validation success.
 from __future__ import annotations
 
 import base64
+import binascii
 import hashlib
 import json
 import re
@@ -115,7 +116,9 @@ class EvidenceChain:
                    VALUES (?, ?, ?, ?, ?, ?)""",
                 (timestamp, evidence_hash, chained_hash, prev_hash, data_json, signature),
             )
-            record_id = int(cursor.lastrowid)
+            if cursor.lastrowid is None:
+                raise RuntimeError("SQLite did not return the inserted record id")
+            record_id = cursor.lastrowid
             self.conn.commit()
         except Exception:
             self.conn.rollback()
@@ -150,7 +153,7 @@ class EvidenceChain:
                 raw = base64.b64decode(signature.removeprefix("b64:"), validate=True)
                 return bool(self.signer.verify(chained_hash, raw))
             return False
-        except (ValueError, TypeError, UnicodeError, base64.binascii.Error):
+        except (ValueError, TypeError, UnicodeError, binascii.Error):
             return False
 
     def verify_chain(self) -> dict[str, Any]:
