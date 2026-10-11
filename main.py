@@ -1,4 +1,5 @@
 from IRRE.ai.ai_evidence import AIModelEvidence
+from IRRE.crypto.forensic_signer import ForensicSigner
 from IRRE.crypto.post_quantum import QuantumSafeEvidence
 from IRRE.ledger.evidence_chain import EvidenceChain
 
@@ -35,7 +36,7 @@ def main() -> None:
     with open("evidence_chain.json", "w", encoding="utf-8") as f:
         f.write(ledger.export())
 
-    print("\nDone! Evidence is valid for 50 years and quantum-resistant.")
+    print("\nDone! Evidence has been written to evidence_chain.json.")
 
 
 if __name__ == "__main__":
