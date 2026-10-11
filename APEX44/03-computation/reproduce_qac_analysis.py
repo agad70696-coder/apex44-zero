@@ -10,6 +10,7 @@ import argparse
 import hashlib
 import json
 import platform
+import re
 from collections import Counter
 from pathlib import Path
 from typing import Any
@@ -32,7 +33,7 @@ EXPECTED_SOURCE_SHA256 = (
 ALPHA = 0.05
 ROOT_FEATURE_COUNT = 1642
 EXPECTED_B_SHAPE = (6236, ROOT_FEATURE_COUNT)
-EXPECTED_B_NNZ = 102210
+EXPECTED_B_NNZ = 44431
 ARTIFACT_PATHS = {
     "B_real": OUTPUT_DIR / "B_real_6236x1642.npz",
     "W_morph": OUTPUT_DIR / "W_morph_1642x1642.npz",
@@ -99,8 +100,7 @@ def build_biadjacency(source_text: str) -> tuple[sp.csr_matrix, list[str]]:
     verse_to_index: dict[tuple[int, int], int] = {}
     triples: list[tuple[int, str]] = []
     location_pattern = __import__("re").compile(r"\(?(\d+):(\d+):\d+:\d+\)?")
-    root_pattern = __import__("re").compile(r"ROOT:([^\s|]+)")
-    lemma_pattern = __import__("re").compile(r"LEM:([^\s|]+)")
+    root_pattern = re.compile(r"ROOT:([^\s|]+)")
 
     for line in lines:
         parts = line.split("\t")
@@ -113,15 +113,12 @@ def build_biadjacency(source_text: str) -> tuple[sp.csr_matrix, list[str]]:
         verse_index = verse_to_index[verse_key]
         features = " ".join(parts[1:])
         root_match = root_pattern.search(features)
-        lemma_match = lemma_pattern.search(features)
+        # ROOT is the only admissible feature in this projection. Do not mix
+        # LEM values or raw token/POS fallbacks into a root-labelled matrix.
         if root_match:
             feature = root_match.group(1)
-        elif lemma_match:
-            feature = lemma_match.group(1)
-        else:
-            feature = parts[1] if len(parts) > 1 else None
-        if feature and feature != "UNK":
-            triples.append((verse_index, feature))
+            if feature and feature != "UNK":
+                triples.append((verse_index, feature))
 
     counts = Counter(feature for _, feature in triples)
     roots = [feature for feature, _ in counts.most_common(ROOT_FEATURE_COUNT)]
@@ -299,12 +296,16 @@ def compute_bundle() -> dict[str, Any]:
         "source_sha256": source_sha,
         "source_bytes": len(raw),
         "source_lines": len(raw.splitlines()),
-        "legacy_projection_dtype": "int8",
-        "legacy_projection_negative_entries": 1580,
-        "legacy_projection_nnz": 318274,
+        "primary_feature_layer": "ROOT-only",
+        "legacy_mixed_root_lemma_surface_incidence_nnz": 102210,
+        "legacy_mixed_projection_dtype": "int8",
+        "legacy_mixed_projection_negative_entries": 1580,
+        "legacy_mixed_projection_nnz": 318274,
+        "intermediate_mixed_int64_projection_nnz": 318278,
+        "intermediate_mixed_int64_projection_max": 2567,
+        "intermediate_mixed_int64_holm_undirected": 542,
+        "intermediate_mixed_int64_bh_undirected": 1685,
         "corrected_projection_dtype": "int64",
-        "changed_projection_coordinates_vs_legacy": 2108,
-        "lost_undirected_pairs_due_to_int8_wraparound": 2,
     }
     return {
         "source_sha256": source_sha,
@@ -361,6 +362,8 @@ def write_bundle(bundle: dict[str, Any]) -> None:
         "source_sha256": bundle["source_sha256"],
         "producer": "APEX44/03-computation/reproduce_qac_analysis.py",
         "numeric_dtype": "int64 for projection and significance matrices",
+        "feature_layer": "ROOT-only",
+        "source_feature_rule": "Include explicit ROOT: values only; exclude LEM and surface/POS fallbacks.",
         "B_shape": stats["B_shape"],
         "B_nnz": stats["B_nnz"],
         "W_morph_nnz": stats["W_morph_nnz"],
@@ -411,6 +414,14 @@ def write_bundle(bundle: dict[str, Any]) -> None:
         "density": stats["B_density"],
         "file": ARTIFACT_PATHS["B_real"].relative_to(ROOT).as_posix(),
     }
+    report["feature_extraction"] = {
+        "primary_layer": "ROOT",
+        "rule": "Only explicit ROOT: feature values are admitted to the primary root graph.",
+        "root_feature_records": 49968,
+        "lemma_fallback_records_excluded_from_legacy_parser": 24640,
+        "surface_fallback_records_excluded_from_legacy_parser": 53611,
+        "typed_feature_layers_pooled": False,
+    }
     report["W_morph"] = {
         "shape": stats["W_morph_shape"],
         "nnz": stats["W_morph_nnz"],
@@ -443,27 +454,43 @@ def write_bundle(bundle: dict[str, Any]) -> None:
         "legacy_overflow_fdr": 3729,
         "corrected_all_pairs_holm": stats["W_sig_nnz_undirected"],
         "corrected_all_pairs_fdr": stats["W_fdr_nnz_undirected"],
+        "intermediate_mixed_int64_holm": 542,
+        "intermediate_mixed_int64_fdr": 1685,
         "verdict": (
             "NOT_VERIFIED: the historical 1816 figure has not been recreated under a "
-            "source-bound comparable method. Previous 616/3729 counts are invalidated because "
-            "the prior projection used int8 arithmetic and corrected only the nonzero-edge family."
+            "source-bound comparable method. Previous 616/3729 counts are invalidated by int8 "
+            "overflow; the intermediate 542/1685 counts still used a mixed ROOT/LEM/surface feature "
+            "space and are not accepted as root-only results."
         ),
     }
     report["top_10_Holm"] = stats["top_20_holm"][:10]
     report["computation_audit"] = {
         "status": "CORRECTED",
-        "defect": "integer overflow in int8 projection multiplication",
-        "legacy_projection_dtype": "int8",
-        "legacy_negative_projection_entries": stats["legacy_projection_negative_entries"],
-        "legacy_projection_nnz": stats["legacy_projection_nnz"],
+        "defects": [
+            "integer overflow in the legacy int8 projection multiplication",
+            "legacy incidence matrix mixed ROOT, LEM fallback, and raw surface fallback features",
+        ],
+        "primary_feature_layer": "ROOT-only",
         "corrected_projection_dtype": "int64",
         "corrected_projection_nnz": stats["W_morph_nnz"],
         "corrected_projection_max": stats["W_morph_max_common_verses"],
-        "changed_coordinates_vs_legacy": stats["changed_projection_coordinates_vs_legacy"],
-        "undirected_pairs_previously_lost_to_zero_wraparound": (
-            stats["lost_undirected_pairs_due_to_int8_wraparound"]
-        ),
-        "multiple_testing_family_changed": True,
+        "legacy_mixed_projection": {
+            "incidence_nnz": 102210,
+            "projection_dtype": "int8",
+            "negative_entries": 1580,
+            "projection_nnz": 318274,
+            "intermediate_int64_projection_nnz": 318278,
+            "intermediate_int64_projection_max": 2567,
+            "intermediate_int64_holm_undirected": 542,
+            "intermediate_int64_bh_undirected": 1685,
+            "counts_valid_for_root_only_claim": False,
+        },
+        "legacy_feature_mix": {
+            "explicit_root_records": 49968,
+            "lemma_fallback_records": 24640,
+            "raw_surface_fallback_records": 53611,
+        },
+        "multiple_testing_family": "all unordered root pairs, including zero-observation pairs",
         "legacy_counts_valid": False,
     }
     report["artifact_sha256"] = hashes

@@ -15,8 +15,8 @@
       6236,
       1642
     ],
-    "nnz": 102210,
-    "density": 0.009981921013423297,
+    "nnz": 44431,
+    "density": 0.004339171632398106,
     "file": "APEX44/03-computation/output/B_real_6236x1642.npz"
   },
   "W_morph": {
@@ -24,14 +24,14 @@
       1642,
       1642
     ],
-    "nnz": 318278,
+    "nnz": 148370,
     "dtype": "int64",
-    "max_common_verses": 2567,
+    "max_common_verses": 514,
     "file": "APEX44/03-computation/output/W_morph_1642x1642.npz"
   },
   "W_sig_Holm": {
-    "undirected": 542,
-    "directed": 1084,
+    "undirected": 245,
+    "directed": 490,
     "alpha": 0.05,
     "tested_hypotheses": 1347261,
     "family": "all unordered root pairs, including pairs with zero observed co-occurrence",
@@ -39,8 +39,8 @@
     "file": "APEX44/03-computation/output/W_sig_1642x1642.npz"
   },
   "W_fdr_BH": {
-    "undirected": 1685,
-    "directed": 3370,
+    "undirected": 660,
+    "directed": 1320,
     "alpha": 0.05,
     "tested_hypotheses": 1347261,
     "family": "all unordered root pairs, including pairs with zero observed co-occurrence",
@@ -51,90 +51,92 @@
     "historical_claim": 1816,
     "legacy_overflow_holm": 616,
     "legacy_overflow_fdr": 3729,
-    "corrected_all_pairs_holm": 542,
-    "corrected_all_pairs_fdr": 1685,
-    "verdict": "NOT_VERIFIED: the historical 1816 figure has not been recreated under a source-bound comparable method. Previous 616/3729 counts are invalidated because the prior projection used int8 arithmetic and corrected only the nonzero-edge family."
+    "corrected_all_pairs_holm": 245,
+    "corrected_all_pairs_fdr": 660,
+    "intermediate_mixed_int64_holm": 542,
+    "intermediate_mixed_int64_fdr": 1685,
+    "verdict": "NOT_VERIFIED: the historical 1816 figure has not been recreated under a source-bound comparable method. Previous 616/3729 counts are invalidated by int8 overflow; the intermediate 542/1685 counts still used a mixed ROOT/LEM/surface feature space and are not accepted as root-only results."
   },
   "top_10_Holm": [
     {
-      "a": "wA@",
-      "b": "{l~a*iY",
-      "observed": 737,
-      "expected_poisson_mean": 475.0259570736503,
-      "p_raw": 6.374043717170029e-29,
-      "p_holm_adjusted": 8.587239176645806e-23
-    },
-    {
-      "a": "wna",
-      "b": "laA",
-      "observed": 682,
-      "expected_poisson_mean": 522.3340401603575,
-      "p_raw": 1.4059290805543035e-11,
-      "p_holm_adjusted": 1.8937850655775663e-05
-    },
-    {
-      "a": "wA@",
-      "b": "kwn",
-      "observed": 582,
-      "expected_poisson_mean": 449.4211790173876,
-      "p_raw": 1.224230297130392e-09,
-      "p_holm_adjusted": 0.0016488655937627428
-    },
-    {
-      "a": "bi",
-      "b": "hi.",
-      "observed": 443,
-      "expected_poisson_mean": 273.35700567023616,
-      "p_raw": 3.0208774467379577e-21,
-      "p_holm_adjusted": 4.069698908348356e-15
-    },
-    {
-      "a": "{lo",
-      "b": "ArD",
-      "observed": 429,
-      "expected_poisson_mean": 314.0363468184739,
-      "p_raw": 4.5194511725746655e-10,
-      "p_holm_adjusted": 0.00060872352259873
-    },
-    {
-      "a": "wA@",
-      "b": "Amn",
-      "observed": 415,
-      "expected_poisson_mean": 276.3023064877306,
-      "p_raw": 4.808877125459743e-15,
-      "p_holm_adjusted": 6.478124935495078e-09
-    },
-    {
       "a": "Alh",
-      "b": "Elm",
-      "observed": 408,
-      "expected_poisson_mean": 300.95707267203244,
-      "p_raw": 2.720215789485512e-09,
-      "p_holm_adjusted": 0.00366367911261593
+      "b": "$yA",
+      "observed": 282,
+      "expected_poisson_mean": 199.59191000087458,
+      "p_raw": 2.2780159314377162e-08,
+      "p_holm_adjusted": 0.0306854441004489
     },
     {
-      "a": "Alh",
-      "b": "man",
-      "observed": 383,
-      "expected_poisson_mean": 286.07458006737147,
-      "p_raw": 2.8467257646711017e-08,
-      "p_holm_adjusted": 0.03833770989055513
+      "a": "ArD",
+      "b": "smw",
+      "observed": 224,
+      "expected_poisson_mean": 36.64081735763758,
+      "p_raw": 5.551944304114052e-97,
+      "p_holm_adjusted": 7.479918035105002e-91
     },
     {
-      "a": "{l~a*iY",
-      "b": "Amn",
-      "observed": 372,
-      "expected_poisson_mean": 197.72237591493908,
-      "p_raw": 1.662177153504896e-28,
-      "p_holm_adjusted": 2.2393133182134054e-22
+      "a": "$yA",
+      "b": "kll",
+      "observed": 135,
+      "expected_poisson_mean": 37.70895585434299,
+      "p_raw": 1.4254536180242571e-34,
+      "p_holm_adjusted": 1.9204438123367985e-28
     },
     {
-      "a": "maA",
-      "b": "<il~aA",
-      "observed": 353,
-      "expected_poisson_mean": 245.0504800948256,
-      "p_raw": 5.720983281846394e-11,
-      "p_holm_adjusted": 7.70590703639941e-05
+      "a": "qwm",
+      "b": "ywm",
+      "observed": 104,
+      "expected_poisson_mean": 53.24581690254475,
+      "p_raw": 5.008245920908547e-10,
+      "p_holm_adjusted": 0.0006746628113039587
+    },
+    {
+      "a": "Amn",
+      "b": "Eml",
+      "observed": 101,
+      "expected_poisson_mean": 53.536804798657194,
+      "p_raw": 4.866370386514557e-09,
+      "p_holm_adjusted": 0.006555273427376753
+    },
+    {
+      "a": "Eml",
+      "b": "SlH",
+      "observed": 93,
+      "expected_poisson_mean": 12.588183700929077,
+      "p_raw": 6.740170677180297e-48,
+      "p_holm_adjusted": 9.080735385855218e-42
+    },
+    {
+      "a": "rHm",
+      "b": "gfr",
+      "observed": 91,
+      "expected_poisson_mean": 14.957724162280433,
+      "p_raw": 2.304689285295472e-40,
+      "p_holm_adjusted": 3.1049972489928952e-34
+    },
+    {
+      "a": "Amn",
+      "b": "SlH",
+      "observed": 82,
+      "expected_poisson_mean": 29.077497813967167,
+      "p_raw": 7.803797955335135e-16,
+      "p_holm_adjusted": 1.0513378054800913e-09
+    },
+    {
+      "a": "Aty",
+      "b": "ktb",
+      "observed": 78,
+      "expected_poisson_mean": 32.07822177680468,
+      "p_raw": 5.282326996445029e-12,
+      "p_holm_adjusted": 7.116150201184878e-06
+    },
+    {
+      "a": "Elm",
+      "b": "Hkm",
+      "observed": 71,
+      "expected_poisson_mean": 32.55089967634343,
+      "p_raw": 3.829339358161124e-09,
+      "p_holm_adjusted": 0.005158361363822598
     }
   ],
   "status": "REVIEW_REQUIRED",
@@ -144,42 +146,65 @@
     "source_available_in_snapshot": true,
     "source_sha256_verified": "a1d12923815341face765083805d2148ed2d9f5cc3f7d6665219d887675d8c46",
     "producer": "APEX44/03-computation/reproduce_qac_analysis.py",
-    "producer_sha256": "eed03d0a1ab9370f57f34ee8bea3bc074f017e99a1368c868669935e18044a5c",
+    "producer_sha256": "125c6816f59c2fdbe192bc1b18657efa91b89c28221d272efee79e69933ce59b",
     "environment": {
       "python": "3.13.13",
       "numpy": "2.4.4",
       "scipy": "1.18.0"
     },
     "artifact_sha256": {
-      "APEX44/03-computation/output/B_real_6236x1642.npz": "94b4247ae0dd42e8c9edde0399ddd6d152bad0e832129af4be0998664f05eda6",
-      "APEX44/03-computation/output/W_morph_1642x1642.npz": "d8a996c460f35dae857f51af7733ba75d6bde431f6253479b5ff659a7fb7d9df",
-      "APEX44/03-computation/output/W_sig_1642x1642.npz": "1075ffe70c25fd886f5033110efe26e1d97873460129f112db44d818b9e7c67c",
-      "APEX44/03-computation/output/W_fdr_1642x1642.npz": "723ba60f1efd4979a62148e0b4cc635ef9344a198b54b1c5505f112c1c8bb23a",
-      "APEX44/03-computation/output/roots_1642.json": "ab502c9a773c36a3306c27940f9bdde921af3d7ce69e7445f39b516b86b5d4d2"
+      "APEX44/03-computation/output/B_real_6236x1642.npz": "a75fdf4d57bd9448a74607fff9b9ddf31c26e2c3f356eb9fd40d19aa511c8c3a",
+      "APEX44/03-computation/output/W_morph_1642x1642.npz": "97dd90779c26e2cac1905864ea1eb276bd48838ac5a570e3227d23231b3ead40",
+      "APEX44/03-computation/output/W_sig_1642x1642.npz": "ecfca2720f2f02132eb3f60871cc2637b1801f186b3789050220943adfabbd9c",
+      "APEX44/03-computation/output/W_fdr_1642x1642.npz": "382d02d725879c3b929750a34be1f7cb9921f32d5e3a14e56cf88eab3242c8f9",
+      "APEX44/03-computation/output/roots_1642.json": "8f7a1e9246ef5f8ce40a031b99ee51c80cf8ba7de182017fb8390e0e23b51eba"
     },
     "replay_receipt": "Generated and semantically compared all four sparse matrices and root labels; see test_real_data_provenance.py and CI replay step."
   },
   "evidence_status": "REPRODUCED_SCOPED",
   "promotion_authority": "NONE",
   "artifact_sha256": {
-    "APEX44/03-computation/output/B_real_6236x1642.npz": "94b4247ae0dd42e8c9edde0399ddd6d152bad0e832129af4be0998664f05eda6",
-    "APEX44/03-computation/output/W_morph_1642x1642.npz": "d8a996c460f35dae857f51af7733ba75d6bde431f6253479b5ff659a7fb7d9df",
-    "APEX44/03-computation/output/W_sig_1642x1642.npz": "1075ffe70c25fd886f5033110efe26e1d97873460129f112db44d818b9e7c67c",
-    "APEX44/03-computation/output/W_fdr_1642x1642.npz": "723ba60f1efd4979a62148e0b4cc635ef9344a198b54b1c5505f112c1c8bb23a",
-    "APEX44/03-computation/output/roots_1642.json": "ab502c9a773c36a3306c27940f9bdde921af3d7ce69e7445f39b516b86b5d4d2"
+    "APEX44/03-computation/output/B_real_6236x1642.npz": "a75fdf4d57bd9448a74607fff9b9ddf31c26e2c3f356eb9fd40d19aa511c8c3a",
+    "APEX44/03-computation/output/W_morph_1642x1642.npz": "97dd90779c26e2cac1905864ea1eb276bd48838ac5a570e3227d23231b3ead40",
+    "APEX44/03-computation/output/W_sig_1642x1642.npz": "ecfca2720f2f02132eb3f60871cc2637b1801f186b3789050220943adfabbd9c",
+    "APEX44/03-computation/output/W_fdr_1642x1642.npz": "382d02d725879c3b929750a34be1f7cb9921f32d5e3a14e56cf88eab3242c8f9",
+    "APEX44/03-computation/output/roots_1642.json": "8f7a1e9246ef5f8ce40a031b99ee51c80cf8ba7de182017fb8390e0e23b51eba"
   },
   "computation_audit": {
     "status": "CORRECTED",
-    "defect": "integer overflow in int8 projection multiplication",
-    "legacy_projection_dtype": "int8",
-    "legacy_negative_projection_entries": 1580,
-    "legacy_projection_nnz": 318274,
+    "defects": [
+      "integer overflow in the legacy int8 projection multiplication",
+      "legacy incidence matrix mixed ROOT, LEM fallback, and raw surface fallback features"
+    ],
+    "primary_feature_layer": "ROOT-only",
     "corrected_projection_dtype": "int64",
-    "corrected_projection_nnz": 318278,
-    "corrected_projection_max": 2567,
-    "changed_coordinates_vs_legacy": 2108,
-    "undirected_pairs_previously_lost_to_zero_wraparound": 2,
-    "multiple_testing_family_changed": true,
+    "corrected_projection_nnz": 148370,
+    "corrected_projection_max": 514,
+    "legacy_mixed_projection": {
+      "incidence_nnz": 102210,
+      "projection_dtype": "int8",
+      "negative_entries": 1580,
+      "projection_nnz": 318274,
+      "intermediate_int64_projection_nnz": 318278,
+      "intermediate_int64_projection_max": 2567,
+      "intermediate_int64_holm_undirected": 542,
+      "intermediate_int64_bh_undirected": 1685,
+      "counts_valid_for_root_only_claim": false
+    },
+    "legacy_feature_mix": {
+      "explicit_root_records": 49968,
+      "lemma_fallback_records": 24640,
+      "raw_surface_fallback_records": 53611
+    },
+    "multiple_testing_family": "all unordered root pairs, including zero-observation pairs",
     "legacy_counts_valid": false
+  },
+  "feature_extraction": {
+    "primary_layer": "ROOT",
+    "rule": "Only explicit ROOT: feature values are admitted to the primary root graph.",
+    "root_feature_records": 49968,
+    "lemma_fallback_records_excluded_from_legacy_parser": 24640,
+    "surface_fallback_records_excluded_from_legacy_parser": 53611,
+    "typed_feature_layers_pooled": false
   }
 }

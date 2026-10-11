@@ -51,6 +51,14 @@ def test_committed_corrected_projection_is_wide_nonnegative_and_manifest_bound()
     report = json.loads(REPORT_PATH.read_text(encoding="utf-8"))
     meta = json.loads(META_PATH.read_text(encoding="utf-8"))
     projection = sp.load_npz(OUTPUT / "W_morph_1642x1642.npz").tocsr()
+    incidence = sp.load_npz(OUTPUT / "B_real_6236x1642.npz").tocsr()
+    roots = json.loads((OUTPUT / "roots_1642.json").read_text(encoding="utf-8"))
+    assert incidence.shape == (6236, 1642)
+    assert incidence.nnz == 44_431
+    assert len(roots) == 1642 and len(set(roots)) == 1642
+    assert report["feature_extraction"]["primary_layer"] == "ROOT"
+    assert report["feature_extraction"]["typed_feature_layers_pooled"] is False
+    assert meta["feature_layer"] == "ROOT-only"
     assert projection.shape == (1642, 1642)
     assert projection.dtype == np.dtype(np.int64)
     assert projection.nnz == report["W_morph"]["nnz"] == meta["W_morph_nnz"]

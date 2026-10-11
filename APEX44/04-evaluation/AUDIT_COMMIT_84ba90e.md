@@ -1,47 +1,31 @@
-# Forensic audit and correction of commit 84ba90e805d8427c4be57b965046353849b8720b
+# Follow-up audit: isolate ROOT features and preserve representation typing
 
-Review and corrected replay: 2026-10-11.
+Date: 2026-10-11. Parent correction: c6ad72149b2e31b24da95a9fdb4a8ab1779c0a44.
 
-## Decision
+## New semantic defect found and repaired
 
-The original commit's reported significance masks were not safe to rely on. The earlier audit was incomplete because it did not identify integer overflow in the projection. This repair corrects the computation, includes the exact QAC morphology v0.4 source as an unmodified file, and adds a source-to-output reproduction command and blocking CI checks.
+After repairing int8 arithmetic, a second inspection found the previous incidence builder pooled three different feature types into one column universe:
+- 49,968 records with explicit ROOT features;
+- 24,640 records that had no ROOT but fell back to LEM;
+- 53,611 records that had neither and fell back to the surface/token field.
 
-Current disposition: REPRODUCED_SCOPED for source-to-array reproduction; overall scientific claim remains REVIEW_REQUIRED; promotion authority remains NONE.
+The resulting output was labelled as a root matrix even though the columns were semantically heterogeneous. The number of unique raw surface fallback values was only 151, which made the mixing visible in high-frequency columns such as conjunctions, particles, and determiners. This is a feature-type/ontology error, independent from the integer-overflow defect.
 
-## Confirmed source identity
+The primary graph now admits only explicit ROOT values. LEM, POS and surface/token values are not substituted into missing ROOT fields. The source is still preserved byte-for-byte and source-bound.
 
-The exact source file was recovered from the existing local project workspace at PHASE2_CLEAN/source/quranic-corpus-morphology-0.4.txt. Its raw SHA-256 matches the source hash already recorded in the original result report:
+## Root-only corrected result
 
-a1d12923815341face765083805d2148ed2d9f5cc3f7d6665219d887675d8c46
+- Incidence B: [6236, 1642], 44,431 nonzero verse-root relations.
+- Root labels: 1,642 unique explicit ROOT values.
+- Projection: int64, 148,370 stored directed entries, maximum common-verse count 514.
+- Tested family: 1,347,261 unordered pairs, including zero-observation pairs.
+- Holm: 245 undirected pairs.
+- Benjamini-Hochberg: 660 undirected pairs.
 
-Its raw size is 6,309,503 bytes and its line count is 128,276. The file was added to the repair branch byte-for-byte, preserving the copyright/license block and CRLF line endings. A source manifest records version, byte length, line count, and digest. This closes the input's byte-identity gap in the repository snapshot; it does not independently authenticate upstream custody.
+The intermediate mixed-feature/int64 analysis (542 Holm and 1,685 BH pairs) is retained only as an invalidated audit comparison. The previous mixed-feature/int8 analysis (616 and 3,729) is also invalidated. Neither number should be used as a root-only scientific result.
 
-## Critical computational defect: int8 overflow
+## Reproduction and release boundary
 
-The previous projection calculation multiplied an int8 incidence matrix directly. Counts over the signed 8-bit range overflowed. Inspection of the pre-repair matrix found 1,580 negative stored entries and a maximum of 127, which is impossible for a co-occurrence count. The old projection had 318,274 stored entries; the corrected int64 projection has 318,278 stored entries and maximum common-verse count 2,567. A total of 2,108 matrix coordinates differ, and two undirected pairs had been erased by wraparound to zero.
+The runner APEX44/03-computation/reproduce_qac_analysis.py now parses explicit ROOT fields only, promotes the incidence matrix to int64 before multiplication, tests the full pair family, and semantically compares all output matrices and root labels. The blocking quality gate runs both the targeted tests and the clean replay.
 
-The incidence matrix remains binary int8 for storage efficiency, but is promoted to int64 before multiplication. The corrected projection is symmetric, nonnegative, and has a zero diagonal.
-
-## Corrected statistical calculation
-
-The prior counts 616 (Holm) and 3729 (BH/FDR) came from the overflowed matrix and a multiple-testing family restricted to observed nonzero edges. They are explicitly invalidated. The corrected analysis tests the full family of 1,347,261 unordered root/lemma pairs, including zero-observation pairs with p-value 1. The expected count uses a degree-based Poisson-tail approximation and is not an exact sampled BiCM null.
-
-Corrected counts: Holm 542 undirected pairs; Benjamini-Hochberg 1,685 undirected pairs. The historical figure of 1,816 has not been recreated under a source-bound comparable method; the verdict remains NOT_VERIFIED.
-
-## Reproducibility and tests
-
-Read-only verification from the repository root:
-
-python APEX44/03-computation/reproduce_qac_analysis.py --verify
-
-To intentionally regenerate matrices and metadata:
-
-python APEX44/03-computation/reproduce_qac_analysis.py --write
-
-The runner verifies the source hash and source manifest, rebuilds the incidence matrix from the raw corpus, performs the projection using wide integers, recalculates both correction procedures across the full pair family, and semantically compares every matrix and root label with the stored files. Full SHA-256 values for committed outputs are recorded in both report metadata files. These hashes establish byte identity of stored artifacts, not mathematical validity or upstream provenance by themselves.
-
-The repair also adds a regression test showing int8 overflow on a 300-common-neighbor synthetic fixture and a blocking quality-gate step that executes the targeted tests and the full source-to-output replay. Local result: PASS_SCOPED_REPRODUCTION; targeted tests: pass.
-
-## Boundaries
-
-Reproducing a result from a fixed corpus establishes computational reproducibility, not the validity of the degree-based Poisson approximation, root/lemma feature selection, linguistic interpretation, or comparison with a historical number. Those remain review-required. No promotion authority is granted.
+Current status: REPRODUCED_SCOPED for root-only source-to-array reproduction; overall scientific claim REVIEW_REQUIRED; promotion authority NONE. The degree-based Poisson-tail expectation remains an approximation, not an exact sampled BiCM null. The historical figure of 1,816 has not been recreated under a comparable source-bound method.
