@@ -1,3 +1,6 @@
+"""Semantic-query facade over the local knowledge graph."""
+from __future__ import annotations
+
 from typing import Any
 
 from .knowledge_graph import KnowledgeGraph
@@ -11,20 +14,31 @@ class SemanticEngine:
         self.kg.infer_transitive()
 
     def understand(self, term: str) -> dict[str, Any]:
-        ent = self.kg.query(term)
-        if not ent:
-            return {"found": False, "explanation": f"'{term}' is just a word"}
-        return {"found": True, "type": ent.type, "explanation": self.kg.explain(term)}
+        entity = self.kg.query(term)
+        if entity is None:
+            return {"found": False, "explanation": f"'{term}' is not present in the configured ontology"}
+        return {
+            "found": True,
+            "type": entity.type,
+            "explanation": self.kg.explain(term),
+        }
 
     def answer_what_is(self, term: str) -> str:
-        u = self.understand(term)
-        return u.get("explanation", "Not found")
+        result = self.understand(term)
+        return str(result.get("explanation", "Not found"))
 
     def infer_new_knowledge(self, term: str) -> list[str]:
-        return [f"{s} {r} {t} [INFERRED]" for s, r, t in self.kg.inferred_edges if s == term]
+        return [
+            f"{source} {relation} {target} [INFERRED]"
+            for source, relation, target in self.kg.inferred_edges
+            if source == term
+        ]
+
+
+SemanticEngineV8 = SemanticEngine
 
 
 if __name__ == "__main__":
-    eng = SemanticEngine()
-    print(eng.answer_what_is("القاهرة"))
-    print(eng.infer_new_knowledge("القاهرة"))
+    engine = SemanticEngine()
+    print(engine.answer_what_is("القاهرة"))
+    print(engine.infer_new_knowledge("القاهرة"))
