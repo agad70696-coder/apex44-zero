@@ -44,8 +44,10 @@ jobs:
         run: uv run ruff check IRRE/ apex/ main.py tests/
 
       - name: Type-check hardened components
+        env:
+          MYPYPATH: ${{ github.workspace }}
         run: |
-          uv run mypy --follow-imports=silent \
+          uv run mypy --explicit-package-bases --namespace-packages --follow-imports=silent \
             IRRE/discovery/opportunity_scanner.py \
             IRRE/crypto/forensic_signer.py \
             IRRE/ledger/evidence_chain.py \
