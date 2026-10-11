@@ -113,3 +113,18 @@ def test_evidence_path_traversal_is_blocked(tmp_path: Path) -> None:
     item["path"] = "../../outside.bin"
     control = next(row for row in gate.evaluate(document, CONTRACT, evidence_root=tmp_path)["controls"] if row["control_id"] == "S3")
     assert control["status"] == "BLOCKED" and control["reason"] == "EVIDENCE_ITEM_0_PATH_INVALID"
+
+def test_symlink_escape_is_blocked(tmp_path: Path) -> None:
+    document = fixture(tmp_path)
+    item = next(row for row in document["observations"] if row["control_id"] == "S3")["evidence"][0]
+    outside = tmp_path.parent / "outside-evidence.bin"
+    outside.write_bytes(b"outside root")
+    link = tmp_path / item["path"]
+    link.unlink()
+    link.symlink_to(outside)
+    control = next(row for row in gate.evaluate(document, CONTRACT, evidence_root=tmp_path)["controls"] if row["control_id"] == "S3")
+    assert control["status"] == "BLOCKED" and control["reason"] == "EVIDENCE_ITEM_0_PATH_OUTSIDE_ROOT"
+
+def test_blocked_snapshot_matches_evaluator_output() -> None:
+    snapshot = json.loads((ROOT / "tests" / "control_results.json").read_text(encoding="utf-8"))
+    assert snapshot == gate.evaluate({}, CONTRACT)

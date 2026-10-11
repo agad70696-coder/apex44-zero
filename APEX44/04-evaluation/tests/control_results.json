@@ -126,5 +126,5 @@
       "evidence_count": 0
     }
   ],
-  "interpretation_boundary": "No observation records were supplied. These 14 controls are deliberately BLOCKED, not passed. Thresholds remain proposed pending preregistration review. SHA-256 byte identity is checked only when a scoped observation references an existing evidence file; origin, independence, semantic identity, admissibility, and truth require separate adjudication. This report does not authorize release."
+  "interpretation_boundary": "PASS_SCOPED evaluates only these bounded controls for the identified subject against proposed thresholds. SHA-256 verifies bytes at a local evidence path only; it does not prove origin, independence, semantic identity, admissibility, or truth. The thresholds require preregistration review, and this gate never independently authorizes production release."
 }
