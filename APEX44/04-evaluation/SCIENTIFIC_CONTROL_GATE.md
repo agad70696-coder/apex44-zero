@@ -37,3 +37,13 @@ Run the software/evaluator tests (not scientific-results tests):
 ```sh
 python -m pytest -q APEX44/04-evaluation/tests/test_controls.py APEX44/04-evaluation/tests/test_scientific_control_gate.py
 ```
+
+## Metric implementation notes (follow-up review)
+
+- **S3 — surprisal calibration:** `I(P) = -log2(P)`. Equal probabilities may have equal surprisal values; unequal probabilities must preserve inverse ordering, within the configured numerical tolerance. Formula calibration remains a separate check.
+- **S5 — annotation noise:** noise percentages must be actual integers (not Python booleans) in the inclusive range 0–100. Required levels must be present and unique.
+- **S6 — representation stability:** rankings are compared with Kendall's tau-b, which adjusts for ties. The registered minimum (currently 0.8) is a proposed operational threshold requiring preregistration review.
+- **S9 — generator bias:** evidence must identify an explicit non-negative integer seed or non-empty string seed so the fixture setup can be reproduced.
+- **S15 — kill switch:** the observation records `unauthorized_override_rejected`; recording that an authority check merely occurred is insufficient. The positive test confirms rejection, and a negative regression verifies that an observed bypass fails the control.
+
+These rules define evaluator behavior, not scientific truth. Tests use synthetic fixtures and cannot promote any of the fourteen controls without real, scoped observations and admissible evidence.

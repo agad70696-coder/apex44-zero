@@ -3,6 +3,7 @@ from __future__ import annotations
 import copy
 import hashlib
 import json
+import math
 import sys
 from pathlib import Path
 import pytest
@@ -34,7 +35,7 @@ def fixture(root: Path) -> dict:
       "S12":{"candidate_score":0.82,"strongest_baseline_score":0.75,"adjusted_p_value":0.02},
       "S13":{"hidden_constraints":[{"constraint_id":"candidate-1","status":"CANDIDATE","provenance_ref":"synthetic-fixture://S13"}],"unverified_promoted_as_fact":False},
       "S14":{"annotation_variant_scores":{"A":0.50,"B":0.54,"C":0.52},"claim_promoted":False},
-      "S15":{"critical_failure_injected":True,"promotion_blocked":True,"override_authority_checked":True},
+      "S15":{"critical_failure_injected":True,"promotion_blocked":True,"unauthorized_override_rejected":True},
       "S16":{"failure_detected":True,"failure_type":"PROVENANCE","location":"fixture/input.json:4","evidence_ref":"synthetic-fixture://S16","reproduction_command":"python -m pytest"}
     }
     return {"schema_version":"apex44-scientific-observations-v1","evaluation_id":"synthetic-mechanics-test-only","subject":{"commit_sha":"a"*40,"dataset_sha256":"b"*64,"model_id":"synthetic-test-only"},"observations":[{"control_id":cid,"metrics":values,"evidence":evidence(cid,root)} for cid,values in metrics.items()]}
@@ -71,6 +72,44 @@ def test_surprisal_formula_mismatch_fails(tmp_path: Path) -> None:
     report = gate.evaluate(document, CONTRACT, evidence_root=tmp_path)
     control = next(item for item in report["controls"] if item["control_id"] == "S3")
     assert control["status"] == "FAIL" and control["reason"] == "CALIBRATION_MISMATCH"
+
+
+def test_surprisal_duplicate_probabilities_are_tied_not_strictly_ordered(tmp_path: Path) -> None:
+    document = fixture(tmp_path)
+    metrics = next(item for item in document["observations"] if item["control_id"] == "S3")["metrics"]
+    metrics["probabilities"] = [0.5, 0.5, 0.25, 1.0]
+    metrics["surprisal_bits"] = [1.0, 1.0, 2.0, 0.0]
+    control = next(item for item in gate.evaluate(document, CONTRACT, evidence_root=tmp_path)["controls"] if item["control_id"] == "S3")
+    assert control["status"] == "PASS"
+
+
+def test_generator_seed_must_be_explicit_and_reproducible(tmp_path: Path) -> None:
+    document = fixture(tmp_path)
+    metrics = next(item for item in document["observations"] if item["control_id"] == "S9")["metrics"]
+    metrics["generator_seed"] = None
+    control = next(item for item in gate.evaluate(document, CONTRACT, evidence_root=tmp_path)["controls"] if item["control_id"] == "S9")
+    assert control["status"] == "BLOCKED" and control["reason"] == "GENERATOR_BIAS_METRIC_INVALID"
+
+
+def test_boolean_noise_level_is_blocked(tmp_path: Path) -> None:
+    document = fixture(tmp_path)
+    metrics = next(item for item in document["observations"] if item["control_id"] == "S5")["metrics"]
+    metrics["perturbation_curve"][1]["noise_percent"] = True
+    control = next(item for item in gate.evaluate(document, CONTRACT, evidence_root=tmp_path)["controls"] if item["control_id"] == "S5")
+    assert control["status"] == "BLOCKED" and control["reason"] == "PERTURBATION_POINT_INVALID"
+
+
+def test_unauthorized_override_must_be_rejected(tmp_path: Path) -> None:
+    document = fixture(tmp_path)
+    metrics = next(item for item in document["observations"] if item["control_id"] == "S15")["metrics"]
+    metrics["unauthorized_override_rejected"] = False
+    control = next(item for item in gate.evaluate(document, CONTRACT, evidence_root=tmp_path)["controls"] if item["control_id"] == "S15")
+    assert control["status"] == "FAIL" and control["reason"] == "KILL_SWITCH_BYPASS_OR_FAILURE"
+
+
+def test_kendall_tau_b_accounts_for_ties() -> None:
+    value = gate.kendall_tau({"a": 1.0, "b": 1.0, "c": 2.0}, {"a": 1.0, "b": 2.0, "c": 3.0})
+    assert abs(value - (2 / math.sqrt(6))) < 1e-9
 
 def test_missing_evidence_blocks_otherwise_passing_observation(tmp_path: Path) -> None:
     document = fixture(tmp_path)

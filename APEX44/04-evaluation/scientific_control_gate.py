@@ -76,14 +76,28 @@ def evidence_error(observation: dict[str, Any], evidence_root: Path) -> str | No
     return None
 
 def kendall_tau(first: dict[str, float], second: dict[str, float]) -> float:
+    """Return tie-aware Kendall tau-b over the shared candidate identifiers."""
     keys = sorted(set(first) & set(second))
-    concordance = pairs = 0
+    concordant = discordant = ties_first = ties_second = 0
     for index, left in enumerate(keys):
         for right in keys[index + 1:]:
-            pairs += 1
-            product = (first[left] - first[right]) * (second[left] - second[right])
-            concordance += 1 if product > 0 else -1 if product < 0 else 0
-    return concordance / pairs if pairs else 0.0
+            delta_first = first[left] - first[right]
+            delta_second = second[left] - second[right]
+            if delta_first == 0 and delta_second == 0:
+                continue
+            if delta_first == 0:
+                ties_first += 1
+            elif delta_second == 0:
+                ties_second += 1
+            elif delta_first * delta_second > 0:
+                concordant += 1
+            else:
+                discordant += 1
+    denominator = math.sqrt(
+        (concordant + discordant + ties_first)
+        * (concordant + discordant + ties_second)
+    )
+    return (concordant - discordant) / denominator if denominator else 0.0
 
 def assess(control: dict[str, Any], metrics: dict[str, Any]) -> tuple[str, str, dict[str, Any]]:
     cid, limits = control["id"], control["acceptance"]
@@ -100,9 +114,20 @@ def assess(control: dict[str, Any], metrics: dict[str, Any]) -> tuple[str, str, 
         if any(not number(p) or p <= 0 or p > 1 for p in probabilities) or any(not number(s) for s in observed):
             return "BLOCKED", "PROBABILITY_OR_SURPRISAL_INVALID", {}
         maximum_error = max(abs(value + math.log2(probability)) for probability, value in zip(probabilities, observed))
-        ordered = sorted(zip(probabilities, observed))
-        monotonic = all(ordered[i][1] > ordered[i + 1][1] for i in range(len(ordered) - 1))
-        accepted = maximum_error <= limits["absolute_tolerance"] and monotonic
+        ordered = sorted(zip(probabilities, observed), key=lambda pair: pair[0])
+        tolerance = limits["absolute_tolerance"]
+        monotonic = True
+        for index in range(len(ordered) - 1):
+            p_left, s_left = ordered[index]
+            p_right, s_right = ordered[index + 1]
+            if p_left == p_right:
+                if abs(s_left - s_right) > tolerance:
+                    monotonic = False
+                    break
+            elif s_left <= s_right:
+                monotonic = False
+                break
+        accepted = maximum_error <= tolerance and monotonic
         return ("PASS" if accepted else "FAIL", "CALIBRATION_MET" if accepted else "CALIBRATION_MISMATCH", {"max_absolute_error_bits": maximum_error, "strict_inverse_order": monotonic})
     if cid == "S4":
         pairs = metrics["matched_score_pairs"]
@@ -122,9 +147,11 @@ def assess(control: dict[str, Any], metrics: dict[str, Any]) -> tuple[str, str, 
             return "BLOCKED", "PERTURBATION_CURVE_INVALID", {}
         by_level = {}
         for point in curve:
-            if not isinstance(point, dict) or not isinstance(point.get("noise_percent"), int) or not number(point.get("score")):
+            level = point.get("noise_percent") if isinstance(point, dict) else None
+            if (not isinstance(point, dict) or not isinstance(level, int)
+                    or isinstance(level, bool) or not 0 <= level <= 100
+                    or not number(point.get("score"))):
                 return "BLOCKED", "PERTURBATION_POINT_INVALID", {}
-            level = point["noise_percent"]
             if level in by_level:
                 return "BLOCKED", "DUPLICATE_NOISE_LEVEL", {}
             by_level[level] = point["score"]
@@ -152,7 +179,10 @@ def assess(control: dict[str, Any], metrics: dict[str, Any]) -> tuple[str, str, 
         return ("PASS" if accepted else "FAIL", "RANK_STABILITY_MET" if accepted else "REPRESENTATION_RANK_SHIFT", {"pairwise_kendall_tau": taus, "minimum_pairwise_kendall_tau": minimum})
     if cid == "S9":
         fixture_id, seed, detected, false_positive_rate = (metrics[key] for key in ("artifact_fixture_id", "generator_seed", "injected_artifact_detected", "clean_control_false_positive_rate"))
-        if not text(fixture_id) or not text(str(seed)) or not isinstance(detected, bool) or not number(false_positive_rate) or not 0 <= false_positive_rate <= 1:
+        seed_valid = (
+            isinstance(seed, int) and not isinstance(seed, bool) and seed >= 0
+        ) or (isinstance(seed, str) and bool(seed.strip()))
+        if not text(fixture_id) or not seed_valid or not isinstance(detected, bool) or not number(false_positive_rate) or not 0 <= false_positive_rate <= 1:
             return "BLOCKED", "GENERATOR_BIAS_METRIC_INVALID", {}
         accepted = detected and false_positive_rate <= limits["clean_control_false_positive_rate_max"]
         return ("PASS" if accepted else "FAIL", "ARTIFACT_CONTROL_MET" if accepted else "GENERATOR_BIAS_CONTROL_FAILED", {"artifact_fixture_id": fixture_id, "generator_seed": seed, "clean_control_false_positive_rate": false_positive_rate})
@@ -197,7 +227,7 @@ def assess(control: dict[str, Any], metrics: dict[str, Any]) -> tuple[str, str, 
         accepted = spread <= limits["maximum_claim_score_spread"] or not promoted
         return ("PASS" if accepted else "FAIL", "MULTIVERSE_DISAGREEMENT_HANDLED" if accepted else "CLAIM_PROMOTED_DESPITE_DISAGREEMENT", {"variant_count": len(variants), "score_spread": spread, "claim_promoted": promoted})
     if cid == "S15":
-        keys = ("critical_failure_injected", "promotion_blocked", "override_authority_checked")
+        keys = ("critical_failure_injected", "promotion_blocked", "unauthorized_override_rejected")
         if any(not isinstance(metrics.get(key), bool) for key in keys):
             return "BLOCKED", "KILL_SWITCH_METRIC_INVALID", {}
         accepted = all(metrics[key] for key in keys)
