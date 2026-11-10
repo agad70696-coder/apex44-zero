@@ -53,7 +53,21 @@ The extended run strengthens the diagnostic evidence that finite-run convergence
 
 ## Repository safety
 
-All changes are confined to this isolated research branch. The original `~/apex44-zero` worktree was not modified. `main` was not modified. No remote publication or PR is claimed by this record.
+All implementation and pilot artifacts are confined to the isolated research branch. The original `~/apex44-zero` worktree was not modified, and `main` was not modified.
+
+### Subsequent publication audit (2026-11-10)
+
+The original execution run did not itself verify remote publication. A subsequent local/remote audit confirmed:
+
+- Repository: `agad70696-coder/apex44-zero`.
+- Published branch: `research/qac-microcanonical-v0.1`.
+- Execution commit: `7b2382c5153107b937f14beeff79b14f1a59cc20`, based on remote `main` commit `cbd879b8745e5df00c40e6da3578e153efcd35b4`.
+- GitHub comparison at audit time: 1 commit ahead, 0 behind, 13 changed files.
+- Local isolated branch HEAD and `origin/research/qac-microcanonical-v0.1` resolved to the same commit; the isolated worktree had zero tracked or untracked changes.
+- `git diff --check origin/main...HEAD` passed.
+- The original worktree remained on its separate branch with its pre-existing modifications; no cleanup, reset, or checkout was performed there.
+
+This verifies publication of the research branch and its execution artifacts only. It does not certify statistical mixing, authorize inferential claims, constitute independent review, or imply merge into `main`. Pull-request and review state are tracked separately in GitHub.
 
 ### Scope clarification for the theorem screen
 
