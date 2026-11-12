@@ -1,0 +1,140 @@
+{
+  "schema": "AA-QAC-2X2-SWITCH-PILOT-AUDIT-0.1",
+  "created_on": "2026-11-12",
+  "status": "PASS_SCOPED",
+  "scope": "Read-only replay of source identity and C4 arithmetic, plus structural validation of the archived four-chain pilot receipt. Does not certify mixing or inferential calibration.",
+  "source": {
+    "matrix_path": "APEX44/03-computation/output/B_real_6236x1642.npz",
+    "matrix_sha256": "a75fdf4d57bd9448a74607fff9b9ddf31c26e2c3f356eb9fd40d19aa511c8c3a",
+    "matrix_shape": [
+      6236,
+      1642
+    ],
+    "matrix_nnz": 44431,
+    "matrix_binary": true,
+    "corpus_path": "PHASE2_CLEAN/source/quranic-corpus-morphology-0.4.txt",
+    "corpus_sha256": "a1d12923815341face765083805d2148ed2d9f5cc3f7d6665219d887675d8c46",
+    "source_manifest_sha256": "a1d12923815341face765083805d2148ed2d9f5cc3f7d6665219d887675d8c46"
+  },
+  "arithmetic": {
+    "c4_root_pair_projection_int64": 2427533,
+    "c4_verse_pair_projection_int64": 2427533,
+    "c4_int8_negative_control": 1599245,
+    "int8_negative_overlap_cells": 119,
+    "int8_vs_int64_different_cells": 152,
+    "accepted_c4": 2427533,
+    "rejected_int8_c4": "NUMERIC_OVERFLOW"
+  },
+  "pilot_artifacts": {
+    "runner_path": "artifacts/microcanonical/qac_2x2_switch_pilot_runner_20261112.py",
+    "runner_sha256": "a6f252882e86e3e5f1207b6ea6d48a9094f14385bca034e7f5499ed9ee4d9478",
+    "result_path": "artifacts/microcanonical/qac_2x2_switch_pilot_20261112.json",
+    "result_sha256": "526a2c2579e6f987b31f436c791b21893868f28fdb32a29f014f60a09b708f6a",
+    "original_termux_audit_sha256": "25b85d8bb334a1739e646a2c7a44c9c40be3f4fe2569e5712be1879b1bee1044",
+    "original_termux_audit_path": "artifacts/microcanonical/qac_2x2_switch_pilot_audit_termux_original_20261112.json"
+  },
+  "pilot": {
+    "chain_count": 4,
+    "seeds": [
+      2026111201,
+      2026111202,
+      2026111203,
+      2026111204
+    ],
+    "proposals_per_chain": 500000,
+    "burn_in_per_chain": 100000,
+    "retained_c4_snapshots_per_chain": 9,
+    "trace_spacing_proposals": 50000,
+    "all_chains_record_exact_degree_preservation": true,
+    "chains": [
+      {
+        "seed": 2026111201,
+        "proposals": 500000,
+        "burn_in": 100000,
+        "accepted": 432387,
+        "same_row_col_reject": 3738,
+        "occupied_cross_reject": 63875,
+        "acceptance_rate": 0.864774,
+        "trace_points": 9,
+        "trace_min_c4": 1855029,
+        "trace_max_c4": 1911347,
+        "trace_final_c4": 1891193,
+        "degree_invariant_recorded_by_runner": true
+      },
+      {
+        "seed": 2026111202,
+        "proposals": 500000,
+        "burn_in": 100000,
+        "accepted": 432403,
+        "same_row_col_reject": 3734,
+        "occupied_cross_reject": 63863,
+        "acceptance_rate": 0.864806,
+        "trace_points": 9,
+        "trace_min_c4": 1847068,
+        "trace_max_c4": 1910525,
+        "trace_final_c4": 1910525,
+        "degree_invariant_recorded_by_runner": true
+      },
+      {
+        "seed": 2026111203,
+        "proposals": 500000,
+        "burn_in": 100000,
+        "accepted": 432318,
+        "same_row_col_reject": 3686,
+        "occupied_cross_reject": 63996,
+        "acceptance_rate": 0.864636,
+        "trace_points": 9,
+        "trace_min_c4": 1848066,
+        "trace_max_c4": 1914462,
+        "trace_final_c4": 1848066,
+        "degree_invariant_recorded_by_runner": true
+      },
+      {
+        "seed": 2026111204,
+        "proposals": 500000,
+        "burn_in": 100000,
+        "accepted": 432611,
+        "same_row_col_reject": 3804,
+        "occupied_cross_reject": 63585,
+        "acceptance_rate": 0.865222,
+        "trace_points": 9,
+        "trace_min_c4": 1838445,
+        "trace_max_c4": 1915830,
+        "trace_final_c4": 1895223,
+        "degree_invariant_recorded_by_runner": true
+      }
+    ],
+    "trace_summary": {
+      "count": 36,
+      "minimum_c4": 1838445,
+      "maximum_c4": 1915830,
+      "mean_c4": 1885248.111111111,
+      "median_c4": 1888930.0
+    },
+    "kernel": "Uniformly select two distinct edges; switch to the opposite cross-pair iff both new edges are absent; otherwise stay.",
+    "null": "Uniform over simple bipartite graphs with exact observed row/column degrees, conditional on irreducibility and symmetric kernel."
+  },
+  "limitations": [
+    "All four chains use the same observed graph as their initial state; independent seeds do not establish overdispersed initialization.",
+    "Only nine C4 snapshots per chain are retained; full trajectories and sampled matrices are not archived.",
+    "The audit verifies the runner's recorded degree-invariant flags and proposal accounting; it cannot independently replay every intermediate state because those states were not saved.",
+    "Autocorrelation, effective sample size, rank-normalized/folded split-Rhat, burn-in adequacy, and tail convergence remain unestablished.",
+    "No Monte Carlo p-value or calibrated inferential tail probability is produced.",
+    "This is the degree-preserving microcanonical 2x2-switch experiment. It does not preserve X or Y and is not the Profile Fiber experiment."
+  ],
+  "decision": {
+    "c4_int8_1599245": "REJECTED_NUMERIC_OVERFLOW",
+    "c4_int64_2427533": "PASS_SCOPED",
+    "pilot": "DESCRIPTIVE_ONLY",
+    "mixing": "NOT_ESTABLISHED",
+    "p_value": "NOT_COMPUTED",
+    "promotion_authority": "NONE"
+  },
+  "environment": {
+    "numpy": "2.4.4",
+    "scipy": "1.18.0"
+  },
+  "source_modified": false,
+  "pilot_result_modified": false,
+  "production_modified": false
+}

@@ -1,0 +1,462 @@
+{
+  "schema": "qac-realdata-fixed-degree-switch-pilot-v1",
+  "source_matrix_sha256": "a75fdf4d57bd9448a74607fff9b9ddf31c26e2c3f356eb9fd40d19aa511c8c3a",
+  "source_corpus_sha256": "a1d12923815341face765083805d2148ed2d9f5cc3f7d6665219d887675d8c46",
+  "shape": [
+    6236,
+    1642
+  ],
+  "nnz": 44431,
+  "observed_c4": 2427533,
+  "projection_nnz": 148370,
+  "projection_max": 514,
+  "null": "Uniform over simple bipartite graphs with exact observed row/column degrees, conditional on irreducibility and symmetric kernel.",
+  "kernel": "Uniformly select two distinct edges; switch to the opposite cross-pair iff both new edges are absent; otherwise stay.",
+  "chains": [
+    {
+      "seed": 2026111201,
+      "proposals": 500000,
+      "burn_in": 100000,
+      "accepted": 432387,
+      "same_row_col_reject": 3738,
+      "occupied_cross_reject": 63875,
+      "acceptance_rate": 0.864774,
+      "trace": [
+        {
+          "proposal": 100000,
+          "accepted": 86438,
+          "acceptance_rate": 0.86438,
+          "c4": 1911347,
+          "delta": -516186,
+          "edges": 44431,
+          "projection_nnz": 165294,
+          "projection_max": 505,
+          "elapsed_sec": 9.42
+        },
+        {
+          "proposal": 150000,
+          "accepted": 129737,
+          "acceptance_rate": 0.8649133333333333,
+          "c4": 1885840,
+          "delta": -541693,
+          "edges": 44431,
+          "projection_nnz": 167614,
+          "projection_max": 463,
+          "elapsed_sec": 14.14
+        },
+        {
+          "proposal": 200000,
+          "accepted": 172917,
+          "acceptance_rate": 0.864585,
+          "c4": 1896866,
+          "delta": -530667,
+          "edges": 44431,
+          "projection_nnz": 166820,
+          "projection_max": 485,
+          "elapsed_sec": 18.78
+        },
+        {
+          "proposal": 250000,
+          "accepted": 216238,
+          "acceptance_rate": 0.864952,
+          "c4": 1861960,
+          "delta": -565573,
+          "edges": 44431,
+          "projection_nnz": 166636,
+          "projection_max": 472,
+          "elapsed_sec": 23.26
+        },
+        {
+          "proposal": 300000,
+          "accepted": 259535,
+          "acceptance_rate": 0.8651166666666666,
+          "c4": 1886674,
+          "delta": -540859,
+          "edges": 44431,
+          "projection_nnz": 167656,
+          "projection_max": 478,
+          "elapsed_sec": 28.34
+        },
+        {
+          "proposal": 350000,
+          "accepted": 302837,
+          "acceptance_rate": 0.8652485714285715,
+          "c4": 1905964,
+          "delta": -521569,
+          "edges": 44431,
+          "projection_nnz": 166578,
+          "projection_max": 500,
+          "elapsed_sec": 33.45
+        },
+        {
+          "proposal": 400000,
+          "accepted": 345883,
+          "acceptance_rate": 0.8647075,
+          "c4": 1888578,
+          "delta": -538955,
+          "edges": 44431,
+          "projection_nnz": 167364,
+          "projection_max": 505,
+          "elapsed_sec": 38.59
+        },
+        {
+          "proposal": 450000,
+          "accepted": 389213,
+          "acceptance_rate": 0.8649177777777778,
+          "c4": 1855029,
+          "delta": -572504,
+          "edges": 44431,
+          "projection_nnz": 166176,
+          "projection_max": 494,
+          "elapsed_sec": 43.52
+        },
+        {
+          "proposal": 500000,
+          "accepted": 432387,
+          "acceptance_rate": 0.864774,
+          "c4": 1891193,
+          "delta": -536340,
+          "edges": 44431,
+          "projection_nnz": 166280,
+          "projection_max": 496,
+          "elapsed_sec": 48.31
+        }
+      ],
+      "exact_degrees_preserved": true
+    },
+    {
+      "seed": 2026111202,
+      "proposals": 500000,
+      "burn_in": 100000,
+      "accepted": 432403,
+      "same_row_col_reject": 3734,
+      "occupied_cross_reject": 63863,
+      "acceptance_rate": 0.864806,
+      "trace": [
+        {
+          "proposal": 100000,
+          "accepted": 86397,
+          "acceptance_rate": 0.86397,
+          "c4": 1847068,
+          "delta": -580465,
+          "edges": 44431,
+          "projection_nnz": 166778,
+          "projection_max": 456,
+          "elapsed_sec": 9.48
+        },
+        {
+          "proposal": 150000,
+          "accepted": 129672,
+          "acceptance_rate": 0.86448,
+          "c4": 1892875,
+          "delta": -534658,
+          "edges": 44431,
+          "projection_nnz": 166142,
+          "projection_max": 491,
+          "elapsed_sec": 14.3
+        },
+        {
+          "proposal": 200000,
+          "accepted": 172947,
+          "acceptance_rate": 0.864735,
+          "c4": 1869950,
+          "delta": -557583,
+          "edges": 44431,
+          "projection_nnz": 167672,
+          "projection_max": 476,
+          "elapsed_sec": 19.0
+        },
+        {
+          "proposal": 250000,
+          "accepted": 216113,
+          "acceptance_rate": 0.864452,
+          "c4": 1855054,
+          "delta": -572479,
+          "edges": 44431,
+          "projection_nnz": 167284,
+          "projection_max": 479,
+          "elapsed_sec": 23.8
+        },
+        {
+          "proposal": 300000,
+          "accepted": 259325,
+          "acceptance_rate": 0.8644166666666667,
+          "c4": 1891588,
+          "delta": -535945,
+          "edges": 44431,
+          "projection_nnz": 166746,
+          "projection_max": 517,
+          "elapsed_sec": 28.51
+        },
+        {
+          "proposal": 350000,
+          "accepted": 302477,
+          "acceptance_rate": 0.86422,
+          "c4": 1881166,
+          "delta": -546367,
+          "edges": 44431,
+          "projection_nnz": 167354,
+          "projection_max": 479,
+          "elapsed_sec": 33.07
+        },
+        {
+          "proposal": 400000,
+          "accepted": 345900,
+          "acceptance_rate": 0.86475,
+          "c4": 1900064,
+          "delta": -527469,
+          "edges": 44431,
+          "projection_nnz": 166540,
+          "projection_max": 499,
+          "elapsed_sec": 37.48
+        },
+        {
+          "proposal": 450000,
+          "accepted": 389130,
+          "acceptance_rate": 0.8647333333333334,
+          "c4": 1888177,
+          "delta": -539356,
+          "edges": 44431,
+          "projection_nnz": 166568,
+          "projection_max": 485,
+          "elapsed_sec": 42.16
+        },
+        {
+          "proposal": 500000,
+          "accepted": 432403,
+          "acceptance_rate": 0.864806,
+          "c4": 1910525,
+          "delta": -517008,
+          "edges": 44431,
+          "projection_nnz": 166972,
+          "projection_max": 499,
+          "elapsed_sec": 47.04
+        }
+      ],
+      "exact_degrees_preserved": true
+    },
+    {
+      "seed": 2026111203,
+      "proposals": 500000,
+      "burn_in": 100000,
+      "accepted": 432318,
+      "same_row_col_reject": 3686,
+      "occupied_cross_reject": 63996,
+      "acceptance_rate": 0.864636,
+      "trace": [
+        {
+          "proposal": 100000,
+          "accepted": 86345,
+          "acceptance_rate": 0.86345,
+          "c4": 1914462,
+          "delta": -513071,
+          "edges": 44431,
+          "projection_nnz": 166838,
+          "projection_max": 507,
+          "elapsed_sec": 9.44
+        },
+        {
+          "proposal": 150000,
+          "accepted": 129637,
+          "acceptance_rate": 0.8642466666666667,
+          "c4": 1912458,
+          "delta": -515075,
+          "edges": 44431,
+          "projection_nnz": 165964,
+          "projection_max": 491,
+          "elapsed_sec": 14.21
+        },
+        {
+          "proposal": 200000,
+          "accepted": 172901,
+          "acceptance_rate": 0.864505,
+          "c4": 1893652,
+          "delta": -533881,
+          "edges": 44431,
+          "projection_nnz": 166618,
+          "projection_max": 495,
+          "elapsed_sec": 18.95
+        },
+        {
+          "proposal": 250000,
+          "accepted": 216212,
+          "acceptance_rate": 0.864848,
+          "c4": 1873441,
+          "delta": -554092,
+          "edges": 44431,
+          "projection_nnz": 166818,
+          "projection_max": 491,
+          "elapsed_sec": 23.7
+        },
+        {
+          "proposal": 300000,
+          "accepted": 259371,
+          "acceptance_rate": 0.86457,
+          "c4": 1908602,
+          "delta": -518931,
+          "edges": 44431,
+          "projection_nnz": 165880,
+          "projection_max": 508,
+          "elapsed_sec": 28.38
+        },
+        {
+          "proposal": 350000,
+          "accepted": 302576,
+          "acceptance_rate": 0.8645028571428571,
+          "c4": 1895714,
+          "delta": -531819,
+          "edges": 44431,
+          "projection_nnz": 165822,
+          "projection_max": 475,
+          "elapsed_sec": 32.98
+        },
+        {
+          "proposal": 400000,
+          "accepted": 345859,
+          "acceptance_rate": 0.8646475,
+          "c4": 1889282,
+          "delta": -538251,
+          "edges": 44431,
+          "projection_nnz": 166494,
+          "projection_max": 481,
+          "elapsed_sec": 37.46
+        },
+        {
+          "proposal": 450000,
+          "accepted": 389017,
+          "acceptance_rate": 0.8644822222222223,
+          "c4": 1886729,
+          "delta": -540804,
+          "edges": 44431,
+          "projection_nnz": 166564,
+          "projection_max": 464,
+          "elapsed_sec": 41.83
+        },
+        {
+          "proposal": 500000,
+          "accepted": 432318,
+          "acceptance_rate": 0.864636,
+          "c4": 1848066,
+          "delta": -579467,
+          "edges": 44431,
+          "projection_nnz": 167012,
+          "projection_max": 475,
+          "elapsed_sec": 46.65
+        }
+      ],
+      "exact_degrees_preserved": true
+    },
+    {
+      "seed": 2026111204,
+      "proposals": 500000,
+      "burn_in": 100000,
+      "accepted": 432611,
+      "same_row_col_reject": 3804,
+      "occupied_cross_reject": 63585,
+      "acceptance_rate": 0.865222,
+      "trace": [
+        {
+          "proposal": 100000,
+          "accepted": 86295,
+          "acceptance_rate": 0.86295,
+          "c4": 1915830,
+          "delta": -511703,
+          "edges": 44431,
+          "projection_nnz": 166630,
+          "projection_max": 522,
+          "elapsed_sec": 10.04
+        },
+        {
+          "proposal": 150000,
+          "accepted": 129550,
+          "acceptance_rate": 0.8636666666666667,
+          "c4": 1889381,
+          "delta": -538152,
+          "edges": 44431,
+          "projection_nnz": 166726,
+          "projection_max": 503,
+          "elapsed_sec": 14.87
+        },
+        {
+          "proposal": 200000,
+          "accepted": 172902,
+          "acceptance_rate": 0.86451,
+          "c4": 1886689,
+          "delta": -540844,
+          "edges": 44431,
+          "projection_nnz": 166618,
+          "projection_max": 469,
+          "elapsed_sec": 19.44
+        },
+        {
+          "proposal": 250000,
+          "accepted": 216171,
+          "acceptance_rate": 0.864684,
+          "c4": 1838445,
+          "delta": -589088,
+          "edges": 44431,
+          "projection_nnz": 167518,
+          "projection_max": 450,
+          "elapsed_sec": 24.05
+        },
+        {
+          "proposal": 300000,
+          "accepted": 259455,
+          "acceptance_rate": 0.86485,
+          "c4": 1912696,
+          "delta": -514837,
+          "edges": 44431,
+          "projection_nnz": 166150,
+          "projection_max": 492,
+          "elapsed_sec": 28.63
+        },
+        {
+          "proposal": 350000,
+          "accepted": 302826,
+          "acceptance_rate": 0.8652171428571429,
+          "c4": 1845963,
+          "delta": -581570,
+          "edges": 44431,
+          "projection_nnz": 167308,
+          "projection_max": 476,
+          "elapsed_sec": 33.37
+        },
+        {
+          "proposal": 400000,
+          "accepted": 346117,
+          "acceptance_rate": 0.8652925,
+          "c4": 1862806,
+          "delta": -564727,
+          "edges": 44431,
+          "projection_nnz": 167364,
+          "projection_max": 473,
+          "elapsed_sec": 37.96
+        },
+        {
+          "proposal": 450000,
+          "accepted": 389385,
+          "acceptance_rate": 0.8653,
+          "c4": 1879575,
+          "delta": -547958,
+          "edges": 44431,
+          "projection_nnz": 166472,
+          "projection_max": 473,
+          "elapsed_sec": 42.76
+        },
+        {
+          "proposal": 500000,
+          "accepted": 432611,
+          "acceptance_rate": 0.865222,
+          "c4": 1895223,
+          "delta": -532310,
+          "edges": 44431,
+          "projection_nnz": 167110,
+          "projection_max": 495,
+          "elapsed_sec": 47.55
+        }
+      ],
+      "exact_degrees_preserved": true
+    }
+  ],
+  "interpretation": "PILOT_ONLY: no p-value. Mixing, ESS, burn-in adequacy and tail convergence remain unestablished."
+}

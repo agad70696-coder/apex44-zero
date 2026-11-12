@@ -1,0 +1,137 @@
+{
+  "schema": "AA-QAC-MICROCANONICAL-2X2-PILOT-AUDIT-0.1",
+  "created_at_utc": "2026-11-12T14:32:07.321644+00:00",
+  "status": "PASS_SCOPED",
+  "scope": "Read-only identity, integer-arithmetic, pilot-output, and recorded-invariant audit. This is not a mixing or inferential calibration.",
+  "source": {
+    "path": "/data/data/com.termux/files/home/apex44-zero/artifacts/audit_workspace/DQ-QAC-ROOT-ONLY-002/B_root_only_6236x1642.npz",
+    "bytes": 74095,
+    "sha256": "a75fdf4d57bd9448a74607fff9b9ddf31c26e2c3f356eb9fd40d19aa511c8c3a",
+    "shape": [
+      6236,
+      1642
+    ],
+    "nnz": 44431,
+    "binary": true,
+    "corpus_sha256": "a1d12923815341face765083805d2148ed2d9f5cc3f7d6665219d887675d8c46"
+  },
+  "artifacts": {
+    "pilot_script": {
+      "path": "/data/data/com.termux/files/home/qac-repair-20261112-realdata-v4/microcanonical_2x2_pilot.py",
+      "sha256": "a6f252882e86e3e5f1207b6ea6d48a9094f14385bca034e7f5499ed9ee4d9478"
+    },
+    "pilot_result": {
+      "path": "/data/data/com.termux/files/home/qac-repair-20261112-realdata-v4/microcanonical_2x2_pilot.json",
+      "sha256": "526a2c2579e6f987b31f436c791b21893868f28fdb32a29f014f60a09b708f6a"
+    },
+    "audit_output": "/data/data/com.termux/files/home/qac-repair-20261112-realdata-v4/microcanonical_2x2_pilot_audit_v0_1.json"
+  },
+  "arithmetic_audit": {
+    "c4_int8_product": 1599245,
+    "c4_int64_product": 2427533,
+    "int8_negative_overlap_cells": 119,
+    "int8_vs_int64_different_overlap_cells": 152,
+    "int8_result_rejected_for_overflow": true,
+    "accepted_observed_c4": 2427533,
+    "projection_offdiagonal_nnz": 148370,
+    "projection_max_offdiagonal_overlap": 514,
+    "independent_c4_replay_matches_pilot": true
+  },
+  "pilot": {
+    "schema": "qac-realdata-fixed-degree-switch-pilot-v1",
+    "null": "Uniform over simple bipartite graphs with exact observed row/column degrees, conditional on irreducibility and symmetric kernel.",
+    "kernel": "Uniformly select two distinct edges; switch to the opposite cross-pair iff both new edges are absent; otherwise stay.",
+    "chain_count": 4,
+    "all_chains_record_exact_degree_preservation": true,
+    "common_initial_state": "All four chains are initialized from the same observed matrix B; seeds differ.",
+    "burn_in_proposals": 100000,
+    "proposals_per_chain": 500000,
+    "trace_spacing_proposals": 50000,
+    "trace_points_per_chain": 9,
+    "chains": [
+      {
+        "seed": 2026111201,
+        "proposals": 500000,
+        "burn_in": 100000,
+        "accepted": 432387,
+        "acceptance_rate": 0.864774,
+        "trace_points": 9,
+        "trace_min_c4": 1855029,
+        "trace_max_c4": 1911347,
+        "trace_final_c4": 1891193,
+        "exact_degrees_preserved": true
+      },
+      {
+        "seed": 2026111202,
+        "proposals": 500000,
+        "burn_in": 100000,
+        "accepted": 432403,
+        "acceptance_rate": 0.864806,
+        "trace_points": 9,
+        "trace_min_c4": 1847068,
+        "trace_max_c4": 1910525,
+        "trace_final_c4": 1910525,
+        "exact_degrees_preserved": true
+      },
+      {
+        "seed": 2026111203,
+        "proposals": 500000,
+        "burn_in": 100000,
+        "accepted": 432318,
+        "acceptance_rate": 0.864636,
+        "trace_points": 9,
+        "trace_min_c4": 1848066,
+        "trace_max_c4": 1914462,
+        "trace_final_c4": 1848066,
+        "exact_degrees_preserved": true
+      },
+      {
+        "seed": 2026111204,
+        "proposals": 500000,
+        "burn_in": 100000,
+        "accepted": 432611,
+        "acceptance_rate": 0.865222,
+        "trace_points": 9,
+        "trace_min_c4": 1838445,
+        "trace_max_c4": 1915830,
+        "trace_final_c4": 1895223,
+        "exact_degrees_preserved": true
+      }
+    ],
+    "trace_summary": {
+      "count": 36,
+      "minimum_c4": 1838445,
+      "maximum_c4": 1915830,
+      "mean_c4": 1885248.111111111,
+      "median_c4": 1888930.0,
+      "sample_sd_c4": 21561.770463720244
+    }
+  },
+  "limitations": [
+    "Four chains share the same initial observed matrix; this is not an overdispersed initialization design.",
+    "Only nine thinned C4 snapshots per chain are stored; full trajectories and sampled adjacency states are not retained.",
+    "Autocorrelation, effective sample size, rank-normalized split-Rhat, and tail stability are not established by this pilot.",
+    "No Monte Carlo p-value or calibrated tail probability is produced.",
+    "The 2x2-switch chain targets the uniform fixed-degree bipartite graph space only under the stated symmetric proposal and irreducibility assumptions.",
+    "The pilot is distinct from Profile Fiber sampling: it preserves individual row and column degrees, but does not preserve X and Y profiles."
+  ],
+  "decisions": {
+    "C4_INT8_1599245": "REJECTED_NUMERIC_OVERFLOW",
+    "C4_INT64_2427533": "PASS_SCOPED",
+    "microcanonical_inference": "NOT_ESTABLISHED",
+    "mixing": "NOT_ASSESSED",
+    "burn_in_adequacy": "NOT_ESTABLISHED",
+    "promotion_authority": "NONE"
+  },
+  "environment": {
+    "python": "3.13.13",
+    "numpy": "2.4.4",
+    "scipy": "1.18.0"
+  },
+  "files_written_by_audit": [
+    "/data/data/com.termux/files/home/qac-repair-20261112-realdata-v4/microcanonical_2x2_pilot_audit_v0_1.json"
+  ],
+  "production_modified": false,
+  "source_modified": false,
+  "pilot_result_modified": false
+}
